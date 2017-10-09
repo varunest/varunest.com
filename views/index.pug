@@ -1,1 +1,24 @@
-HELLO WORLD
+extends ./base/layout
+
+block append head
+    title Varun Verma
+    meta(property="og:title" content="Varun Verma")
+    meta(name="twitter:title" content="Varun Verma")
+    meta(name="title" content="Varun Verma")
+
+    meta(name="description" content="Varun Verma is a full stack developer and product designer based in Chandigarh.")
+    meta(name="og:description" content="Varun Verma is a full stack developer and product designer based in Chandigarh.")
+    meta(name="twitter:description" content="Varun Verma is a full stack developer and product designer based in Chandigarh.")
+
+    meta(property="og:image" content="http://varunest.com/img/profile.jpg")
+    meta(name="twitter:image" content="http://varunest.com/img/profile.jpg")
+
+    meta(name="twitter:url" content="http://varunest.com")
+    meta(name="og:url" content="http://varunest.com")
+
+    meta(name="twitter:card" content="photo")
+    meta(name="twitter:site" content="@varunest")
+
+    meta(name="robots" content="index,follow")
+
+block prepend body
