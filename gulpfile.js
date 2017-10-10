@@ -12,7 +12,7 @@ gulp.task('watch', ['default'], function () {
 });
 
 gulp.task('sass', function () {
-    return gulp.src('./sass/**/*.scss')
+    return gulp.src('./sass/*.scss')
         .pipe(sass(
             {
                 includePaths: [__dirname + '/sass/', __dirname + '/bootstrap/scss', __dirname + '/bootstrap/scss/mixins'],
