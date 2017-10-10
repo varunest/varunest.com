@@ -1,11 +1,10 @@
 /*
   Default theme for BotUI
 */
-$primary-color: #919292;
 
 .botui-container {
   font-size: 14px;
-  background-color: $colorPrimary1;
+  background-color: $colorPrimary2;
   font-family: $font-family;
 }
 
@@ -15,6 +14,7 @@ $primary-color: #919292;
 
 .botui-actions-container {
   padding: 10px 20px;
+  text-align: right;
 }
 
 .botui-message {
@@ -24,12 +24,12 @@ $primary-color: #919292;
 .botui-message-content {
   padding: 7px 13px;
   border-radius: 15px;
-  color: darken($primary-color, 22%);
-  background-color: lighten($primary-color, 35%);
+  color: $textColorSecondaryInverse;
+  background-color: $colorAccent2;
 
   &.human { // if human = true
-    color: lighten($primary-color, 40%);
-    background-color: $primary-color;
+    color: $textColorSecondary;
+    background-color: $colorPrimary1;
   }
 
   &.text {
@@ -47,7 +47,7 @@ $primary-color: #919292;
 }
 
 .botui-message-content-link {
-  color: $primary-color;
+  color: $colorAccent1;
 }
 
 .botui-actions-text-input {
@@ -57,8 +57,8 @@ $primary-color: #919292;
   padding: 5px 7px;
   font-family: $font-family;
   background-color: transparent;
-  color: darken($primary-color, 22%);
-  border-bottom: 1px solid $primary-color;
+  color: $textColorPrimaryInverse;
+  border-bottom: 1px solid $textColorPrimaryInverse;
 }
 
 .botui-actions-text-submit {
@@ -68,8 +68,8 @@ $primary-color: #919292;
   height: 30px;
   line-height: 1;
   border-radius: 50%;
-  border: 1px solid $primary-color;
-  background: darken($primary-color, 10%);
+  border: 1px solid $textColorPrimaryInverse;
+  background: darken($textColorPrimaryInverse, 10%);
 }
 
 .botui-actions-buttons-button {
@@ -82,7 +82,7 @@ $primary-color: #919292;
   padding: 7px 15px;
   border-radius: 4px;
   font-family: $font-family;
-  background: darken($primary-color, 10%);
+  background: $colorAccent1;
   box-shadow: 2px 3px 4px 0 rgba(0, 0, 0, .25);
 }
 
@@ -109,7 +109,7 @@ $primary-color: #919292;
   height: .5rem;
   border-radius: .5rem;
   display: inline-block;
-  background-color: $primary-color;
+  background-color: $textColorPrimaryInverse;
   &:nth-last-child(1) {
     margin-left: .3rem;
     animation: loading .6s .3s linear infinite;
@@ -126,7 +126,7 @@ $primary-color: #919292;
 @keyframes loading {
   0% {
     transform: translate(0, 0);
-    background-color: lighten($primary-color, 10%);
+    background-color: lighten($textColorPrimaryInverse, 10%);
   }
 
   25% {
@@ -134,7 +134,7 @@ $primary-color: #919292;
   }
   50% {
     transform: translate(0, 0px);
-    background-color: lighten($primary-color, 10%);
+    background-color: lighten($textColorPrimaryInverse, 10%);
   }
   75% {
     transform: translate(0, 3px);

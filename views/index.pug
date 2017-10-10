@@ -25,24 +25,117 @@ block append head
 
 
 block prepend body
-    div(class='container-fluid bg-primary-1' style='min-height:100vh')
-        div(class='botui-app-container' id='hello-world')
-            bot-ui
+    div(id='page-home' class='container-fluid bg-primary-1')
+        div(class='container header')
+            div(class='row')
+                div(class='col-lg-4')
+                    div(class='avatar-wrapper text-center')
+                        a(href="/")
+                            img(class='avatar' src='/img/profile.jpg')
+                    h1(class='text-color-primary text-center intro-title') I'm <a href='/' class='name'>Varun</a>, I code and create things
+                div(class='col-lg-8')
+                    div(class='botui-app-container' id='chat-box')
+                        bot-ui
 
 block append script
     script(src='https://cdn.jsdelivr.net/vue/latest/vue.min.js')
     script(src='https://unpkg.com/botui/build/botui.min.js')
 
     script.
-        var botui = new BotUI('hello-world');
+        var botui = new BotUI('chat-box');
+
+        function describeInDetail() {
+            return botui.message.add({
+                loading: true,
+                delay: 1000,
+                content: "Cool !! 😎"
+            }).then(function () {
+                return botui.message.add({
+                    loading: true,
+                    delay: 2000,
+                    content: "I've always been interested in design and development. I believe for most of the products, both go hand in hand."
+                })
+            }).then(function () {
+                return botui.message.add({
+                    loading: true,
+                    delay: 3000,
+                    content: "Because of this enthusiasm towards tech & UX I have come across wide variety of technologies and projects, which I try to update here on this website."
+                })
+            }).then(function () {
+                return botui.message.add({
+                    loading: true,
+                    delay: 5000,
+                    content: "Crap 😱"
+                })
+            }).then(function () {
+                return botui.message.add({
+                    loading: true,
+                    delay: 3000,
+                    content: "Servers on fire🔥🔥🔥"
+                })
+            }).then(function () {
+                return botui.message.add({
+                    loading: true,
+                    delay: 500,
+                    content: "GTG!!"
+                })
+            }).then(function () {
+                return botui.message.add({
+                    loading: true,
+                    delay: 3000,
+                    content: "Meanwhile, feel free to explore the website."
+                })
+            }).then(function () {
+                return botui.message.add({
+                    loading: true,
+                    delay: 1000,
+                    content: "byee 👋"
+                })
+            });
+        }
+
+        function wrapUpShort() {
+            return botui.message.add({
+                loading: true,
+                delay: 1000,
+                content: "<br>😔 Okay!!<br>"
+            }).then(function () {
+                return botui.message.add({
+                    loading: true,
+                    delay: 2000,
+                    content: "![](https://media.giphy.com/media/NTY1kHmcLsCsg/giphy.gif) It seems you are in a hurry! <br>Feel free to explore website or drop me a mail at [mailvarunest@gmail.com](mailto:mailvarunest@gmail.com)"
+                });
+            })
+        }
 
         botui.message.add({
-            content: 'Hello World from bot!'
+            delay: 1000,
+            content: 'Hi there!'
         }).then(function () { // wait till previous message has been shown.
-
-            botui.message.add({
-                delay: 1000,
-                human: true,
-                content: 'Hello World from human!'
+            return botui.message.add({
+                delay: 2000,
+                loading: true,
+                content: 'My name is Varun and most of my time is spent designing and developing stuff. Do you wish to know more about me?'
             });
+        }).then(function () {
+            return botui.action.button({
+                human: true,
+                delay: 1000,
+                action: [
+                    {
+                        text: 'Yes 👍',
+                        value: 1
+                    },
+                    {
+                        text: "Shut up already! 😷",
+                        value: 2
+                    }
+                ]
+            })
+        }).then(function (res) {
+            if (res.value === 1) {
+                return describeInDetail();
+            } else {
+                return wrapUpShort();
+            }
         });
