@@ -1,5 +1,12 @@
 @import "variables";
 
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}
+
 .bg-primary-1 {
   background-color: $colorPrimary1;
 }

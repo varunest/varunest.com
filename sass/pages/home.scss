@@ -15,6 +15,7 @@
     }
 
     .intro-title {
+      margin-bottom: 40px;
       .name {
         text-decoration: none;
         color: $textColorPrimary;
@@ -26,8 +27,14 @@
       }
     }
 
+    .subscription-text {
+      margin-bottom: 25px;
+    }
+
     #chat-box {
-      height: 100vh;
+      margin-top: 5vh;
+      height: 90vh;
+      min-height: 612px;
     }
   }
 
