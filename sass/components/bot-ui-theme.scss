@@ -83,8 +83,15 @@
   padding: 7px 15px;
   border-radius: 4px;
   font-family: $font-family;
-  background: $colorAccent1;
+  background: linear-gradient(90deg, $colorAccent1, lighten($colorAccent1, 4%));
   box-shadow: 2px 3px 4px 0 rgba(0, 0, 0, .25);
+  transition: .4s all ease;
+
+  &:hover {
+    transition: .4s all ease;
+    transform: translate(0, -3px);
+    box-shadow: 2px 3px 10px 0 rgba(0, 0, 0, .5);
+  }
 }
 
 /*

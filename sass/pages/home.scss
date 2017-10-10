@@ -1,6 +1,26 @@
 #page-home {
   min-height: 100vh;
+  position: relative;
 
+  // Follow Buttons
+  .twitter-follow-button {
+    position: absolute !important;
+    z-index: 1;
+    right: 20px;
+    top: 20px;
+    font-size: 12px;
+    color: $colorPrimary1;
+  }
+
+  .fb-follow{
+    position: absolute !important;
+    z-index: 1;
+    right: 20px;
+    top:42px;
+
+  }
+
+  // Header Section
   .header {
     .avatar-wrapper {
       margin-top: 60px;

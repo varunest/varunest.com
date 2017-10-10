@@ -1,10 +1,16 @@
 @import "variables";
+@import "mixins";
 
 input:focus,
 select:focus,
 textarea:focus,
 button:focus {
   outline: none;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
 }
 
 .bg-primary-1 {

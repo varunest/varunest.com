@@ -9,7 +9,7 @@ function describeInDetail() {
         return botui.message.add({
             loading: true,
             delay: 2000,
-            content: "I've always been interested in design and development. I believe for most of the products, both go hand in hand."
+            content: "I've always been interested in design and development. I believe for most of the products, both of these go hand in hand."
         })
     }).then(function () {
         return botui.message.add({
@@ -27,7 +27,7 @@ function describeInDetail() {
         return botui.message.add({
             loading: true,
             delay: 3000,
-            content: "Servers on fire🔥🔥🔥"
+            content: "Server on fire🔥🔥🔥"
         })
     }).then(function () {
         return botui.message.add({
