@@ -53,3 +53,22 @@ button:focus {
   color: $textColorSecondary;
 }
 
+.fade {
+  opacity: 0;
+}
+
+.fade_ani {
+  animation-fill-mode: forwards;
+  animation-name: fade;
+  animation-duration: 0.5s;
+}
+
+@keyframes fade {
+  0% {
+    transform: translateY(20px)
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
