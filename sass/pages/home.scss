@@ -28,7 +28,7 @@
     animation-fill-mode: forwards;
   }
 
-  @keyframes followButtons {
+  @include keyframes(followButtons) {
     from {
       transform: scale(0.8);
       opacity: 0;
@@ -54,7 +54,7 @@
         animation-name: avatar;
         animation-duration: 1s;
 
-        @keyframes avatar {
+        @include keyframes(avatar) {
           from {
             transform: scale(0.8);
             opacity: 0;
@@ -76,10 +76,6 @@
           border-bottom: 1px dotted #cecece;
         }
       }
-
-      @keyframes intro-title {
-
-      }
     }
 
     .subscription-text {
@@ -95,7 +91,7 @@
       animation-delay: 2s;
       animation-fill-mode: forwards;
       opacity: 0;
-      @keyframes chatbox-bounce {
+      @include  keyframes(chatbox-bounce) {
         0% {
           -webkit-transform: translateY(800px);
           opacity: 0;

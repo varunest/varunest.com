@@ -69,7 +69,7 @@ botui.message.add({
     content: 'Hi there!'
 }).then(function () { // wait till previous message has been shown.
     return botui.message.add({
-        delay: 4000,
+        delay: 3000,
         loading: true,
         content: 'My name is Varun and most of my time is spent designing and developing stuff. Do you wish to know more about me?'
     });

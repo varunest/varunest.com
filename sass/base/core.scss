@@ -63,7 +63,7 @@ button:focus {
   animation-duration: 0.5s;
 }
 
-@keyframes fade {
+@include keyframes(fade) {
   0% {
     transform: translateY(20px)
   }
