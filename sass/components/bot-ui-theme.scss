@@ -4,7 +4,9 @@
 
 .botui-container {
   font-size: 14px;
-  background-color: $colorPrimary2;
+  //background: linear-gradient(180deg, $colorPrimary1, $colorPrimary2 10%, $colorPrimary2 90%, $colorPrimary1);
+  background: linear-gradient(140deg, $colorPrimary1, lighten($colorPrimary1, 6%) 60%, $colorPrimary1);
+  //background: $colorPrimary2;
   font-family: $font-family;
   border-radius: 20px;
 }
