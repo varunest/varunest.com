@@ -2,6 +2,8 @@
   min-height: 100vh;
   position: relative;
 
+  $minChatBoxHeight: 612px;
+
   // Follow Buttons
   .twitter-follow-button {
     position: absolute !important;
@@ -12,7 +14,7 @@
     color: $colorPrimary1;
     animation-name: followButtons;
     animation-duration: 1s;
-    animation-delay: 5s;
+    animation-delay: 4s;
     opacity: 0;
     animation-fill-mode: forwards;
   }
@@ -23,7 +25,7 @@
     right: 20px;
     top: 42px;
     animation-duration: 1s;
-    animation-delay: 5s;
+    animation-delay: 4s;
     opacity: 0;
     animation-fill-mode: forwards;
   }
@@ -40,7 +42,9 @@
   }
 
   // Header Section
-  .header {
+  #section-1 {
+    background: linear-gradient(180deg, darken($colorPrimary1, 6%), $colorPrimary1 80%, $colorPrimary1);
+    min-height: $minChatBoxHeight + 100px;
 
     .avatar-wrapper {
       margin-top: 60px;
@@ -85,15 +89,15 @@
     #chat-box {
       margin-top: 5vh;
       height: 90vh;
-      min-height: 612px;
+      min-height: $minChatBoxHeight;
       animation-name: chatbox-bounce;
       animation-duration: 1s;
-      animation-delay: 2s;
+      animation-delay: 1.2s;
       animation-fill-mode: forwards;
       opacity: 0;
-      @include  keyframes(chatbox-bounce) {
+      @include keyframes(chatbox-bounce) {
         0% {
-          -webkit-transform: translateY(800px);
+          -webkit-transform: translateY(800px) rotate(40deg);
           opacity: 0;
         }
         20%, 50%, 80%, 100% {
@@ -102,12 +106,23 @@
         }
         40% {
           -webkit-transform: translateY(-30px);
+          rotation: 0deg;
         }
         60% {
           -webkit-transform: translateY(-15px);
         }
+
+        80% {
+          -webkit-transform: rotate(0deg);
+        }
       }
     }
+  }
+
+  #section-2 {
+    z-index: 10;
+    height: 1200px;
+    padding-top: 100px;
   }
 
 }

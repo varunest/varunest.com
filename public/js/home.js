@@ -1,5 +1,3 @@
-var botui = new BotUI('chat-box');
-
 function describeInDetail() {
     return botui.message.add({
         loading: true,
@@ -64,19 +62,17 @@ function wrapUpShort() {
     })
 }
 
+var botui = new BotUI('chat-box');
+
 botui.message.add({
-    delay: 1000,
     content: 'Hi there!'
 }).then(function () { // wait till previous message has been shown.
     return botui.message.add({
-        delay: 3000,
-        loading: true,
         content: 'My name is Varun and most of my time is spent designing and developing stuff. Do you wish to know more about me?'
     });
 }).then(function () {
     return botui.action.button({
         human: true,
-        delay: 1000,
         action: [
             {
                 text: 'Yes 👍',
