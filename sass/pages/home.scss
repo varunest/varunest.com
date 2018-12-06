@@ -43,7 +43,7 @@
 
   // Header Section
   #section-1 {
-    background: linear-gradient(180deg, darken($colorPrimary1, 6%), $colorPrimary1 80%, $colorPrimary1);
+    //background: linear-gradient(180deg, darken($colorPrimary1, 6%), $colorPrimary1 80%, $colorPrimary1);
     min-height: $minChatBoxHeight + 100px;
 
     .avatar-wrapper {
@@ -97,7 +97,7 @@
       opacity: 0;
       @include keyframes(chatbox-bounce) {
         0% {
-          -webkit-transform: translateY(800px) rotate(40deg);
+          -webkit-transform: translateY(800px);
           opacity: 0;
         }
         20%, 50%, 80%, 100% {
@@ -110,10 +110,6 @@
         }
         60% {
           -webkit-transform: translateY(-15px);
-        }
-
-        80% {
-          -webkit-transform: rotate(0deg);
         }
       }
     }
