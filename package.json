@@ -1,35 +1,63 @@
 {
   "name": "varunest.com",
+  "description": "Varun's portfolio, work and opinions.",
   "version": "1.0.0",
-  "description": "Source code of varunest.com",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/varunest/varunest.com.git"
-  },
-  "author": "varun",
-  "license": "Apache-2.0",
+  "author": "Varun Verma <hi@varunest.com> (https://varunest.com)",
   "bugs": {
     "url": "https://github.com/varunest/varunest.com/issues"
   },
-  "homepage": "https://github.com/varunest/varunest.com#readme",
-  "devDependencies": {
-    "gulp-sass": "^3.1.0"
-  },
   "dependencies": {
-    "async": "^2.5.0",
+    "add-commas": "0.0.4",
     "body-parser": "^1.18.2",
-    "express": "^4.16.1",
-    "express-session": "^1.15.6",
-    "gulp": "^3.9.1",
-    "http": "0.0.0",
-    "morgan": "^1.9.0",
-    "node-rest-client": "^3.1.0",
-    "path": "^0.12.7",
-    "pug": "^2.0.0-rc.4",
-    "winston": "^2.4.0"
+    "express": "^4.16.2",
+    "jquery": "^3.2.1",
+    "mysql": "^2.15.0",
+    "throttleit": "^1.0.0"
+  },
+  "devDependencies": {
+    "browserify": "^16.1.0",
+    "git-pull-or-clone": "^1.0.0",
+    "husky": "^0.14.3",
+    "nib": "^1.0.2",
+    "run-series": "^1.1.4",
+    "standard": "*",
+    "stylus": "^0.54.3",
+    "uglify-js": "^3.3.12",
+    "watchify": "^3.7.0"
+  },
+  "homepage": "https://varunest.com",
+  "keywords": [
+    "Varun",
+    "blog",
+    "portfolio",
+    "work"
+  ],
+  "license": "-",
+  "main": "index.js",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/varunest/varunest.com.git"
+  },
+  "scripts": {
+    "build": "rm -rf _site && npm run build-css && npm run build-js && npm run build-html",
+    "build-css": "stylus -u nib css/main.styl -o css/ -c",
+    "build-html": "jekyll build --lsi",
+    "build-js": "browserify client | uglifyjs -c warnings=false -m > client/bundle.js",
+    "deploy": "npm test && git push && npm run build && rsync -a -v -e ssh --delete _server _site nginx.conf node_modules supervisor.conf package.json varun@varunest.com:/home/varun/www/varunest.com/",
+    "install-system-deps": "brew install gsl && sudo gem install narray && sudo gem install jekyll bundler rdiscount gsl classifier-reborn rouge",
+    "prepush": "npm test",
+    "start": "npm run build && jekyll serve",
+    "test": "standard",
+    "watch": "npm run watch-css & npm run watch-html & npm run watch-js",
+    "watch-css": "stylus -u nib css/main.styl -o css/ -w",
+    "watch-html": "npm run build-html && jekyll serve --incremental",
+    "watch-js": "watchify client -o client/bundle.js -dv"
+  },
+  "standard": {
+    "ignore": [
+      "hacks/",
+      "images/fancybox"
+    ]
   }
 }
