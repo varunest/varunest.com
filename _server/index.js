@@ -10,7 +10,7 @@ console.log('Using port ' + port)
 var app = express()
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({extended: false}))
 
 // parse application/json
 app.use(bodyParser.json())
@@ -44,23 +44,23 @@ app.post('/views', function (req, res) {
   connection.query('SELECT views FROM views WHERE slug = ?', [slug], function (err, results) {
     if (err) {
       console.error(err.message)
-      res.send({ err: 'Error: db error while getting view count' })
+      res.send({err: 'Error: db error while getting view count'})
     } else if (results.length === 0) {
-      res.send({ err: 'Error: slug not found' })
+      res.send({err: 'Error: slug not found'})
     } else {
       res.send(results[0])
     }
 
     // Asyncronously update the view count
     var query = 'UPDATE views SET views=views+1 WHERE slug = ?'
-    connection.query(query, [ slug ], function (err, results) {
+    connection.query(query, [slug], function (err, results) {
       if (err) {
         console.error(err.message)
         connection.end()
       } else if (results.affectedRows === 0) {
         // If no rows were affected, then this is a new post, so add it
         var query = 'INSERT INTO views (slug, views) VALUES (?, ?)'
-        connection.query(query, [ slug, 1 ], function (err, results) {
+        connection.query(query, [slug, 1], function (err, results) {
           if (err) {
             console.error(err.message)
           } else if (results.affectedRows !== 1) {
@@ -85,11 +85,11 @@ app.get('/views/total', function (req, res) {
   connection.query(query, function (err, results) {
     if (err) {
       console.error(err.message)
-      res.send({ err: 'Error: db error while getting total view count' })
+      res.send({err: 'Error: db error while getting total view count'})
     } else if (results.length > 0) {
       res.send(results[0])
     } else {
-      res.send({ err: 'Error: slug not found' })
+      res.send({err: 'Error: slug not found'})
     }
 
     connection.end()

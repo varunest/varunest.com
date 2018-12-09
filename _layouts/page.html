@@ -18,16 +18,17 @@
     <title>{{ page.title }}</title>
     <meta property="og:title" content="{{ page.title }}"/>
 
-    <meta name="description" content="{{ meta_desc}}"/>
-    <meta property="og:description" content="{{ meta_desc}}"/>
+    <meta name="description" content="{{ page.meta_desc}}"/>
+    <meta property="og:description" content="{{ page.meta_desc}}"/>
 
     <meta property="og:type" content="article"/>
     {% if page.tags %}{% for tag in page.tags %}
     <meta property="article:tag" content="{{ tag | replace: '-', ' ' }}"/>
     {% endfor %}{% endif %}
-    <meta property="og:image" content="https://varunest.com/images/me.png"/>
+    <meta property="og:image" content="https://varunest.com/images/varun.jpg"/>
 
-    <meta property="article:author" content="https://varunest.com/about/"/>
+    <!--<meta property="article:author" content="https://varunest.com/about/"/>-->
+    <!--TODO: Author about article.-->
     <meta property="fb:app_id" content="130177111065205"/>
 
     <!--TODO : // add payment option-->
@@ -51,7 +52,7 @@
     <meta name="theme-color" content="#000000">
 
 
-    <link rel="alternate" type="application/atom+xml" title="Varunest.org" href="https://varunest.com/atom.xml"/>
+    <link rel="alternate" type="application/atom+xml" title="Varunest.com" href="https://varunest.com/atom.xml"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/main.css"/>
@@ -63,7 +64,7 @@
 </head>
 
 <body class="{{ page.class }}">
-<footer id="container">
+<div id="container">
 
     <header id="header">
         <h1><a href="/">Varun Verma</a><span id="brand-comma">,</span></h1>
@@ -79,7 +80,6 @@
             <li><a href="https://instagram.com/varunest" target="_blank"><i class="fab fa-instagram"></i></a></li>
             <li><a href="https://twitter.com/varunest" target="_blank"><i class="fab fa-twitter"></i></a></li>
         </ul>
-        <!--TODO: Add social links here.-->
     </header>
 
     <section class="content clearfix">
