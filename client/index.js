@@ -143,62 +143,53 @@ $(document).ready(function () {
         $('#ageInDays').html(' &mdash; that\'s ' + ageInDays + ' days to be exact!')
         $('#ageInYears').text(ageInYears)
     }
+});
+
+var $window = $(window)
+
+// scroll to footer when contact is clicked
+$('#nav-contact').on('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $('html, body').animate({
+        scrollTop: $("#footer").offset().top - 30
+    }, 'slow');
 })
 
-// Fade prev/next post links on scroll
-if ($('body').hasClass('post')) {
-    var maxOpacity = 0.7
-    var minOpacity = 0.2
+// stick navbar
+var $header = $('#header')
+var $brandComma = $('#brand-comma');
 
-    var $header = $('#header')
-    var headerBottom = $header.offset().top + $header.height()
+var onScrollOrResize = function (event) {
+    var windowHeight = $window.height()
+    var windowWidth = $window.width()
+    var windowScrollTop = $window.scrollTop()
 
-    var $meta = $('.meta')
-    var $copy = $('.copy')
-    var copyOffset = 100 // start fading in a little early
-    var copyTop = $meta.offset().top - copyOffset // using meta, since that includes h3
-    var copyBottom = $copy.offset().top + $copy.height() - copyOffset
-    var copyHeight = copyBottom - copyTop
-
-    var $window = $(window)
-    var $navLinks = $('.prev, .next')
-    var $nextLink = $('.next')
-    var $ad = $('.carbonad')
-
-    var onScrollOrResize = function (event) {
-        var windowHeight = $window.height()
-        var windowWidth = $window.width()
-        var windowScrollTop = $window.scrollTop()
-        var windowBottom = windowScrollTop + windowHeight
-
-        $nextLink.removeClass('hidden')
-
-        var opacity
-        if (windowScrollTop < 0) {
-            opacity = maxOpacity
-        } else if (windowScrollTop <= headerBottom) {
-            opacity = maxOpacity - ((windowScrollTop / headerBottom) * (maxOpacity - minOpacity))
-        } else if (windowBottom < copyTop) {
-            opacity = minOpacity
-        } else if (windowBottom < copyBottom) {
-            opacity = minOpacity + ((windowBottom - copyTop) / copyHeight * (maxOpacity - minOpacity))
-        } else {
-            opacity = maxOpacity
-        }
-
-        $navLinks.css({opacity: opacity})
-
-        // if next link is overlapping with ad, hide it
-        if ($nextLink.length && windowWidth > 950 && windowWidth < 1225) {
-            var nextLinkTop = $nextLink.offset().top
-            var adBottom = $ad.offset().top + $ad.height() - 50 // no idea why it's 50px off...
-            if (nextLinkTop < adBottom) {
-                $nextLink.addClass('hidden')
-            }
-        }
+    if (windowScrollTop >= 54) {
+        $header.addClass('sticky');
+        $brandComma.hide(200);
+    } else if (windowScrollTop < 54) {
+        $header.removeClass('sticky');
+        $brandComma.show(200);
     }
 
-    window.addEventListener('scroll', throttle(onScrollOrResize, 150))
-    window.addEventListener('resize', throttle(onScrollOrResize, 150))
-    onScrollOrResize()
+    // if (windowScrollTop < 0) {
+    //     opacity = maxOpacity
+    // } else if (windowScrollTop <= headerBottom) {
+    //     opacity = maxOpacity - ((windowScrollTop / headerBottom) * (maxOpacity - minOpacity))
+    // } else if (windowBottom < copyTop) {
+    //     opacity = minOpacity
+    // } else if (windowBottom < copyBottom) {
+    //     opacity = minOpacity + ((windowBottom - copyTop) / copyHeight * (maxOpacity - minOpacity))
+    // } else {
+    //     opacity = maxOpacity
+    // }
+
+    // $navLinks.css({opacity: opacity})
+
+    // if next link is overlapping with ad, hide it
 }
+
+window.addEventListener('scroll', onScrollOrResize)
+window.addEventListener('resize', onScrollOrResize)
+onScrollOrResize()

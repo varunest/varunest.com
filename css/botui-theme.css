@@ -21,7 +21,7 @@
 }
 .botui-message-content.human {
   color: #f7f8f8;
-  background-color: #2299C3;
+  background-color: #EB3682;
   border-radius: 15px 15px 0px 15px;
 }
 .botui-message-content.text {
@@ -68,12 +68,12 @@
   font-weight: 500;
   padding: 7px 15px;
   border-radius: 4px;
-  background: #2299C3;
+  background: #EB3682;
   transition: .4s all ease;
-  box-shadow: 2px 3px 8px 0 rgba(25, 40, 90,0.45);
+  box-shadow: 0px 10px 40px -10px rgba(255,0,131,0.5);
 }
 .botui-actions-buttons-button:hover {
-  box-shadow: 1px 2px 2px 0 rgba(25, 40, 90,0.65);
+  background: #c22267;
   transition: .4s all ease;
 }
 .botui-actions-text-select {
