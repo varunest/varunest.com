@@ -1,6 +1,6 @@
-const $ = require('jquery');
-const addCommas = require('add-commas');
-const throttle = require('throttleit');
+var $ = require('jquery');
+var addCommas = require('add-commas');
+var throttle = require('throttleit');
 
 // The global jQuery instance is used by some posts
 window.$ = window.jQuery = $
@@ -20,7 +20,7 @@ $(document).ready(function () {
         //     $('.views').text('Lots of')
         //   }
         // })
-        let botUI = require('./botui');
+        var botUI = require('./botui');
 
         function describeInDetail() {
             return botui.message.add({
