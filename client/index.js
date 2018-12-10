@@ -160,35 +160,32 @@ $('#nav-contact').on('click', function (e) {
 // stick navbar
 var $header = $('#header')
 var $brandComma = $('#brand-comma')
+var $footerLights = $('#footer-background .lights')
+var $footerLaptop = $('#footer-background .laptop')
+var $footerCoffee = $('#footer-background .coffee')
 
 var onScrollOrResize = function (event) {
   // var windowHeight = $window.height()
   // var windowWidth = $window.width()
-  var windowScrollTop = $window.scrollTop()
+  var dft = $window.scrollTop()
+  var dfb = $(document).height() - $(window).height() - $(document).scrollTop()
+  console.log(dfb)
 
-  if (windowScrollTop >= 54) {
+  if ($('body').hasClass('home')) {
+    $('#main-image').css('transform', 'translateY(-' + dft / 5 + 'px)');
+  }
+
+  if (dft >= 54) {
     $header.addClass('sticky')
     $brandComma.hide(200)
-  } else if (windowScrollTop < 54) {
+  } else if (dft < 54) {
     $header.removeClass('sticky')
     $brandComma.show(200)
   }
 
-  // if (windowScrollTop < 0) {
-  //     opacity = maxOpacity
-  // } else if (windowScrollTop <= headerBottom) {
-  //     opacity = maxOpacity - ((windowScrollTop / headerBottom) * (maxOpacity - minOpacity))
-  // } else if (windowBottom < copyTop) {
-  //     opacity = minOpacity
-  // } else if (windowBottom < copyBottom) {
-  //     opacity = minOpacity + ((windowBottom - copyTop) / copyHeight * (maxOpacity - minOpacity))
-  // } else {
-  //     opacity = maxOpacity
-  // }
-
-  // $navLinks.css({opacity: opacity})
-
-  // if next link is overlapping with ad, hide it
+  $footerLaptop.css('transform', 'translate(-' + dfb/5 + 'px,' + 0 +'px)')
+  $footerCoffee.css('transform', 'translateY(' + dfb/2 + 'px)')
+  $footerLights.css('transform', 'translateY(-' + dfb/20 + 'px)')
 }
 
 window.addEventListener('scroll', onScrollOrResize)
