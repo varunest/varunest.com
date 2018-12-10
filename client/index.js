@@ -183,7 +183,7 @@ var onScrollOrResize = function (event) {
   }
 
   $footerLaptop.css('transform', 'translate(-' + dfb / 10 + 'px,' + dfb / 8 + 'px)')
-  $footerCoffee.css('transform', 'translate(' + dfb / 10 + 'px,' + dfb / 8 + 'px)')
+  $footerCoffee.css('transform', 'translate(' + dfb / 10 + 'px,' + 0 + 'px)')
   $footerLights.css('transform', 'translateY(-' + dfb / 20 + 'px)')
 }
 
