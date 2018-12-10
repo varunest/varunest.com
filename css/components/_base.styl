@@ -69,7 +69,7 @@ body {
 }
 
 #container {
-  margin: 0 auto 0 auto;
+  margin: 0 auto;
   max-width: $fullWidth;
   padding: 0 2%;
   width: 92%;
@@ -80,9 +80,17 @@ body {
 
   @media PHONE_AND_TABLET {
     max-width: $postWidth;
-  } //.home &, .about &, .resume & {
+  }
+//.home &, .about &, .resume & {
 //  max-width: $fullWidth;
 //}
+}
+
+#main-content {
+  padding: 120px 0 0 0;
+  @media PHONE_AND_TABLET {
+    padding-top: 145px;
+  }
 }
 
 .left {
@@ -152,14 +160,13 @@ h1 {
 }
 
 h2 {
-  font-size: 1.5em;
+  font-size: 2em;
   margin: 1.2em 0 0.6em 0;
 }
 
 h3 {
   font-size: 1.3em;
   margin: 1.2em 0 0.6em 0;
-  color: $lightGray;
 }
 
 h4 {
@@ -316,6 +323,10 @@ img, iframe, object, embed, audio, video {
       a {
         color: $black;
       }
+
+      a.active {
+        color: $lighterGray;
+      }
     }
 
     @media PHONE_AND_TABLET {
@@ -460,9 +471,17 @@ img, iframe, object, embed, audio, video {
     height: 550px;
   }
 
-  h1 {
+  h2 {
     margin-bottom: 30px !important;
-    padding-top: 60px;
+    padding-top: 120px;
+    
+    @media SMALL_DESKTOP {
+      padding-top: 80px;
+    }
+    
+    @media PHONE_AND_TABLET {
+      padding-top: 60px;
+    }
   }
 
   .contact-links {
@@ -480,6 +499,7 @@ showcaseImage() {
 #main-image {
   animation-name: main-image;
   animation-duration: 2s;
+  showcaseImage();
 }
 
 // Fade animation

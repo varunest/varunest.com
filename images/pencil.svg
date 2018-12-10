@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="63px" height="64px" viewBox="0 0 63 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 10</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Blog" transform="translate(-196.000000, -178.000000)">
+            <g id="Group-10" transform="translate(196.000000, 178.000000)">
+                <path d="M54.990569,22.8786797 L59.5934318,18.2758168 C62.1355227,15.7337259 62.1355227,11.6121821 59.5934318,9.0700912 L53.9299088,3.40656821 C51.3878179,0.864477265 47.2662741,0.864477265 44.7241832,3.40656821 L40.1213203,8.00943103 L54.990569,22.8786797 Z" id="Rectangle" stroke="#A7245F" stroke-width="3" fill="#CC2D71"></path>
+                <polygon id="Path-30-Copy" fill="#EFEFEF" points="3 45.7111701 36.1239498 11 52 27.2228353 18.08892 62 18.08892 57.8082027 14.5759531 57.8082027 14.5759531 52.1735644 8.26006018 52.1735644 8.26006018 45.7111701"></polygon>
+                <path d="M1.92638544,55.0006852 C3.74178111,56.0428572 5.04544621,56.9557769 5.83738076,57.7394443 C6.62931531,58.5231118 7.67479906,59.9348178 8.97383202,61.9745624 L0.973832022,63.0006852 L1.92638544,55.0006852 Z" id="Path-33" stroke="#000000" fill="#B1B1B1" transform="translate(4.973832, 59.000685) rotate(-3.000000) translate(-4.973832, -59.000685) "></path>
+                <polygon id="Path-30" stroke="#000000" stroke-width="2" stroke-linecap="round" points="1 60.8157172 2.58540864 45.283615 36.1077817 11 52 27.0230104 19.4111261 60.8157172 2.58540864 63 1 63"></polygon>
+                <polyline id="Path-39" stroke="#000000" stroke-width="2" points="2 46 7.58577151 46 7.58577151 51.7195416 13.78888 51.7195416 13.78888 57.477739 18 57.477739 18 61"></polyline>
+                <path d="M10,44 L25.0543169,29.4511616" id="Path-40" stroke="#000000" stroke-width="2" stroke-linecap="round"></path>
+                <path d="M16,49.6036564 L21.6332503,44.0322278" id="Path-40-Copy" stroke="#000000" stroke-width="2" stroke-linecap="round"></path>
+                <path d="M27,27 L32,22" id="Path-41" stroke="#000000" stroke-width="2" stroke-linecap="round"></path>
+                <path d="M34,20 L35,19" id="Path-42" stroke="#000000" stroke-width="2" stroke-linecap="round"></path>
+            </g>
+        </g>
+    </g>
+</svg>

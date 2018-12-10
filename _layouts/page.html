@@ -64,46 +64,13 @@
 
 <body class="{{ page.class }}">
 <div id="container">
-
-    <header id="header" class="fade">
-        <h1><a href="/">Varun Verma</a><span id="brand-comma">,</span></h1>
-        <ul>
-            <li><a href="/">Resume</a></li>
-            <li><a href="/">Blog</a></li>
-            <li><a id="nav-contact">Contact</a></li>
-        </ul>
-        <ul class="social-links">
-            <li><a href="https://github.com/varunest" target="_blank"><i class="fab fa-github"></i></a></li>
-            <li><a href="https://linkedin.com/in/varunest" target="_blank"><i class="fab fa-linkedin"></i></a></li>
-            <li><a href="https://facebook.com/mailvarun93" target="_blank"><i class="fab fa-facebook"></i></a></li>
-            <li><a href="https://instagram.com/varunest" target="_blank"><i class="fab fa-instagram"></i></a></li>
-            <li><a href="https://twitter.com/varunest" target="_blank"><i class="fab fa-twitter"></i></a></li>
-        </ul>
-    </header>
-
-    <section class="content clearfix">
-        {{ content }}
-    </section>
-
-    <div id="footer-background">
-        <img class="wall-bg" src="/images/wall-background.svg"/>
-        <img class="laptop" src="/images/laptop.svg"/>
-        <img class="lights" src="/images/lights.svg"/>
-        <img class="coffee" src="/images/coffee.svg"/>
+    {% include header.html %}
+    <div id="main-content">
+        <section class="content clearfix">
+            {{ content }}
+        </section>
     </div>
-
-    <footer id="footer">
-        <h1>Get in Touch</h1>
-        <p>For work, business, discussions or to just say hi: reach out to <b>hi@varunest.com</b>.</p>
-
-        <div class="contact-links">
-            <a href="https://www.github.com/varunest" target="_blank">Github</a> |
-            <a href="https://www.linkedin.com/in/varunest" target="_blank">LinkedIn</a> |
-            <a href="https://www.twitter.com/varunest" target="_blank">Twitter</a> |
-            <a href="https://www.reddit.com/user/varunest/" target="_blank">Reddit</a> |
-            <a href="https://www.facebook.com/mailvarun93" target="_blank">Facebook</a>
-        </div>
-    </footer>
+    {% include footer.html %}
 </div>
 
 <script src="/client/bundle.js"></script>
@@ -119,16 +86,16 @@
 
 <!-- Google Analytics -->
 <script>
-    window.GoogleAnalyticsObject = 'ga'
+  window.GoogleAnalyticsObject = 'ga'
 
-    function ga() {
-        window.ga.q.push(arguments)
-    }
+  function ga () {
+    window.ga.q.push(arguments)
+  }
 
-    window.ga.q = window.ga.q || []
-    window.ga.l = Date.now()
-    window.ga('create', 'UA-107843444-1', 'auto')
-    window.ga('send', 'pageview')
+  window.ga.q = window.ga.q || []
+  window.ga.l = Date.now()
+  window.ga('create', 'UA-107843444-1', 'auto')
+  window.ga('send', 'pageview')
 </script>
 <script async src="https://www.google-analytics.com/analytics.js"></script>
 

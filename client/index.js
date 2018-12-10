@@ -64,7 +64,7 @@ $(document).ready(function () {
       return botui.message.add({
         loading: true,
         delay: 2000,
-        content: '![](https://media.giphy.com/media/NTY1kHmcLsCsg/giphy.gif) It seems you are in a hurry! <br>Feel free to explore website or drop me a mail at [mailvarunest@gmail.com](mailto:mailvarunest@gmail.com)'
+        content: '![](https://media.giphy.com/media/NTY1kHmcLsCsg/giphy.gif) It seems you are in a hurry! <br>Feel free to explore website or drop me a mail at [hi@varunest.com](mailto:hi@varunest.com)'
       })
     })
   }
@@ -114,6 +114,8 @@ $(document).ready(function () {
         return wrapUpShort()
       }
     })
+  } else if ($('body').hasClass('blog-index')) {
+    $('#nav-blog').addClass('active')
   }
 
   // If this is a post, get post view count
@@ -184,7 +186,7 @@ var onScrollOrResize = function (event) {
 
   $footerLaptop.css('transform', 'translate(-' + dfb / 10 + 'px,' + dfb / 8 + 'px)')
   $footerCoffee.css('transform', 'translate(' + 0 + 'px,' + dfb / 8 + 'px)')
-  $footerLights.css('transform', 'translateY(-' + dfb / 20 + 'px)')
+  $footerLights.css('transform', 'translateY(-' + dfb / 10 + 'px)')
 }
 
 window.addEventListener('scroll', onScrollOrResize)
