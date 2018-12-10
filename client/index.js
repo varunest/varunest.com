@@ -83,7 +83,7 @@ $(document).ready(function () {
     //     $('.views').text('Lots of')
     //   }
     // })
-    var BotUI = require('./botui')
+    require('./botui')
 
     var botui = new BotUI('chat-box')
 
