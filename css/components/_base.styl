@@ -200,10 +200,6 @@ h4 {
   }
 }
 
-.postHeader {
-  text-align: center;
-}
-
 // Links in h1 should not affect style
 .content h1 a {
   {$link} {
@@ -230,7 +226,7 @@ p {
 blockquote {
   padding: 0.7em 2em;
   border: 1px solid $lighterGray;
-  border-left: 8px solid $red;
+  border-left: 8px solid $pink;
   background-color: #F7F7F7;
   font-style: italic;
   color: $darkGray;
@@ -401,10 +397,6 @@ img, iframe, object, embed, audio, video {
     height: auto;
     width: 29.53%;
 
-  //@media TABLET {
-  //  bottom: 20px;
-  //}
-
     @media PHONE_AND_TABLET {
       bottom: 0px;
       width: 250px;
@@ -417,10 +409,6 @@ img, iframe, object, embed, audio, video {
     position: absolute;
     bottom: 20px;
     right: 12.23%;
-
-  //@media TABLET {
-  //  bottom: 10px;
-  //}
 
     @media PHONE_AND_TABLET {
       bottom: -3px;
@@ -437,10 +425,8 @@ img, iframe, object, embed, audio, video {
 
     @media SMALL_DESKTOP {
       bottom: 300px;
-    } //@media TABLET {
-  //  bottom: 210px;
-  //}
-
+    }
+    
     @media PHONE_AND_TABLET {
       bottom: 220px;
       width: 150px;
@@ -533,4 +519,38 @@ showcaseImage() {
     opacity: 1
     transform: translateY(0px);
   }
+}
+
+.subscription-form {
+  .email {
+    height: 40px;
+    margin-left: 0 !important;
+    width: 260px;
+    padding: 0 20px;
+    border-color: $black;
+    border-radius: 2px;
+    border-width: 1px;
+    font-size: 1em;
+    color: $lightGray;
+
+    @media PHONE_AND_TABLET {
+      width: 165px;
+      height: 35px;
+    }
+
+    ::placeholder {
+      color: $lighterGray;
+    }
+
+    {$focus} {
+      outline-width: 0;
+    }
+  }
+    
+  .button {
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 15px;
+  }
+
 }

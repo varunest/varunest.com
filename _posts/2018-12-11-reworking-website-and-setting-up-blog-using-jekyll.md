@@ -1,8 +1,7 @@
 ---
-old: true
-layout: page
+layout: post
 class: post
-title: Reworking website and setting up the blog using Jekyll
+title: Reworking website and setting up blog using Jekyll
 tags:
 - website
 - design
@@ -13,3 +12,4 @@ summary:
 Hey there I used Jekyll template engine based on Ruby to rework and setup my blog. 
 
 More to come soon...
+	

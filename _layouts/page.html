@@ -13,13 +13,15 @@
                                        - "The lord of the rings" by J.R.R Tolkien
     -->
 
+    {% capture meta_desc %}{% if page.summary %}{{ page.summary }}{% else %}Varun Verma is a Co Founder of Videoder, Ex Zoman, full stack developer, android developer, designer, entrepreneur, researcher, Dota player and fitness enthusiast.{% endif %}{% endcapture %}
+
     <meta name="viewport" content="width=device-width, intitial-scale=1"/>
 
     <title>{{ page.title }}</title>
     <meta property="og:title" content="{{ page.title }}"/>
 
-    <meta name="description" content="{{ page.meta_desc}}"/>
-    <meta property="og:description" content="{{ page.meta_desc}}"/>
+    <meta name="description" content="{{ meta_desc}}"/>
+    <meta property="og:description" content="{{ meta_desc}}"/>
 
     <meta property="og:type" content="article"/>
     {% if page.tags %}{% for tag in page.tags %}

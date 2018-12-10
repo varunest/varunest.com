@@ -1,0 +1,55 @@
+.post {
+	.post-header {
+		padding-bottom: 20px;
+		margin-bottom: 30px;
+		border-bottom: 2px solid $lightestGray;
+		
+		@media PHONE_AND_TABLET {
+			text-align: center;
+		}
+	}
+	
+	#main-content, footer {
+		max-width: $postWidth;
+		margin: auto;
+		
+		h1 {
+			a {
+				text-decoration: underline !important;
+				text-decoration-style: dashed !important;
+			}
+    		
+    		font-size: 3em;
+		
+			@media SMALL_DESKTOP{
+				font-size: 2em;
+			}
+			
+			@media PHONE_AND_TABLET {
+				font-size: 2em;
+			}
+		}
+
+		@media SMALL_DESKTOP {
+	   		max-width: $postWidthSmall;
+	 	}
+
+	  	@media PHONE_AND_TABLET {
+	  		max-width: $postWidth;
+	  	}	
+	}	
+	
+	#footer {
+		h2 {
+			padding-top: 20px;
+			
+			@media SMALL_DESKTOP {
+				padding-top: 80px;
+			}
+			
+			@media TABLET {
+				padding-top: 50px;
+			}
+		}
+	}
+}
