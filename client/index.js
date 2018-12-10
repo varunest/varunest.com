@@ -169,7 +169,6 @@ var onScrollOrResize = function (event) {
   // var windowWidth = $window.width()
   var dft = $window.scrollTop()
   var dfb = $(document).height() - $(window).height() - $(document).scrollTop()
-  console.log(dfb)
 
   if ($('body').hasClass('home')) {
     $('#main-image').css('transform', 'translateY(-' + dft / 5 + 'px)');
@@ -183,11 +182,36 @@ var onScrollOrResize = function (event) {
     $brandComma.show(200)
   }
 
-  $footerLaptop.css('transform', 'translate(-' + dfb/5 + 'px,' + 0 +'px)')
-  $footerCoffee.css('transform', 'translateY(' + dfb/2 + 'px)')
-  $footerLights.css('transform', 'translateY(-' + dfb/20 + 'px)')
+  $footerLaptop.css('transform', 'translate(-' + dfb / 10 + 'px,' + dfb / 8 + 'px)')
+  $footerCoffee.css('transform', 'translate(' + dfb / 10 + 'px,' + dfb / 8 + 'px)')
+  $footerLights.css('transform', 'translateY(-' + dfb / 20 + 'px)')
 }
 
 window.addEventListener('scroll', onScrollOrResize)
 window.addEventListener('resize', onScrollOrResize)
 onScrollOrResize()
+
+// Fade animation
+var i = 0
+var t = 0
+$(function () {
+  $('.fade').each(function () {
+    i++
+    $(this).attr('data-index', i);
+  });
+});
+
+
+function fade (t) {
+  t++;
+  $('[data-index=' + t + ']').addClass('fade-ani');
+  if (t <= $('.fade').length) {
+    setTimeout(function () {
+      fade(t)
+    }, t * 10 + 100)
+  }
+}
+
+$(function () {
+  fade(t);
+});

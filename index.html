@@ -6,12 +6,14 @@ class: home
 ---
 <div class="intro clearfix">
     <div class="left">
-        <h1>
+        <h1 class="fade">
             I code and create things.
         </h1>
         <img id='main-image' src="/images/varun.jpg" alt="I am so handsome.">
-        <p class="subscribe-text">Join my mailing list and get inspiration, updates and cool stuff.</p>
-        {% include subscribe.html %}
+        <div class="fade">
+            <p class="subscribe-text">Join my mailing list and get inspiration, updates and cool stuff.</p>
+            {% include subscribe.html %}
+        </div>
     </div>
     <div class="right">
         <div id="chat-box">
