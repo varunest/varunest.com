@@ -23,38 +23,37 @@
 
     .left {
       @media SMALL_DESKTOP {
-        border-bottom: 2px solid $lightestGray;
-        padding-bottom: 50px;
       }
 
       @media PHONE_AND_TABLET {
-        border-bottom: 2px solid $lightestGray;
-        padding-bottom: 50px;
       }
 
       h2{
         position: relative;
+        text-decoration: underline;
+        text-decoration-style: dashed;
+        text-decoration-color: $pink;
         z-index: 10;
-        max-width: 450px;
         margin-top: 25px;
 
         @media SMALL_DESKTOP {
           font-size: 2.5em;
-          max-width: 400px;
           margin-top: 10px;
         }
 
         @media PHONE_AND_TABLET {
           display: block;
           text-align: center;
-          max-width: 100%;
+          max-width: 500px;
+          margin: auto;
+          margin-top: 25px;
         }
       }
 
       img {
         margin: 10px 0 0 0;
-        width: 200px;
-        height: 200px;
+        width: 400px;
+        height: 400px;
         display: inline-block;
 
         showcaseImage();
@@ -99,14 +98,16 @@
       }
 
       #chat-box {
-        height: 420px;
+        height: 450px;
         margin: auto;
-        margin-top: 40px;
+        border-radius: 8px 8px 0 0;
+        margin-top: 60px;
         animation-name: chatbox-bounce;
         animation-duration: 1s;
         animation-delay: 1.2s;
+        background: #F7F7F7;
         animation-fill-mode: forwards;
-        border-bottom: 3px solid $lightestGray;
+        border-bottom: 3px solid $black;
 
         @media SMALL_DESKTOP {
         }
