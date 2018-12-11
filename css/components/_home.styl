@@ -52,18 +52,22 @@
       img {
         margin: 10px 0 0 0;
         width: 400px;
+        position: relative;
+        top: -100px;
         height: 400px;
         display: inline-block;
 
         showcaseImage();
 
         @media SMALL_DESKTOP {
+          top: 0px;
           width: 250px;
           height: 250px;
           margin-top: 20px;
         }
 
         @media PHONE_AND_TABLET {
+          top: 0px;
           display: block;
           margin: auto;
           width: 250px;
@@ -100,7 +104,7 @@
         height: 450px;
         margin: auto;
         border-radius: 8px 8px 0 0;
-        margin-top: 60px;
+        margin-top: 55px;
         animation-name: chatbox-bounce;
         animation-duration: 1s;
         animation-delay: 1.2s;
