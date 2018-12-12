@@ -1,127 +1,141 @@
 .post {
+	position: relative;
+	z-index: 10;
 	.byline {
-	  color: $lightGray;
-	  font-size: 0.75em;
-	  
-	  @media PHONE_AND_TABLET {
-	  	margin-top: 15px;
-	  }
+		color: $lightGray;
+		font-size: 0.9em;
+
+		@media PHONE_AND_TABLET {
+			margin-top: 15px;
+		}
 	}
 
 	// Add bullets between byline items
 	.byline > *:not(:last-child):after {
-	  content: " \2022 ";
-	  padding: 0 0.4em;
+		content: " \2022 ";
+		padding: 0 0.4em;
 	}
 
 	// Inline the tag list
 	.tags {
-	  margin: 0;
-	  padding: 0;
-	  display: inline-block;
-	  list-style-type: none;
+		margin: 0;
+		padding: 0;
+		display: inline-block;
+		list-style-type: none;
 	}
 
 	.tags li {
-	  display: inline;
+		display: inline;
 	}
 
 	// Add commas between tags
 	.tags li:not(:last-child):after {
-	  content: ", ";
+		content: ", ";
 	}
 
 	// Make tag links subtle gray
 	.byline a {
-	  {$link} {
-	    color: $lightGray;
-	  }
-	  {$focus} {
-	    color: $pink;
-	  }
+		{$link} {
+			color: $lightGray;
+		}
+		{$focus} {
+			color: $pink;
+		}
 	}
 
 	.meta {
-	  margin-top: 75px;
+		margin-top: 50px;
+		h3 {
+			border-bottom: 2px solid $lightestGray;
+			padding-bottom: 15px;
+			margin-bottom: 0px;
+		}
+		
+		.rss {
+			float: right;
+		}
+		
 	}
 
 	.copy {
-	  .avatar {
-	    float: right;
-	    img {
-	      margin: 0 0 15px 15px;
-	    }
-	  }
+		margin-top: 2em;
+		.avatar {
+			float: right;
+			img {
+				margin: 0 0 15px 15px;
+				showcaseImage();
+			}
+		}
 
-	  input {
-	    display: inline;
-	    font-size: 14px;
-	  }
-	  [type="email"] {
-	    margin-left: 10px;
-	    width: 150px;
-	  }
+		input {
+			display: inline;
+			font-size: 14px;
+		}
+		[type="email"] {
+			margin-left: 10px;
+			width: 150px;
+		}
 
-	  iframe {
-	    margin: 0 0 30px 0;
-	    vertical-align: top;
-	  }
+		iframe {
+			margin: 0 0 30px 0;
+			vertical-align: top;
+		}
 	}
 
 	a.prev {
-	  left: -120px;
-	  transform: rotate(-90deg);
+		left: -120px;
+		transform: rotate(-90deg);
 	}
 
 	a.next {
-	  right: -120px;
-	  transform: rotate(90deg);
+		right: -120px;
+		transform: rotate(90deg);
 	}
 
 	a.prev, a.next {
-	  display: block;
-	  font-size: 1.1em;
-	  font-weight: normal;
-	  opacity: 0.7;
-	  overflow: hidden;
-	  padding: 50px;
-	  position: fixed;
-	  text-align: center;
-	  text-decoration: none;
-	  text-overflow: ellipsis;
-	  top: 45%;
-	  width: 250px;
-	  white-space: nowrap;
-	  z-index: 2;
+		display: block;
+		font-size: 1.1em;
+		font-weight: normal;
+		opacity: 0.7;
+		overflow: hidden;
+		padding: 50px;
+		position: fixed;
+		text-align: center;
+		text-decoration: none;
+		text-overflow: ellipsis;
+		top: 45%;
+		width: 250px;
+		white-space: nowrap;
+		z-index: 2;
 
-	  &:hover {
-	    opacity: 1 !important;
-	  }
+		&:hover {
+			opacity: 1 !important;
+		}
 
-	  &.hidden, &.hidden:hover {
-	    display: none;
-	  }
+		&.hidden, &.hidden:hover {
+			display: none;
+		}
 
-	  &:before {
-	    content: "";
-	    background: url('/images/up.png');
-	    background-size: cover;
-	    background-repeat: no-repeat;
-	    height: 24px;
-	    left: 50%;
-	    margin-left: -12px;
-	    position: absolute;
-	    top: 25px;
-	    width: 24px;
-	  }
+		&:before {
+			content: "";
+			background: url('/images/up.png');
+			background-size: cover;
+			background-repeat: no-repeat;
+			height: 24px;
+			left: 50%;
+			margin-left: -12px;
+			position: absolute;
+			top: 25px;
+			width: 24px;
+		}
 
-	  @media SMALL_DESKTOP {
-	    font-size: 1.0em;
-	  }
+		@media SMALL_DESKTOP {
+			font-size: 1.0em;
+		}
 
-	  @media PHONE_AND_TABLET {
-	    display: none;
-	  }
+		@media PHONE_AND_TABLET {
+			display: none;
+		}
 	}
 
 	.post-header {
@@ -144,9 +158,9 @@
 				// text-decoration-style: dashed !important;
 				text-decoration-color: $lightestGray !important;
 			}
-    		
-    		font-size: 2.3em;
-		
+
+			font-size: 2.3em;
+
 			@media SMALL_DESKTOP{
 				font-size: 2em;
 			}
@@ -155,14 +169,26 @@
 				font-size: 2em;
 			}
 		}
+		
+		h2 {
+			font-size: 1.8em;
+			
+			@media SMALL_DESKTOP {
+				font-size: 1.5em;
+			}
+			
+			@media PHONE_AND_TABLET {
+				font-size: 1.5em;
+			}
+		}
 
 		@media SMALL_DESKTOP {
-	   		max-width: $postWidthSmall;
-	 	}
+			max-width: $postWidthSmall;
+		}
 
-	  	@media PHONE_AND_TABLET {
-	  		max-width: $postWidth;
-	  	}	
+		@media PHONE_AND_TABLET {
+			max-width: $postWidth;
+		}	
 	}	
 	
 	#footer {

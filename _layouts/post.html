@@ -10,7 +10,7 @@ layout: page
   <div class="byline">
     <span>By <a href="/" title="Varun Verma">Varun Verma</a></span>
     <time datetime="{{page.date | date: "%Y-%m-%d"}}">{{ page.date | date: "%B %e, %Y" }}</time>
-    <span class="views" data-slug="{{ page.url }}"></span>
+    <!-- <span class="views" data-slug="{{ page.url }}"></span> -->
     Tagged with
     <ul class="tags">
       {% for tag in page.tags %}
@@ -23,7 +23,8 @@ layout: page
 <article class='fade'>
 
   {{ content }}
-  {% if page.no_related != true and site.related_posts %}<p>(If you liked this, you might like <a href="{{ site.related_posts[0].url }}">{{ site.related_posts[0].title }}</a>.)</p>{% endif %}
+
+  {% if page.no_related and site.related_posts %}<p>(If you liked this, you might like <a href="{{ site.related_posts[0].url }}">{{ site.related_posts[0].title }}</a>.)</p>{% endif %}
 
 </article>
 
@@ -31,41 +32,40 @@ layout: page
   <h3>
     Thanks for reading!
     <a class="rss" href="https://varunest.com/atom.xml" title="Subscribe to the Varunest.com Feed">
-      <i class='fas fa-rss-square'></i>
+      <i class='fas fa-rss'></i>
     </a>
   </h3>
 
   <section class="copy">
     <p>
 
-        <a href="https://twitter.com/varunest" class="avatar">
-          <img src="/images/varun.jpg" width="250" alt="Varun Verma" />
-        </a>
-        I'm <a href="/">Varun</a>, an entrepreneur, programmer, open source maintainer, startup founder, and mad scientist.
+      <a href="https://twitter.com/varunest" class="avatar">
+        <img src="/images/varun.jpg" width="250" alt="Varun Verma" />
+      </a>
+      I'm <a href="/">Varun</a>, Co Founder of <a href="https://www.videoder.com">Videoder</a>, ex <a href="https://zomato.com">Zoman</a>, full stack developer, android developer, designer, entrepreneur, researcher, Dota player and fitness enthusiast.
+      <br />
+      <br />
 
-        <br />
-        <br />
 
+      {% if page.hn %}<br /><br />You can discuss, upvote, or poke fun at this post over at <a href="{{ page.hn }}">Hacker News</a>.{% endif %}
 
-        {% if page.hn %}<br /><br />You can discuss, upvote, or poke fun at this post over at <a href="{{ page.hn }}">Hacker News</a>.{% endif %}
+      If you enjoyed this post, you should <a href="https://twitter.com/varunest">follow me on Twitter</a>.
 
-        If you enjoyed this post, you should <a href="https://twitter.com/varunest">follow me on Twitter</a>.
+      <br />
+      <br />
 
-        <br />
-        <br />
-
-        Or, sign up to get an email whenever I write a post:
-        {% include subscribe.html %}
+      Or, sign up to get an email whenever I write a post:
+      {% include subscribe.html %}
     </p>
     
   </section>
 
 
   {% if page.previous.url %}
-    <a class="prev" href="{{ page.previous.url }}" title="Previous Post: {{ page.previous.title }}">{{ page.previous.title }}</a>
+  <a class="prev" href="{{ page.previous.url }}" title="Previous Post: {{ page.previous.title }}">{{ page.previous.title }}</a>
   {% endif %}
   {% if page.next.url %}
-    <a class="next" href="{{ page.next.url }}" title="Next Post: {{ page.next.title }}">{{ page.next.title }}</a>
+  <a class="next" href="{{ page.next.url }}" title="Next Post: {{ page.next.title }}">{{ page.next.title }}</a>
   {% endif %}
 
 

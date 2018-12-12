@@ -97,14 +97,14 @@ $(document).ready(function () {
       return botui.action.button({
         human: true,
         action: [
-          {
-            text: 'Yes 👍',
-            value: 1
-          },
-          {
-            text: 'Shut up already! 😷',
-            value: 2
-          }
+        {
+          text: 'Yes 👍',
+          value: 1
+        },
+        {
+          text: 'Shut up already! 😷',
+          value: 2
+        }
         ]
       })
     }).then(function (res) {
@@ -116,37 +116,32 @@ $(document).ready(function () {
     })
   } else if ($('body').hasClass('blog-index')) {
     $('#nav-blog').addClass('active')
-  }
-
-  // If this is a post, get post view count
-  if ($('body').hasClass('post')) {
-    var slug = $('.views').data('slug')
-    if (!slug) return console.error('missing view slug')
-    if (slug[slug.length - 1] === '/') slug = slug.slice(0, slug.length - 1)
-    $.ajax({
-      type: 'POST',
-      url: '/views',
-      data: {
-        slug: slug
-      },
-      dataType: 'json',
-      success: function (data) {
-        var views = addCommas(data.views)
-        $('.views').text(views + ' views')
-      },
-      error: function (data) {
-        $('.views').text('Lots of views')
-      }
-    })
-  }
-
-  if ($('body').hasClass('about')) {
+  } else if ($('body').hasClass('post')) {
+    // var slug = $('.views').data('slug')
+    // if (!slug) return console.error('missing view slug')
+    // if (slug[slug.length - 1] === '/') slug = slug.slice(0, slug.length - 1)
+    // $.ajax({
+    //   type: 'POST',
+    //   url: '/views',
+    //   data: {
+    //     slug: slug
+    //   },
+    //   dataType: 'json',
+    //   success: function (data) {
+    //     var views = addCommas(data.views)
+    //     $('.views').text(views + ' views')
+    //   },
+    //   error: function (data) {
+    //     $('.views').text('Lots of views')
+    //   }
+    // })
+  } else if ($('body').hasClass('about')) {
     var ageInDays = Math.floor((new Date() - new Date('1990-10-29T00:00:01.000Z')) / 1000 / 60 / 60 / 24)
     var ageInYears = Math.floor(ageInDays / 365)
     $('#ageInDays').html(' &mdash; that\'s ' + ageInDays + ' days to be exact!')
     $('#ageInYears').text(ageInYears)
   }
-})
+});
 
 var $window = $(window)
 
@@ -217,3 +212,16 @@ function fade (t) {
 $(function () {
   fade(t);
 });
+
+// Analytics
+var ref = document.referrer;
+ga('send', 'event', 'referal', ref);
+
+// Set tracking on all links.
+$('a').click(function() {
+  action = $(this).attr('data-action');
+  if (action) {
+    ga('send', 'event', 'click', action);  
+  }
+});
+
