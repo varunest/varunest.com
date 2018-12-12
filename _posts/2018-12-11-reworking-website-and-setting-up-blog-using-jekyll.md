@@ -1,13 +1,12 @@
 ---
+title: Reworking website and setting up blog using Jekyll
 layout: post
 class: post
-title: Reworking website and setting up blog using Jekyll
-summary: Why use Jekyll, Ruby based static site generator and how to setup a blog using it. 
+summary: Benefits of Jekyll, Ruby based static site generator and how to setup a blog using it.
 tags:
 - website
 - design
 - jekyll
-summary: 
 ---
 
 All of my posts are written in Markdown and the blog is powered by [Jekyll](https://github.com/mojombo/jekyll), a static site generator that takes Markdown blog posts and converts them into HTML files. I went for this approach (and not Wordpress or any other CMS for that matter) because:
