@@ -9,7 +9,7 @@ Hi, I'm Varun and this is the source code for my blog, [https://varunest.com](ht
 ## Run it
 
 ### Install dependencies
-Please note that on Mojave `install-system-deps` will fail if you havn't install Ruby using HomeBrew. Follow [this](https://desiredpersona.com/install-jekyll-on-macos/) guide to install Jekyll before running following commands.
+Please note that on Mojave `install-system-deps` will fail if you do not have installed Ruby using HomeBrew. Follow [this](https://desiredpersona.com/install-jekyll-on-macos/) guide to install Jekyll before running following commands.
 
 ```bash
 npm install
