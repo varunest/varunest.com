@@ -75,8 +75,6 @@
     {% include footer.html %}
 </div>
 
-<script src="/client/bundle.js"></script>
-
 {% if page.demo %}
 <!-- Page-specific demo code -->
 {{ page.demo }}
@@ -100,6 +98,8 @@
   window.ga('send', 'pageview')
 </script>
 <script async src="https://www.google-analytics.com/analytics.js"></script>
+<script async src="/client/bundle.js"></script>
+
 
 <!-- StatCounter -->
 <!--<script>-->
