@@ -215,13 +215,13 @@ $(function () {
 
 // Analytics
 var ref = document.referrer;
-ga('send', 'event', 'referal', ref);
+window.ga('send', 'event', 'referal', ref);
 
 // Set tracking on all links.
 $('a').click(function() {
   action = $(this).attr('data-action');
   if (action) {
-    ga('send', 'event', 'click', action);  
+    window.ga('send', 'event', 'click', action);
   }
 });
 
