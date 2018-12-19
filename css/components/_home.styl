@@ -27,10 +27,8 @@
       @media PHONE_AND_TABLET {
       }
 
-      h2{
+      h2 {
         position: relative;
-        text-decoration: underline;
-        text-decoration-color: #0000000f;
         z-index: 10;
         margin-top: 25px;
 
@@ -76,7 +74,11 @@
       }
 
       .subscribe-text {
-        margin: 10px 0 0 0;
+        margin: -80px 0 0 0;
+
+        @media SMALL_DESKTOP {
+          margin: 15px 0 0 0;
+        }
 
         @media PHONE_AND_TABLET {
           display: block;
@@ -84,6 +86,7 @@
           margin-top: 20px;
         }
       }
+
       .subscription-form {
 
         @media PHONE_AND_TABLET {
@@ -103,7 +106,7 @@
         height: 450px;
         margin: auto;
         border-radius: 8px 8px 0 0;
-        margin-top: 55px;
+        margin-top: 65px;
         animation-name: chatbox-bounce;
         animation-duration: 1s;
         animation-delay: 1.2s;
@@ -112,6 +115,7 @@
         border-bottom: 3px solid $lightestGray;
 
         @media SMALL_DESKTOP {
+          margin-top: 55px;
         }
       }
     }
@@ -184,6 +188,7 @@
       @media PHONE {
         grid-column: 1 ;
       }
+
       img {
         height: auto;
       }
@@ -229,6 +234,7 @@
       margin: 0;
       showcaseImage();
     }
+
     .grid {
       margin-top: 27px;
       display: grid;
@@ -244,6 +250,7 @@
   .fun-projects {
     position: relative;
     z-index: 10;
+
     .grid-item {
       display: inline-block;
       margin-top: 50px;
@@ -306,4 +313,9 @@
       margin: 0 0 26px 0;
     }
   }
+
+  .section:nth-child(1) {
+    margin-top: 50px !important;
+  }
+
 }
