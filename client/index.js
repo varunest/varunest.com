@@ -64,7 +64,7 @@ $(document).ready(function () {
       return botui.message.add({
         loading: true,
         delay: 2000,
-        content: '![](https://send.ewebdesign.com/source/59f83dc6cea7e/come.gif?1509453577048) It seems you are in a hurry! <br>Feel free to explore website or drop me a mail at [hi@varunest.com](mailto:hi@varunest.com)'
+        content: '![](https://send.ewebdesign.com/source/59f83dc6cea7e/come.gif?1509453577048) It seems you are in a hurry! <br>Feel free to explore website or drop me a mail at [mailvarunest@gmail.com](mailto:mailvarunest@gmail.com)'
       })
     })
   }
