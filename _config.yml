@@ -1,6 +1,4 @@
 exclude: [config.rb, nginx.conf, node_modules, package.json, README.md, supervisor.conf]
-markdown: rdiscount
+markdown: kramdown
 highlighter: true
 permalink: /blog/:title
-rdiscount:
-  extensions: [smart]
