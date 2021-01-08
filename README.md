@@ -43,7 +43,7 @@ npm test
 ### Publish site
 
 ```bash
-npm run publish
+npm run deploy
 ```
 
 On the server, I serve the generated files with `nginx` and run the Node.js app using `Supervisord` (to restart the app if it crashes).
