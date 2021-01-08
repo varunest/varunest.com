@@ -121,6 +121,25 @@
     }
   }
 
+  .uber {
+    .grid img {
+      margin: 0;
+      background: black;
+      showcaseImage();
+    }
+
+    .grid {
+      margin-top: 27px;
+      display: grid;
+      grid-template-columns: 416px;
+
+      @media PHONE {
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+      }
+    }
+  }
+
   .videoder {
     .grid img {
       margin: 0;
