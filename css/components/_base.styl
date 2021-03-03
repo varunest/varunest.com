@@ -19,11 +19,11 @@ $red = #E22C29;
 $pink = #EB3682;
 $darkPink = #c22267;
 $white = #FFF;
-$lightestGray = #EEE;
-$lighterGray = #b7b7b7;
-$lightGray = #878787;
-$gray = #666;
-$darkGray = #4A4A4A;
+$lightestGray = #ECEFF1;
+$lighterGray = #B0BEC5;
+$lightGray = #78909C;
+$gray = #37474F;
+$darkGray = #263238;
 $darkerGray = #333;
 $black = #000;
 
@@ -33,12 +33,12 @@ $adBorderColor = $lightestGray;
 
 .clearfix:before, .clearfix:after {
   content: ""
-  display: table  
+  display: table
 }
 
 
 .clearfix:after {
-  clear: both  
+  clear: both
 }
 
 
@@ -126,12 +126,13 @@ body {
     transition: .4s all ease;
     text-decoration: underline
     text-decoration-color: $lighterGray;
+    text-decoration-thickness: 2px;
     {$link} {
       color: $black;
     }
     {$focus} {
       transition: .4s all ease;
-      color: $lighterGray;
+      color: $pink;
     }
   }
 
@@ -328,7 +329,7 @@ body {
         }
 
         a.active {
-          color: $lighterGray;
+          color: $lightGray;
         }
       }
 
@@ -556,7 +557,7 @@ body {
         outline-width: 0;
       }
     }
-    
+
     .button {
       display: inline-block;
       margin-left: 10px;
