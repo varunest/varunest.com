@@ -5,30 +5,34 @@ class: blog-index
 ---
 
 <div class="left">
-    <h2 class="fade"><img src="/images/pencil.svg" class="fas fa-pencil-alt"/> Here is what I wrote</h2>
+    <h2 class="fade">Here is what I wrote</h2>
     <ul class="fade listings">
         {% for post in site.posts %}
         <li>
             <h3>
-                <a href="{{ post.url }}"><span>{{ post.title }}</span></a>
+                <img src="/images/pencil.svg" class="fas fa-pencil-alt" /><a href="{{ post.url }}"><span>{{ post.title
+                        }}</span></a>
             </h3>
-            <time datetime="{{post.date | date: "%Y-%m-%d"}}">
-            {{ post.date | date: "%B %e, %Y" }}
-            {% if post.github %}.
-            Code on <a href="{{ post.github }}">GitHub</a>.
-            {% endif %}
+            <time datetime="{{post.date | date: " %Y-%m-%d"}}">
+                {{ post.date | date: "%B %e, %Y" }}
+                {% if post.github %}
+                    • Code on <a href="{{ post.github }}">GitHub</a>.
+                {% endif %}
             </time>
+            {{ post.content | split:'<!--break-->' | first }}
+            {% if post.content contains '<!--break-->' %}
+                </br><a href="{{ post.url }}">Continue reading></a>
+            {% endif %}
         </li>
-    {% endfor %}
+        {% endfor %}
     </ul>
 </div>
 
 <div class="right">
-    <h2 class="fade">Hey There!</h2>
-
-    <p class="fade">I'm Varun Verma and this is my blog.</p>
-
-    <img id="main-image" src="/images/varun.jpg"/>
+    <section class="copy">
+        <img id="main-image" src="/images/varun.jpg" />
+        {% include bio.html %}
+    </section>
 
     <div class="twitter-feed" class="fade">
         <a class="twitter-timeline" href="https://twitter.com/varunest?ref_src=twsrc%5Etfw" data-height="500"></a>

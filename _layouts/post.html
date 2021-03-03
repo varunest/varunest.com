@@ -43,10 +43,7 @@ layout: page
       <a href="https://twitter.com/varunest" class="avatar">
         <img src="/images/varun.jpg" width="250" alt="Varun Verma" />
       </a>
-      I'm <a href="/">Varun</a>, Co Founder of <a href="https://www.videoder.com">Videoder</a>, ex <a href="https://zomato.com">Zoman</a>, full stack developer, android developer, designer, entrepreneur, researcher, Dota player and fitness enthusiast.
-      <br />
-      <br />
-
+      {% include bio.html %}
 
       {% if page.hn %}<br /><br />You can discuss, upvote, or poke fun at this post over at <a href="{{ page.hn }}">Hacker News</a>.{% endif %}
 
@@ -58,7 +55,7 @@ layout: page
       Or, sign up to get an email whenever I write a post:
       {% include subscribe.html %}
     </p>
-    
+
   </section>
 
 
