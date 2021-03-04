@@ -178,10 +178,6 @@ var onScrollOrResize = function (event) {
         $header.removeClass('sticky')
         $brandComma.show(200)
     }
-
-    $footerLaptop.css('transform', 'translate(-' + dfb / 10 + 'px,' + dfb / 8 + 'px)')
-    $footerCoffee.css('transform', 'translate(' + 0 + 'px,' + dfb / 8 + 'px)')
-    $footerLights.css('transform', 'translateY(-' + dfb / 10 + 'px)')
 }
 
 window.addEventListener('scroll', onScrollOrResize)
