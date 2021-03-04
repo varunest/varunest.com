@@ -15,3 +15,7 @@ node_modules/*
 # Varunest.com
 secret.js
 css/main.css
+
+#Mac OS
+.DS_Store
+.jekyll-cache/*
