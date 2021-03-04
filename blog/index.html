@@ -21,7 +21,7 @@ class: blog-index
             </time>
             {{ post.content | split:'<!--break-->' | first }}
             {% if post.content contains '<!--break-->' %}
-                </br><a class="continue-reading" href="{{ post.url }}">Continue reading</a>
+                <a class="continue-reading" href="{{ post.url }}">Continue reading</a>
             {% endif %}
         </li>
         {% endfor %}
