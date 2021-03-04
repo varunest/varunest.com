@@ -37,6 +37,14 @@
         }
       }
 
+      .continue-reading {
+        &:after {
+          content: "≫";
+          position: absolute;
+          margin-left: 3px;
+        }
+      }
+
       li {
         margin-top: 5px;
 
@@ -60,6 +68,7 @@
       min-height: 500px;
     }
     #main-image {
+      max-width: 300px;
 			showcaseImage();
     }
   }

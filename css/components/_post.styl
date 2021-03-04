@@ -90,21 +90,8 @@
 
 	#next-prev-container {
 		display: flow-root;
-		padding: 10px 20px 20px 20px;
+		padding: 0px 20px;
 		clear: both;
-		border-bottom: 2px solid $lightestGray;
-
-		&:before {
-			content: "≪";
-			position: absolute;
-      left: 3px;
-		}
-
-		&:after {
-			content: "≫";
-			position: absolute;
-      right: 3px;
-		}
 
 		@media PHONE_AND_TABLET {
 			display: none;
@@ -112,12 +99,23 @@
 
 		a.prev {
 		float: left;
+
+			&:before {
+				content: "≪";
+				position: absolute;
+				left: 3px;
+			}
 		}
 
 		a.next {
 			float: right;
 			text-align: right;
 
+			&:after {
+				content: "≫";
+				position: absolute;
+				right: 3px;
+			}
 		}
 
 		a.prev, a.next {
@@ -125,6 +123,7 @@
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			overflow: hidden;
+			font-weight: bold;
 			//text-decoration: none;
 			color: $gray;
 
