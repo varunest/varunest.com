@@ -9,9 +9,9 @@ layout: page
   </h1>
 
   <div class="byline">
-    <span>By <a href="/" title="Varun Verma">Varun Verma</a></span>
     <time datetime="{{page.date | date: "%Y-%m-%d"}}">{{ page.date | date: "%B %e, %Y" }}</time>
-    <!-- <span class="views" data-slug="{{ page.url }}"></span> -->
+     •
+    <span class="views" data-slug="{{ page.url }}"></span>
     Tagged with
     <ul class="tags">
       {% for tag in page.tags %}
@@ -55,17 +55,16 @@ layout: page
       Or, sign up to get an email whenever I write a post:
       {% include subscribe.html %}
     </p>
-
   </section>
 
-
-  {% if page.previous.url %}
-  <a class="prev" href="{{ page.previous.url }}" title="Previous Post: {{ page.previous.title }}">{{ page.previous.title }}</a>
-  {% endif %}
-  {% if page.next.url %}
-  <a class="next" href="{{ page.next.url }}" title="Next Post: {{ page.next.title }}">{{ page.next.title }}</a>
-  {% endif %}
-
+  <div id="next-prev-container">
+    {% if page.previous.url %}
+    <a class="prev" href="{{ page.previous.url }}" title="Previous Post: {{ page.previous.title }}">{{ page.previous.title }}</a>
+    {% endif %}
+    {% if page.next.url %}
+    <a class="next" href="{{ page.next.url }}" title="Next Post: {{ page.next.title }}">{{ page.next.title }}</a>
+    {% endif %}
+  </div>
 
   <div id="disqus_thread"></div>
   <script>
