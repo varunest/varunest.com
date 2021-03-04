@@ -17,10 +17,10 @@
 	}
 
 	// Add bullets between byline items
-	.byline > *:not(:last-child):after {
-		content: " \2022 ";
-		padding: 0 0.4em;
-	}
+	//.byline > *:not(:last-child):after {
+  //		content: " \2022 ";
+	//	padding: 0 0.4em;
+	//}
 
 	// Inline the tag list
 	.tags {
@@ -88,59 +88,49 @@
 		}
 	}
 
-	a.prev {
-		left: -120px;
-		transform: rotate(-90deg);
-	}
-
-	a.next {
-		right: -120px;
-		transform: rotate(90deg);
-	}
-
-	a.prev, a.next {
-		display: block;
-		font-size: 1.1em;
-		font-weight: normal;
-		opacity: 0.7;
-		overflow: hidden;
-		padding: 50px;
-		position: fixed;
-		text-align: center;
-		text-decoration: none;
-		text-overflow: ellipsis;
-		top: 45%;
-		width: 250px;
-		white-space: nowrap;
-		z-index: 2;
-
-		&:hover {
-			opacity: 1 !important;
-		}
-
-		&.hidden, &.hidden:hover {
-			display: none;
-		}
+	#next-prev-container {
+		display: flow-root;
+		padding: 10px 20px 20px 20px;
+		clear: both;
+		border-bottom: 2px solid $lightestGray;
 
 		&:before {
-			content: "";
-			background: url('/images/up.png');
-			background-size: cover;
-			background-repeat: no-repeat;
-			height: 24px;
-			left: 50%;
-			margin-left: -12px;
+			content: "≪";
 			position: absolute;
-			top: 25px;
-			width: 24px;
+      left: 3px;
 		}
 
-		@media SMALL_DESKTOP {
-			font-size: 1.0em;
+		&:after {
+			content: "≫";
+			position: absolute;
+      right: 3px;
 		}
 
 		@media PHONE_AND_TABLET {
 			display: none;
+		}
+
+		a.prev {
+		float: left;
+		}
+
+		a.next {
+			float: right;
+			text-align: right;
+
+		}
+
+		a.prev, a.next {
+			width: 45%;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+			//text-decoration: none;
+			color: $gray;
+
+			&:hover {
+				color: $pink;
+			}
 		}
 	}
 
