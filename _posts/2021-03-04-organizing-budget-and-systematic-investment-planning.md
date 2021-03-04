@@ -32,7 +32,7 @@ High risk options are speculative and may or may not give return on principle in
 ## Systematic Investment Planning
 With available amount that needs to be invested monthly and shortlisted investment options, I look at how the Risk Ratio should be structured, depending on how bullish and bearish the market is. So it essentially boils down to:
 
-> ‘Be fearful when others are greedy. Be greedy when others are fearful.’
+> ‘Be fearful when others are greedy. Be greedy when others are fearful.’\
 > — Warren Buffett
 
 I increase investment in high risk options when I notice if market is undervalued and decrease it otherwise. So in the [sheet](https://docs.google.com/spreadsheets/d/1L8FKH-a6_kZPzypsgofT6MsRa5JtArf7rmGRqlFskW4/edit#gid=0){:target="_blank"} I have created risk variables which I update according to ongoing market situation, it then tells me how much I have available to invest in the risk categories individually and how much I already have invested.
