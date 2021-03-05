@@ -10,8 +10,7 @@ class: blog-index
         {% for post in site.posts %}
         <li>
             <h3>
-                <img src="/images/pencil.svg" class="fas fa-pencil-alt" /><a href="{{ post.url }}"><span>{{ post.title
-                        }}</span></a>
+                <img src="/images/pencil.svg" class="fas fa-pencil-alt" /><a href="{{ post.url }}"><span>{{ post.title }}</span></a>
             </h3>
             <time datetime="{{post.date | date: " %Y-%m-%d"}}">
                 {{ post.date | date: "%B %e, %Y" }}
@@ -30,7 +29,7 @@ class: blog-index
 
 <div class="right">
     <section class="copy">
-        <img id="main-image" src="/images/varun.jpg" />
+        <img id="main-image" src="/images/varun_manali.jpg" />
         {% include bio.html %}
     </section>
 
