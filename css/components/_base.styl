@@ -1,9 +1,9 @@
 // Variables
 
 // Fonts
-@import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+128+Text&family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@900&family=Roboto&display=swap');
 $sans-serif = 'Roboto', sans-serif;
-$header-font = 'Roboto', sans-serif;
+$header-font = 'Lato', sans-serif;
 
 // Post width
 $fullWidth = 1060px;
@@ -27,7 +27,7 @@ $lightGray = #78909C;
 $gray = #37474F;
 $darkGray = #263238;
 $darkerGray = #333;
-$black = #212121;
+$black = #263238;
 
 $bgColor = #FFFFFF;
 $adColor = desaturate(darken($bgColor, 3%), 60%);
@@ -38,11 +38,9 @@ $adBorderColor = $lightestGray;
   display: table
 }
 
-
 .clearfix:after {
   clear: both
 }
-
 
 $link = '&:link, &:visited';
 $focus = '&:hover, &:focus, &:active';
@@ -72,6 +70,7 @@ body {
     font-size: 16px;
     line-height: 1em;
     margin-bottom: 20px;
+    padding-bottom: 30px;
   }
 }
 
@@ -144,7 +143,7 @@ body {
     font-family: $header-font;
     color: $black;
     line-height: 1.2em;
-    font-weight: 700;
+    font-weight: 900;
 
     a {
       font-weight: 900;
@@ -251,6 +250,7 @@ body {
 
   li {
     margin: 0.3em 0;
+    line-height: 1.7em;
   }
 
   abbr[title] {
@@ -293,8 +293,7 @@ body {
     }
 
     h1 {
-      font-family: 'Libre Barcode 128 Text', cursive;
-      font-size: 2.5em;
+      font-size: 1.8em;
       font-weight: 900;
       margin: 60px 0 20px 0;
       display: inline-block;
@@ -323,7 +322,7 @@ body {
       list-style-type: none;
       padding-left: 55px;
       position: relative;
-      top: 0px;
+      top: -3px;
 
       li {
         display: inline-block;
@@ -384,7 +383,7 @@ body {
 
     h1 {
       margin-top: 5px;
-      margin-bottom: 2px;
+      margin-bottom: 15px;
     }
 
     ul {

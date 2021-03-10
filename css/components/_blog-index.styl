@@ -6,6 +6,7 @@
       margin-top: 35px;
       border-bottom: 2px solid $lightestGray;
       font-size: 3em;
+      margin-bottom: 0px;
 
       @media PHONE_AND_TABLET {
         font-size: 2em;
@@ -41,7 +42,7 @@
           }
 
           @media PHONE_AND_TABLET {
-            width: 20px;
+            width: 18px;
           }
         }
       }
@@ -92,8 +93,12 @@
       border-radius: 4px;
       padding: 5px 10px;
 
+      @media PHONE_AND_TABLET {
+        padding: 5px 0px;
+      }
+
       #main-image {
-        max-width: 250px;
+        max-width: 300px;
         border-radius: 50% !important;
 			  showcaseImage();
       }
