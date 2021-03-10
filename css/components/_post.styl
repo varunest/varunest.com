@@ -50,7 +50,7 @@
 	}
 
 	.meta {
-		margin-top: 50px;
+		margin-top: 10px;
 		h3 {
 			border-bottom: 2px solid $lightestGray;
 			padding-bottom: 15px;
@@ -67,9 +67,17 @@
 		margin-top: 2em;
 		.avatar {
 			float: right;
+
+			@media PHONE_AND_TABLET {
+				float: none;
+			}
 			img {
 				margin: 0 0 15px 15px;
 				showcaseImage();
+
+				@media PHONE_AND_TABLET {
+					margin: 0px auto;
+				}
 			}
 		}
 
