@@ -29,17 +29,17 @@ layout: page
 
 </article>
 
-<section class="meta fade">
-  <!-- Post navigation Control -->
-  <div id="next-prev-container">
-    {% if page.previous.url %}
-    <a class="prev" href="{{ page.previous.url }}" title="Previous Post: {{ page.previous.title }}">{{ page.previous.title }}</a>
-    {% endif %}
-    {% if page.next.url %}
-    <a class="next" href="{{ page.next.url }}" title="Next Post: {{ page.next.title }}">{{ page.next.title }}</a>
-    {% endif %}
-  </div>
+<!-- Post navigation Control -->
+<div id="next-prev-container" class="fade">
+  {% if page.previous.url %}
+  <a class="prev" href="{{ page.previous.url }}" title="Previous Post: {{ page.previous.title }}">{{ page.previous.title }}</a>
+  {% endif %}
+  {% if page.next.url %}
+  <a class="next" href="{{ page.next.url }}" title="Next Post: {{ page.next.title }}">{{ page.next.title }}</a>
+  {% endif %}
+</div>
 
+<section class="meta fade">
   <h3>
     Thanks for reading!
     <a class="rss" href="https://varunest.com/atom.xml" title="Subscribe to the Varunest.com Feed">
