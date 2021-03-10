@@ -1,7 +1,9 @@
 // Variables
 
 // Fonts
-$sans-serif = "lato", sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Ubuntu&display=swap');
+$sans-serif = 'Ubuntu', sans-serif;
+$header-font = 'Lato', sans-serif;
 
 // Post width
 $fullWidth = 1060px;
@@ -25,7 +27,7 @@ $lightGray = #78909C;
 $gray = #37474F;
 $darkGray = #263238;
 $darkerGray = #333;
-$black = #000;
+$black = #212121;
 
 $bgColor = #FFFFFF;
 $adColor = desaturate(darken($bgColor, 3%), 60%);
@@ -61,6 +63,7 @@ body {
   line-height: 1.5em;
   margin: 0;
   padding: 0;
+  font-size: 18px;
 
   @media SMALL_DESKTOP {
     font-size: 16px;
@@ -68,6 +71,7 @@ body {
   @media PHONE_AND_TABLET {
     font-size: 16px;
     line-height: 1em;
+    margin-bottom: 20px;
   }
 }
 
@@ -126,7 +130,7 @@ body {
     transition: .4s all ease;
     text-decoration: underline
     text-decoration-color: $lighterGray;
-    text-decoration-thickness: 2px;
+    text-decoration-thickness: 3px;
     {$link} {
       color: $black;
     }
@@ -137,6 +141,7 @@ body {
   }
 
   h1, h2, h3, h4 {
+    font-family: $header-font;
     color: $black;
     line-height: 1.2em;
     font-weight: 900;
@@ -287,7 +292,6 @@ body {
     }
 
     h1 {
-      font-family: $sans-serif;
       font-size: 1.875em;
       font-weight: 900;
       margin: 60px 0 20px 0;
