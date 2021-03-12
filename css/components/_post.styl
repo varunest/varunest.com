@@ -28,15 +28,25 @@
 
 	.tags li {
 		display: inline;
-	}
+		background: $pink;
+    border-radius: 4px;
+    padding: 2px 4px;
 
-	// Add commas between tags
-	.tags li:not(:last-child):after {
-		content: ", ";
+		a {
+			text-decoration: none;
+			{$link} {
+				color: white;
+			}
+			{$focus} {
+				color: white;
+			}
+		}
 	}
 
 	// Make tag links subtle gray
 	.byline a {
+		text-decoration: none;
+
 		{$link} {
 			color: $lightGray;
 		}
