@@ -16,7 +16,7 @@ I chose to use and configure google sheet for managing my investments. You can f
 **Note**: This post is about my approach and not about what is the best way to manage your finances or plan your budget. Please do your own research using different credible sources. Also the numbers used are placeholders and not real.
 
 ## Budget Planning
-I needed to figure out a way to have an easy mechanism to to get an estimate on approx lumsum amount I can invest monthly. For this I needed to sort my budget. I started with making list of how much I have to spend on **needs** or necessasities like food, rent, securities etc and then **wants** like netflix, phone, car, hangout expense etc.
+I needed to figure out a way to have an easy mechanism to get an estimate on approx lumsum amount I can invest monthly. For this I needed to sort my budget. I started with making list of how much I have to spend on **needs** or necessasities like food, rent, securities etc and then **wants** like netflix, phone, car, hangout expense etc.
 ![Expense screenshot](/images/posts/expenses.png)
 I created a [sheet](https://docs.google.com/spreadsheets/d/1L8FKH-a6_kZPzypsgofT6MsRa5JtArf7rmGRqlFskW4/edit#gid=1986981816){:target="_blank"} where I logged all these details and then used these values and basic excel functions to get difference between cash inflow and outflow. Difference is what I had available to invest.
 ![Income screenshot](/images/posts/incomes.png)
