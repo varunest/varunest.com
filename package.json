@@ -23,7 +23,7 @@
     "standard": "*",
     "stylus": "^0.54.5",
     "uglify-js": "^3.3.12",
-    "watchify": "^3.7.0"
+    "watchify": "^3.11.1"
   },
   "homepage": "https://varunest.com",
   "keywords": [
