@@ -5,12 +5,11 @@ class: blog-index
 ---
 
 <div class="left">
-    <h2 class="fade">Here is what I wrote</h2>
     <ul class="fade listings">
         {% for post in site.posts %}
         <li>
             <h3>
-                <img src="/images/pencil.svg" class="fas fa-pencil-alt" /><a href="{{ post.url }}"><span>{{ post.title }}</span></a>
+                <a href="{{ post.url }}"><span>{{ post.title }}</span></a>
             </h3>
             <time datetime="{{post.date | date: " %Y-%m-%d"}}">
                 {{ post.date | date: "%B %e, %Y" }}
