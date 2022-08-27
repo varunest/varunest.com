@@ -16,6 +16,8 @@ npm install
 npm run install-system-deps # macOS only
 ```
 
+Fix ruby issue for using older ffi version using webrick as mentioned here in solution [solution](https://www.shouvikbasak.net/website/jekyll-on-macos-apple-m1-solved/)
+ 
 ### Build site
 
 ```bash
