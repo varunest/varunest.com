@@ -2,6 +2,16 @@
 	position: relative;
 	z-index: 10;
 
+	img {
+        float: left;
+		margin: 0px 20px 0px 0px;
+
+          @media PHONE_AND_TABLET {
+            float: none;
+            margin: 20px auto;
+          }
+    }
+
 	.byline {
 		color: $lightGray;
 		font-size: 0.9em;
@@ -150,7 +160,7 @@
 	.post-header {
 		padding-bottom: 20px;
 		margin-bottom: 30px;
-		border-bottom: 2px solid $lightestGray;
+		border-bottom: 3px dotted $lighterGray;
 
 		@media PHONE_AND_TABLET {
 			text-align: center;
