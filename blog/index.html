@@ -12,9 +12,12 @@ class: blog-index
                 <a href="{{ post.url }}"><span>{{ post.title }}</span></a>
             </h3>
             <time datetime="{{post.date | date: " %Y-%m-%d"}}">
-                {{ post.date | date: "%B %e, %Y" }}
+                {{ post.date | date: "%B %e, %Y" }} 
+                {% if post.rating %}
+                | Rating: {{ post.rating }} ⭐️
+                {% endif %}
                 {% if post.github %}
-                    • Code on <a href="{{ post.github }}">GitHub</a>.
+                    | Code on <a href="{{ post.github }}">GitHub</a>.
                 {% endif %}
             </time>
             {{ post.content | split:'<!--break-->' | first }}
