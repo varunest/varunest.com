@@ -4,7 +4,6 @@
     h2 {
       padding-bottom: 23px;
       margin-top: 35px;
-      border-bottom: 2px solid $lightestGray;
       font-size: 3em;
       margin-bottom: 0px;
 
@@ -15,7 +14,7 @@
     }
 
     .listings {
-      border-top: 3px dashed $lighterGray;
+      border-top: 3px dotted $lighterGray;
       list-style-type none;
       padding-left: 0px;
       margin-top: 0px;
@@ -59,6 +58,18 @@
 
       li {
         margin-top: 5px;
+        display: inline-block;
+
+        img {
+        float: left;
+        margin-right: 20px;
+        margin-top: -5px
+
+          @media PHONE_AND_TABLET {
+            float: none;
+            margin: 20px auto;
+          }
+        }
 
         time {
           color: $lightGray;
@@ -91,9 +102,9 @@
     }
 
     .copy {
-      border-radius: 4px;
+      border-radius: 10px;
       padding: 5px 10px;
-      border: solid 1px #cbcbcb;
+      border: solid 1px $lighterGray;
       display: flex;
       font-size: 0.8em;
 
