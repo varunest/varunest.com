@@ -10,9 +10,12 @@ layout: page
 
   <div class="byline">
     <time datetime="{{page.date | date: "%Y-%m-%d"}}">{{ page.date | date: "%B %e, %Y" }}</time>
-     •
+    {% if page.rating %}
+     | Rating: {{ page.rating }} ⭐️
+    {% endif %}
+     |
     <span class="views" data-slug="{{ page.url }}"></span>
-    Tagged with
+    Tagged with: 
     <ul class="tags">
       {% for tag in page.tags %}
       <li><a href="/tag/{{ tag }}/">{{ tag | replace: '-', ' ' }}</a></li>

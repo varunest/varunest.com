@@ -3,6 +3,7 @@ title: A Biography that beautifully captures different facets of J. R. D. Tata's
 layout: post
 class: post
 summary: Book review of "Beyond the blue mountains" by R.M. Lala
+rating: 5/5
 tags:
 - book-review
 ---
