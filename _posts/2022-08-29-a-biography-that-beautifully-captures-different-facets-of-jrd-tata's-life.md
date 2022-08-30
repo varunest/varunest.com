@@ -7,7 +7,7 @@ rating: 5/5
 tags:
 - book-review
 ---
-![Beyond the last blue mountain - Book Cover](/images/posts/beyond_the_last_blue_mountain.jpg) I had often heard mentions of Tata's and their legacy but knew close to nothing about vastness of their contribution to India's foundation until I picked up this biography "[Beyond the last blue mountain](https://www.goodreads.com/book/show/1753947.Beyond_The_Last_Blue_Mountain){:target="_blank"}" by R. M. Lala.  
+![Beyond the last blue mountain - Book Cover](/images/posts/beyond_the_last_blue_mountain.jpg) I often heard mentions of Tata's and their legacy but knew close to nothing about vastness of their contribution to India's foundation until I picked up this biography "[Beyond the last blue mountain](https://www.goodreads.com/book/show/1753947.Beyond_The_Last_Blue_Mountain){:target="_blank"}" by R. M. Lala.  
 
 After finishing this book I was left in a state of awe and admiration for J. R. D. Tata (Jeh). Its unbelievable that a person can be so humble yet so determined and has such humongous achievements under his belt.
 
