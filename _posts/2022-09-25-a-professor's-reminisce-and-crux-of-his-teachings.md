@@ -13,13 +13,13 @@ Book review of "[The last lecture](https://www.goodreads.com/book/show/40611510-
 
 <!--break-->
 
-The recording of the lecture is [available on the youtube](https://www.youtube.com/watch?v=ji5_MqicxSo&t=3873s&ab_channel=CarnegieMellonUniversity){:target="_blank"} as well, if you can't take out time to read the book, I would recommend to watch the 1.5hr lecture. 
+The recording of the lecture is [available on youtube](https://www.youtube.com/watch?v=ji5_MqicxSo&t=3873s&ab_channel=CarnegieMellonUniversity){:target="_blank"} as well, if you can't take out time to read the book, I would recommend watching the 1.5hr lecture. 
 
-Book has 61 chapters, each chapter is basically an advice by Randy that he believed in and himself adhered to. After ruminating Randy decides to spend significant time from his remaining life to deliver this lecture. He did so to leave a legacy and teachings for his children who were all of very small age at the time. 
+Book has 61 chapters, each chapter is advice by Randy that he believed in and adhered to. After ruminating Randy decides to spend a significant time of his remaining life preparing and delivering this lecture. He did so to leave a legacy and teachings for his children who were all of a very small age at the time. 
 
-Its definitely emotional, there were several occasions while reading this book when I was teary eyed. His way of living and his accomplishments is something to look up to. The way he articulated and summarized ideas that just pierce through is impressive. 
+While reading there were several occasions when I was teary-eyed. His way of living and his accomplishments is something to look up to. The way he articulated and summarized ideas that just pierce through is impressive. 
 
-This book has a lot to offer. Leaving some quotes that I found hard hitting:
+This book has a lot to offer. Leaving some quotes that I found hard-hitting:
 
 > When you see yourself doing something badly and nobody’s bothering to tell you anymore, that’s a bad place to be. You may not want to hear it, but your critics are often the ones telling you they still love you and care about you, and want to make you better
 
