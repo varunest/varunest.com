@@ -48,11 +48,15 @@
       }
 
       .continue-reading {
-        display:block;
-        &:after {
-          content: "≫";
-          position: absolute;
-          margin-left: 3px;
+        background: $pink;
+        padding: 5px 10px;
+        color: white;
+        text-decoration: none;
+        font-size: .8em;
+        border-radius: 5px;
+
+        &:hover {
+          box-shadow: 2px 5px 10px $lightPink;
         }
       }
 
