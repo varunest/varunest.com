@@ -21,7 +21,7 @@ This is the story of the man who gave aviation, laid out labor ethics, uplifted 
 
 Author has done a splendid job of capturing details around incidents and phases of J. R. D Tata's life. He has structured in a way that that brings out Tata's colorful personality.
 
->In the five years I have spent working on this book I have got to know him intimately. In this short span of time I have been able to see how his sympathies have widened. His sensitivity to other people has sharpened as one year yields to the next. The body weakens as it must, but the spirit shines brighter. And as the evening mellows and the shadows lengthen, somewhere above in the sky, in an invisible Puss Moth, is a voyager still pressing ahead to cross beyond the last blue mountain where a glorious sunset awaits him.\
+>In the five years I have spent working on this book I have got to know him intimately. In this short span of time I have been able to see how his sympathies have widened. His sensitivity to other people has sharpened as one year yields to the next. The body weakens as it must, but the spirit shines brighter. And as the evening mellows and the shadows lengthen, somewhere above in the sky, in an invisible Puss Moth, is a voyager still pressing ahead to cross beyond the last blue mountain where a glorious sunset awaits him.
 > -- R. M. Lala
 
 Book covers a bit of Tata's history, Jeh's childhood, passion towards aviation, Indian politics, Jeh's relations, ideologies and his vision for India and her future. Highly recommend reading this book!
