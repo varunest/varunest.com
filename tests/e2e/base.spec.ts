@@ -69,3 +69,32 @@ for (const width of [360, 1280, 1920, 2560]) {
     expect(cat.x + cat.width).toBeLessThanOrEqual(width);
   });
 }
+
+test("the cat's tail wags from its base instead of flying off", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/");
+  const tail = page.locator(".garden .tail");
+  // Where the tail joins the body (the path's first point), in screen pixels.
+  const base = () =>
+    tail.evaluate((el) => {
+      const p = el as SVGPathElement;
+      const pt = p.getPointAtLength(0);
+      const m = p.getScreenCTM()!;
+      return { x: pt.x * m.a + pt.y * m.c + m.e, y: pt.x * m.b + pt.y * m.d + m.f };
+    });
+  const centre = async () => {
+    const b = (await tail.boundingBox())!;
+    return { x: b.x + b.width / 2, y: b.y + b.height / 2 };
+  };
+  const restBase = await base();
+  const restCentre = await centre();
+  // Freeze the wag at its widest point (50% of the keyframes) and measure again.
+  await tail.evaluate((el) => {
+    (el as SVGElement).style.animation = "wag 1s linear -0.5s paused";
+  });
+  const midBase = await base();
+  const midCentre = await centre();
+  expect(Math.hypot(midBase.x - restBase.x, midBase.y - restBase.y)).toBeLessThan(4);
+  expect(Math.hypot(midCentre.x - restCentre.x, midCentre.y - restCentre.y)).toBeLessThan(15);
+  expect(Math.hypot(midCentre.x - restCentre.x, midCentre.y - restCentre.y)).toBeGreaterThan(1);
+});

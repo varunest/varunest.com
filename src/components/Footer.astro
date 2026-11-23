@@ -70,7 +70,7 @@ import { SITE } from "../lib/site";
   .flower.b { fill: var(--pop2); }
   .stem, .line { stroke: var(--ink); stroke-width: 2.5; fill: none; }
   .fur { fill: var(--soft); stroke: var(--ink); stroke-width: 2.5; stroke-linejoin: round; }
-  .tail { stroke: var(--ink); stroke-width: 6; fill: none; stroke-linecap: round; transform-box: view-box; transform-origin: 448px 72px; }
+  .tail { stroke: var(--ink); stroke-width: 6; fill: none; stroke-linecap: round; transform-box: fill-box; transform-origin: 100% 100%; } /* pivot where the tail meets the body */
   .site-footer:hover .tail, .site-footer:focus-within .tail { animation: wag 0.5s ease-in-out 3; }
   @keyframes wag { 50% { transform: rotate(25deg); } }
   .zzz { font: 700 13px var(--body); fill: var(--soft); animation: z 2.4s ease-in-out infinite; }
