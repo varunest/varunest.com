@@ -24,6 +24,18 @@ test("a plain click does not change the theme", async ({ page }) => {
   expect(await theme(page)).toBe("light");
 });
 
+test("a tap nudges once and does not replay the sway", async ({ page }) => {
+  await page.goto("/");
+  await pull(page, 5);
+  await expect(page.locator(".cord")).not.toHaveClass(/nudge/);
+  await page.waitForTimeout(1200); // longer than the old 0.7s sway delay
+  const names = await page.locator(".cord").evaluate((el) =>
+    el.getAnimations().map((a) => (a as CSSAnimation).animationName),
+  );
+  expect(names).not.toContain("sway");
+  expect(names).not.toContain("nudge");
+});
+
 test("dragging 40px down toggles, and the choice survives reload", async ({ page }) => {
   await page.goto("/");
   await pull(page, 40);
