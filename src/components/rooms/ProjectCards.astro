@@ -1,0 +1,70 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import projects from "../../data/projects.json";
+import { getStars } from "../../lib/github";
+
+const files = import.meta.glob<{ default: ImageMetadata }>("../../assets/projects/*", { eager: true });
+const img = (f: string) => files[`../../assets/projects/${f}`].default;
+
+const withStars = await Promise.all(
+  projects.map(async (p) => ({
+    ...p,
+    stars: "repo" in p && p.repo ? await getStars(p.repo, p.starsFallback ?? 0) : null,
+  })),
+);
+---
+<ul class="projects">
+  {withStars.map((p) => (
+    <li class:list={["project", { feature: p.feature }]} style={`--c:${p.colour}`}>
+      <div class="media">
+        {p.images.map((im, i) => {
+          const meta = img(im.file);
+          const tilt = p.images.length > 1 ? `tilt${(i % 2) + 1}` : undefined;
+          // Animated GIFs are served as-is; converting them would freeze the animation.
+          return im.file.endsWith(".gif")
+            ? <img src={meta.src} alt={im.alt} class={tilt} width={meta.width} height={meta.height} loading="lazy" decoding="async" />
+            : <Image src={meta} alt={im.alt} class={tilt} widths={[240, 480]} sizes="240px" />;
+        })}
+      </div>
+      <div class="body">
+        <p class="role">{p.role} · {p.years}</p>
+        <h2>{p.name}</h2>
+        <p>{p.description}</p>
+        <p class="chips">
+          {p.chips.map((c) => <span class="chip">{c}</span>)}
+          {p.stars !== null && <span class="chip">{"starsLabel" in p && p.starsLabel ? `${p.starsLabel} ` : ""}★ {p.stars.toLocaleString("en-US")}</span>}
+        </p>
+        <p class="links">{p.links.map((l) => <a href={l.href}>{l.label} <span aria-hidden="true">→</span></a>)}</p>
+      </div>
+    </li>
+  ))}
+</ul>
+<p class="earlier">Earlier experiments: Crazy Driver, Movie Memo, Lazy Music and 9Facts.</p>
+
+<style>
+  .projects { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .project { display: grid; grid-template-rows: auto 1fr; overflow: hidden; border: 2px solid var(--ink); border-radius: 20px; background: var(--card); box-shadow: 0 6px 0 var(--ink); }
+  .project.feature { grid-column: 1 / -1; grid-template-columns: 1.1fr 1fr; grid-template-rows: none; }
+  .media {
+    display: flex; gap: 12px; justify-content: center; align-items: center; min-height: 240px; padding: 20px;
+    background: color-mix(in srgb, var(--c) 30%, var(--bg)); border-bottom: 2px solid var(--ink); overflow: hidden;
+  }
+  .feature .media { border-bottom: 0; border-right: 2px solid var(--ink); }
+  .media :global(img) { width: auto; max-width: 100%; height: auto; max-height: 200px; border: 2px solid var(--ink); border-radius: 12px; box-shadow: 0 4px 0 var(--ink); background: #fff; }
+  .media :global(.tilt1) { transform: rotate(-4deg); }
+  .media :global(.tilt2) { transform: rotate(3deg); }
+  .body { display: grid; gap: 6px; align-content: start; padding: 18px 22px 22px; }
+  .body p { margin: 0; }
+  .role { font-size: 14px; font-weight: 600; color: var(--soft); }
+  h2 { margin: 0; font-size: 28px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { padding: 2px 10px; border-radius: 99px; border: 1.5px solid var(--ink); background: color-mix(in srgb, var(--c) 35%, var(--card)); font-size: 13px; font-weight: 700; }
+  .links { display: flex; gap: 16px; font-weight: 700; }
+  .earlier { margin: 24px 0 0; color: var(--soft); }
+  @media (max-width: 760px) {
+    .projects { grid-template-columns: 1fr; }
+    .project.feature { grid-template-columns: 1fr; }
+    .feature .media { border-right: 0; border-bottom: 2px solid var(--ink); }
+  }
+</style>
