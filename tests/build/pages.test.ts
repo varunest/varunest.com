@@ -39,3 +39,11 @@ describe("posts, blog and tag pages", () => {
     }
   });
 });
+
+describe("comments", () => {
+  it("renders no comments section until Giscus ids are filled in", () => {
+    for (const s of slugs) {
+      expect(readFileSync(`dist/blog/${s}.html`, "utf8")).not.toContain('id="comments"');
+    }
+  });
+});
