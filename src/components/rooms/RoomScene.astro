@@ -99,9 +99,7 @@ const wire = Array.from({ length: SAGS }, (_, i) => {
     position: absolute; right: 40px; top: 112px; bottom: 44px; width: 360px; overflow: hidden;
     border: 6px solid var(--ink-fixed); border-bottom-width: 12px; border-radius: 6px 6px 2px 2px;
     background:
-      radial-gradient(ellipse 90% 70% at 50% 0%, rgba(var(--warm), 0.55), transparent 80%),
-      linear-gradient(rgba(var(--warm), 0.3), rgba(var(--warm), 0.1) 75%),
-      color-mix(in srgb, var(--c) 10%, #fff3df);
+      color-mix(in srgb, var(--c) 10%, #fff3df); /* daytime: lights off */
   }
   :global([data-theme="dark"]) .window {
     background:
@@ -127,12 +125,12 @@ const wire = Array.from({ length: SAGS }, (_, i) => {
   :global([data-theme="dark"]) .wire path { stroke: #8a7660; }
   .bulb {
     position: absolute; width: 13px; height: 17px; margin-left: -6.5px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    background: #ffe29a; border: 1.5px solid color-mix(in srgb, var(--ink-fixed) 70%, #8b6d47);
-    border-top: 4px solid var(--ink-fixed); box-shadow: 0 2px 8px 1px rgba(var(--warm), 0.55);
+    background: #f1ece2; /* unlit glass by day */
+    border: 1.5px solid color-mix(in srgb, var(--ink-fixed) 70%, #8b6d47); border-top: 4px solid var(--ink-fixed);
   }
   :global([data-theme="dark"]) .bulb { background: #fff0c2; box-shadow: 0 2px 12px 5px rgba(var(--warm), 0.6); }
   @media (prefers-reduced-motion: no-preference) {
-    .bulb { animation: twinkle 3.2s ease-in-out var(--d, 0s) infinite; }
+    :global([data-theme="dark"]) .bulb { animation: twinkle 3.2s ease-in-out var(--d, 0s) infinite; }
   }
   @keyframes twinkle { 50% { filter: brightness(0.82); } }
   .pavement {
@@ -144,7 +142,8 @@ const wire = Array.from({ length: SAGS }, (_, i) => {
     background: linear-gradient(rgba(var(--warm), 0.5), rgba(var(--warm), 0));
     clip-path: polygon(6% 0, 94% 0, 100% 100%, 0 100%);
   }
-  :global([data-theme="dark"]) .spill { background: linear-gradient(rgba(var(--warm), 0.38), rgba(var(--warm), 0)); }
+  .spill { opacity: 0; } /* lights only come on at night */
+  :global([data-theme="dark"]) .spill { opacity: 1; background: linear-gradient(rgba(var(--warm), 0.38), rgba(var(--warm), 0)); }
 
   @media (max-width: 900px) {
     .scene { height: auto; padding: 116px 18px 44px; display: grid; gap: 22px; }

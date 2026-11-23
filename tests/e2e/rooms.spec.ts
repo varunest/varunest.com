@@ -129,3 +129,33 @@ test("string lights hold still for reduced motion", async ({ page }) => {
   expect(names.length).toBeGreaterThanOrEqual(8);
   expect(names.every((n) => n === "none")).toBe(true);
 });
+
+for (const scheme of ["light", "dark"] as const) {
+  test(`shopfront lights are ${scheme === "light" ? "off" : "on"} in the ${scheme} theme`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: scheme, reducedMotion: "no-preference" });
+    await page.goto("/workshop");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", scheme);
+    const look = await page.evaluate(() => {
+      const q = (s: string) => document.querySelector(s)!;
+      const bulbs = [...document.querySelectorAll(".scene .lights .bulb")].map((b) => getComputedStyle(b));
+      return {
+        bulbGlow: bulbs.map((b) => b.boxShadow),
+        bulbAnim: bulbs.map((b) => b.animationName),
+        windowLight: getComputedStyle(q(".scene .window")).backgroundImage,
+        spill: getComputedStyle(q(".scene .spill")).opacity,
+      };
+    });
+    expect(look.bulbGlow.length).toBeGreaterThanOrEqual(8);
+    if (scheme === "light") {
+      expect(new Set(look.bulbGlow)).toEqual(new Set(["none"]));
+      expect(new Set(look.bulbAnim)).toEqual(new Set(["none"]));
+      expect(look.windowLight).toBe("none");
+      expect(look.spill).toBe("0");
+    } else {
+      expect(look.bulbGlow.every((s) => s !== "none")).toBe(true);
+      expect(look.bulbAnim.every((a) => a === "twinkle")).toBe(true);
+      expect(look.windowLight).toContain("gradient");
+      expect(look.spill).not.toBe("0");
+    }
+  });
+}
