@@ -57,12 +57,13 @@ const lights = Array.from({ length: 14 }, (_, i) => 640 + i * 20).map((x) => ({
   y: cableY(x).toFixed(1),
 }));
 ---
-<svg class="skyline" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
+<svg class="skyline" viewBox="0 0 1000 200" preserveAspectRatio="xMaxYMax slice" aria-hidden="true" focusable="false">
   <circle class="sun" cx="770" cy="118" r="54" />
   <g class="moon"><circle cx="560" cy="40" r="16" /><circle class="cut" cx="567" cy="35" r="14" /></g>
   <path class="stars" d={stars} />
   <path class="h1" d="M480 200V150Q560 110 640 140T820 120Q900 100 1000 130V200Z" />
   <path class="h2" d="M0 200V160Q80 130 170 150T360 140Q430 120 500 150V200Z" />
+  <path class="sutro" d="M174 150 185 84 196 150M185 84V70M180 106h10M177 128h16M181 98l8 8M189 98l-8 8" />
   <g class="city">
     <g class="bldg">
       {blocks.map(([x, y, w, h]) => <rect x={x} y={y} width={w} height={h} rx="2" />)}
@@ -134,7 +135,7 @@ const lights = Array.from({ length: 14 }, (_, i) => 640 + i * 20).map((x) => ({
     right: -24px;
     bottom: 0;
     width: calc(100% + 48px);
-    height: auto;
+    aspect-ratio: 5 / 1;
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
@@ -147,6 +148,7 @@ const lights = Array.from({ length: 14 }, (_, i) => 640 + i * 20).map((x) => ({
   .skyline .h1 { fill: var(--hill1); opacity: var(--hill1-o); }
   .skyline .h2 { fill: var(--hill2); opacity: var(--hill2-o); }
   .skyline .bldg { fill: var(--city); opacity: var(--city-o); }
+  .skyline .sutro { fill: none; stroke: var(--city); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; opacity: var(--city-o); }
   .skyline .bridge { color: var(--pop); opacity: 0.6; }
   .skyline .water { fill: var(--primary); opacity: 0.25; }
   .skyline .moon, .skyline .blights { opacity: var(--night); transition: opacity 0.6s; }
@@ -168,7 +170,10 @@ const lights = Array.from({ length: 14 }, (_, i) => 640 + i * 20).map((x) => ({
   @keyframes skyline-twinkle { 50% { opacity: 0.2; } }
 
   @media (max-width: 639px) {
-    .skyline .city { transform: scale(0.7); transform-box: fill-box; transform-origin: 50% 100%; }
+    /* Taller box, cropped to the right so the full bridge stays in view; the city
+       shrinks and tucks up against the bridge's left tower. */
+    .skyline { aspect-ratio: auto; height: 150px; }
+    .skyline .city { transform: translate(300px, 0) scale(0.6); transform-origin: 476px 190px; }
   }
 
   @media (prefers-reduced-motion: no-preference) {

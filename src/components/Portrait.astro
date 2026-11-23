@@ -140,6 +140,8 @@ import portrait from "../assets/portrait.webp";
     transform: scale(1);
   }
   @media (max-width: 680px) {
+    .portrait,
+    .portrait-card :global(img) { width: 180px; height: 180px; }
     .bubble { left: 0; }
   }
   @media (prefers-reduced-motion: reduce) {
