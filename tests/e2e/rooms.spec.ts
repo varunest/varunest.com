@@ -95,7 +95,7 @@ test("the lamp's glow hangs centred under its shade", async ({ page }) => {
   }
 });
 
-test("room header is a gallery placard: big title on the wall, label with blurb and count", async ({ page }) => {
+test("room header is a shopfront: awning, name on the fascia, count on an open sign, toy in the window", async ({ page }) => {
   const cases = [
     ["library", "The Library", "books"],
     ["workshop", "The Workshop", "4 projects"],
@@ -103,12 +103,23 @@ test("room header is a gallery placard: big title on the wall, label with blurb 
   for (const [room, name, count] of cases) {
     await page.goto(`/${room}`);
     const scene = page.locator("section.scene");
-    await expect(scene.locator(".sign")).toHaveCount(0);
-    await expect(scene.getByRole("heading", { level: 1 })).toHaveText(name);
-    const placard = scene.locator(".placard");
-    await expect(placard).toHaveCount(1);
-    await expect(placard).toContainText(count);
-    await expect(placard.locator(".blurb")).not.toBeEmpty();
+    await expect(scene.locator(".awning")).toHaveCount(1);
+    await expect(scene.locator(".fascia").getByRole("heading", { level: 1 })).toHaveText(name);
+    await expect(scene.locator(".fascia .blurb")).not.toBeEmpty();
+    await expect(scene.locator(".open-sign")).toContainText(count);
+    await expect(scene.locator(".window .stand .on")).toHaveCount(1);
     await expect(scene.getByRole("link", { name: "Home" })).toHaveAttribute("href", "/#rooms");
   }
+});
+
+test("the shop window is lit: lamp and glow inside the window, light spilling onto the pavement", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/workshop");
+  const win = (await page.locator("section.scene .window").boundingBox())!;
+  const lamp = (await page.locator("section.scene .window .lamp").boundingBox())!;
+  expect(lamp.x).toBeGreaterThan(win.x);
+  expect(lamp.x).toBeLessThan(win.x + win.width);
+  const spill = (await page.locator("section.scene .spill").boundingBox())!;
+  expect(spill.y).toBeGreaterThanOrEqual(win.y + win.height - 2);
+  expect(Math.abs(spill.x + spill.width / 2 - (win.x + win.width / 2))).toBeLessThanOrEqual(3);
 });

@@ -8,75 +8,122 @@ interface Props {
 const { room, blurb } = Astro.props;
 ---
 <section class="scene" style={`--c:${room.colour}`} aria-labelledby="room-h">
-  <div class="lamp" aria-hidden="true"><div class="glow"></div></div>
-  <div class="title">
-    <p class="crumb"><a href="/#rooms">Home</a> / {room.name}</p>
-    <h1 id="room-h">{room.name}</h1>
-    <div class="placard">
+  <div class="awning" aria-hidden="true"></div>
+  <div class="front">
+    <div class="fascia">
+      <p class="crumb"><a href="/#rooms">Home</a> / {room.name}</p>
+      <h1 id="room-h">{room.name}</h1>
       <p class="blurb">{blurb}</p>
-      {room.count && <p class="count">{room.count}</p>}
     </div>
+    {room.count && <p class="open-sign"><span class="dot" aria-hidden="true"></span>Open · {room.count}</p>}
   </div>
-  <div class="stand">
-    <div class="on"><slot name="toy" /></div>
-    <div class="top" aria-hidden="true"></div>
-    <div class="legs" aria-hidden="true"></div>
+  <div class="window">
+    <div class="lamp" aria-hidden="true"><div class="glow"></div></div>
+    <div class="stand">
+      <div class="on"><slot name="toy" /></div>
+      <div class="top" aria-hidden="true"></div>
+      <div class="legs" aria-hidden="true"></div>
+    </div>
+    <div class="glass" aria-hidden="true"></div>
   </div>
-  <div class="skirting" aria-hidden="true"></div>
-  <div class="boards" aria-hidden="true"></div>
+  <div class="spill" aria-hidden="true"></div>
+  <div class="pavement" aria-hidden="true"></div>
 </section>
 
 <style>
+  /* A little shopfront per room: striped awning in the room colour, the name on the fascia,
+     and the toy on display in a lit window that spills light onto the pavement. */
   .scene {
-    position: relative; height: 370px; margin: 8px 0 40px; border-radius: 18px; overflow: hidden;
+    --ink-fixed: #0f2a2e;
+    --warm: 255, 210, 122;
+    position: relative; height: 380px; margin: 8px 0 40px; border-radius: 18px; overflow: hidden;
     border: 2px solid var(--ink);
     background:
-      radial-gradient(circle, color-mix(in srgb, var(--c) 30%, transparent) 1.5px, transparent 2px) 0 0 / 22px 22px,
-      linear-gradient(color-mix(in srgb, var(--c) 22%, var(--bg)), color-mix(in srgb, var(--c) 10%, var(--bg)));
+      repeating-linear-gradient(0deg, transparent 0 22px, color-mix(in srgb, var(--c) 14%, transparent) 22px 24px),
+      color-mix(in srgb, var(--c) 16%, var(--bg));
   }
-  .skirting { position: absolute; left: 0; right: 0; bottom: 62px; height: 10px; background: color-mix(in srgb, var(--ink) 80%, var(--c)); }
-  .boards {
-    position: absolute; left: 0; right: 0; bottom: 0; height: 62px;
-    background: repeating-linear-gradient(90deg, color-mix(in srgb, #c7975c 70%, var(--bg)) 0 90px, color-mix(in srgb, #b5854b 70%, var(--bg)) 90px 92px);
+  .awning {
+    position: absolute; left: 0; right: 0; top: 0; height: 46px; z-index: 2;
+    background: repeating-linear-gradient(90deg, var(--c) 0 36px, #fff6ea 36px 72px);
+    border-bottom: 3px solid var(--ink-fixed);
   }
-  :global([data-theme="dark"]) .boards { background: repeating-linear-gradient(90deg, #3a2f25 0 90px, #2b231b 90px 92px); }
-  /* Gallery placard: the title is painted on the wall, the details sit on a small museum label. */
-  .title { position: absolute; left: 44px; top: 44px; max-width: 440px; z-index: 1; }
-  .crumb { margin: 0; font-size: 14px; font-weight: 600; color: var(--ink); }
+  .awning::after {
+    content: ""; position: absolute; left: 0; right: 0; top: 46px; height: 14px;
+    background: radial-gradient(circle at 18px 0, var(--c) 0 16px, transparent 17px) 0 0 / 72px 14px repeat-x,
+      radial-gradient(circle at 54px 0, #fff6ea 0 16px, transparent 17px) 0 0 / 72px 14px repeat-x;
+  }
+  .front { position: absolute; left: 40px; top: 84px; width: min(440px, 46%); z-index: 1; }
+  .fascia {
+    background: var(--ink-fixed); color: #fff6ea; border-radius: 8px; padding: 12px 20px 16px;
+    box-shadow: 0 5px 0 color-mix(in srgb, var(--ink-fixed) 60%, #000);
+  }
+  .fascia p { margin: 0; }
+  .crumb { font-size: 13px; color: #cfe3df; }
   .crumb a { color: inherit; }
-  h1 { margin: 4px 0 0; font-size: clamp(40px, 6vw, 60px); line-height: 1; letter-spacing: -0.02em; color: var(--ink); }
-  .placard {
-    margin-top: 18px; max-width: 300px; padding: 10px 14px 11px;
-    background: var(--card); border: 2px solid var(--ink); border-radius: 4px; box-shadow: 0 3px 0 var(--ink);
+  h1 {
+    margin: 2px 0 0; font-size: clamp(36px, 5vw, 52px); line-height: 1.02; letter-spacing: -0.02em;
+    color: color-mix(in srgb, var(--c) 45%, #fff6ea);
   }
-  .placard p { margin: 0; }
-  .blurb { font-size: 15px; line-height: 1.4; color: var(--ink); }
-  .count { margin-top: 4px !important; font-size: 13px; font-weight: 600; color: var(--soft); }
-  .stand { position: absolute; right: 80px; bottom: 62px; display: grid; justify-items: center; z-index: 1; }
+  .blurb { margin-top: 8px !important; font-size: 15px; line-height: 1.4; color: #eae3d8; }
+  .open-sign {
+    position: relative; display: inline-flex; align-items: center; gap: 8px; margin: 26px 0 0 22px; padding: 5px 14px;
+    background: #fff; color: var(--ink-fixed); border: 2px solid var(--ink-fixed); border-radius: 6px;
+    font-size: 14px; font-weight: 700; transform: rotate(-3deg); box-shadow: 0 3px 0 var(--ink-fixed);
+  }
+  .open-sign::before, .open-sign::after { content: ""; position: absolute; top: -24px; width: 2px; height: 24px; background: var(--ink-fixed); }
+  .open-sign::before { left: 18px; }
+  .open-sign::after { right: 18px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #3fbf7f; box-shadow: 0 0 0 2px #d6f5e5; }
+
+  .window {
+    position: absolute; right: 40px; top: 74px; bottom: 44px; width: 360px; overflow: hidden;
+    border: 6px solid var(--ink-fixed); border-bottom-width: 12px; border-radius: 6px 6px 2px 2px;
+    background:
+      radial-gradient(ellipse 70% 80% at 50% 0%, rgba(var(--warm), 0.55), transparent 75%),
+      color-mix(in srgb, var(--c) 10%, #fff3df);
+  }
+  :global([data-theme="dark"]) .window {
+    background:
+      radial-gradient(ellipse 70% 85% at 50% 0%, rgba(var(--warm), 0.42), transparent 75%),
+      color-mix(in srgb, var(--c) 10%, #2a2118);
+  }
+  .glass {
+    position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(115deg, transparent 0 58%, rgba(255, 255, 255, 0.16) 58% 63%, transparent 63% 67%, rgba(255, 255, 255, 0.1) 67% 69%, transparent 69%);
+  }
+  .stand { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); display: grid; justify-items: center; }
   .stand .on { padding-bottom: 6px; }
-  .stand .top { width: 260px; height: 14px; border-radius: 4px; background: color-mix(in srgb, var(--ink) 85%, #8b6d47); }
+  .stand .top { width: 240px; height: 12px; border-radius: 4px; background: color-mix(in srgb, var(--ink-fixed) 80%, #8b6d47); }
   .stand .legs {
-    width: 220px; height: 60px;
-    border-left: 10px solid color-mix(in srgb, var(--ink) 85%, #8b6d47);
-    border-right: 10px solid color-mix(in srgb, var(--ink) 85%, #8b6d47);
+    width: 200px; height: 18px;
+    border-left: 8px solid color-mix(in srgb, var(--ink-fixed) 80%, #8b6d47);
+    border-right: 8px solid color-mix(in srgb, var(--ink-fixed) 80%, #8b6d47);
   }
-  /* Hangs on a short cord over the middle of the stand (right: 80px + half of 260px). */
-  .lamp { position: absolute; right: 209px; top: 0; width: 2px; height: 14px; background: var(--ink); }
+  .lamp { position: absolute; left: calc(50% - 1px); top: 0; width: 2px; height: 12px; background: var(--ink-fixed); }
   .lamp::after {
-    content: ""; position: absolute; left: -26px; top: 14px; width: 54px; height: 28px;
-    background: var(--pop2); border: 3px solid var(--ink); border-radius: 30px 30px 4px 4px;
+    content: ""; position: absolute; left: -26px; top: 12px; width: 54px; height: 26px;
+    background: var(--pop2); border: 3px solid var(--ink-fixed); border-radius: 30px 30px 4px 4px;
   }
   /* The glow hangs from the lamp itself, so it always sits centred under the shade. */
   .glow {
-    position: absolute; left: 1px; top: 48px; width: 300px; height: 260px; transform: translateX(-50%);
-    pointer-events: none; background: radial-gradient(ellipse at top, rgba(255, 210, 122, 0.32), transparent 70%);
+    position: absolute; left: 1px; top: 44px; width: 320px; height: 260px; transform: translateX(-50%);
+    pointer-events: none; background: radial-gradient(ellipse at top, rgba(var(--warm), 0.45), transparent 70%);
   }
-  :global([data-theme="dark"]) .glow { background: radial-gradient(ellipse at top, rgba(255, 210, 122, 0.45), transparent 70%); }
+  .pavement {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 44px;
+    background: color-mix(in srgb, var(--soft) 30%, var(--bg)); border-top: 3px solid var(--ink-fixed);
+  }
+  .spill {
+    position: absolute; right: 40px; bottom: 0; width: 360px; height: 44px; z-index: 1; pointer-events: none;
+    background: linear-gradient(rgba(var(--warm), 0.5), rgba(var(--warm), 0));
+    clip-path: polygon(6% 0, 94% 0, 100% 100%, 0 100%);
+  }
+  :global([data-theme="dark"]) .spill { background: linear-gradient(rgba(var(--warm), 0.38), rgba(var(--warm), 0)); }
+
   @media (max-width: 900px) {
-    .scene { height: auto; padding: 56px 20px 72px; display: grid; gap: 26px; justify-items: center; }
-    .title { position: relative; left: 0; top: 0; justify-self: stretch; max-width: none; }
-    .stand { position: relative; right: auto; bottom: auto; }
-    .stand .legs { display: none; }
-    .lamp { display: none; }
+    .scene { height: auto; padding: 76px 18px 44px; display: grid; gap: 22px; }
+    .front { position: relative; left: 0; top: 0; width: auto; }
+    .window { position: relative; right: auto; top: auto; bottom: auto; width: auto; height: 290px; }
+    .spill { right: 18px; left: 18px; width: auto; }
   }
 </style>
