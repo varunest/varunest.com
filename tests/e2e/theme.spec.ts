@@ -24,16 +24,22 @@ test("a plain click does not change the theme", async ({ page }) => {
   expect(await theme(page)).toBe("light");
 });
 
-test("a tap nudges once and does not replay the sway", async ({ page }) => {
+test("a tap nudges once and the sway never replays", async ({ page }) => {
   await page.goto("/");
+  // Tap during the load-time sway delay, then record every animation that starts.
+  await page.evaluate(() => {
+    (window as any).started = [];
+    document.querySelector(".cord")!.addEventListener("animationstart", (e) =>
+      (window as any).started.push((e as AnimationEvent).animationName),
+    );
+  });
   await pull(page, 5);
+  await expect(page.locator(".cord")).not.toHaveClass(/sway/);
   await expect(page.locator(".cord")).not.toHaveClass(/nudge/);
-  await page.waitForTimeout(1200); // longer than the old 0.7s sway delay
-  const names = await page.locator(".cord").evaluate((el) =>
-    el.getAnimations().map((a) => (a as CSSAnimation).animationName),
-  );
-  expect(names).not.toContain("sway");
-  expect(names).not.toContain("nudge");
+  await page.waitForTimeout(2000); // well past the old 0.7s sway delay
+  const started: string[] = await page.evaluate(() => (window as any).started);
+  expect(started.filter((n) => n === "sway")).toHaveLength(0);
+  expect(started.filter((n) => n === "nudge")).toHaveLength(1);
 });
 
 test("dragging 40px down toggles, and the choice survives reload", async ({ page }) => {
