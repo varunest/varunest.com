@@ -23,8 +23,7 @@ const Tag = inert ? "span" : "button";
   document.querySelectorAll<HTMLButtonElement>(".toy-record button").forEach((btn) => {
     let timer = 0;
     btn.disabled = false;
-    btn.addEventListener("click", () => {
-      const on = btn.getAttribute("aria-pressed") !== "true";
+    const play = (on: boolean) => {
       btn.setAttribute("aria-pressed", String(on));
       clearInterval(timer);
       if (!on || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -37,7 +36,11 @@ const Tag = inert ? "span" : "button";
         btn.appendChild(n);
         setTimeout(() => n.remove(), 1600);
       }, 500);
-    });
+    };
+    btn.addEventListener("click", () => play(btn.getAttribute("aria-pressed") !== "true"));
+    // Plays while a mouse hovers (taps are handled by click).
+    btn.addEventListener("pointerenter", (e) => { if (e.pointerType !== "touch") play(true); });
+    btn.addEventListener("pointerleave", (e) => { if (e.pointerType !== "touch") play(false); });
   });
 </script>
 
@@ -47,8 +50,8 @@ const Tag = inert ? "span" : "button";
   svg { width: 150px; height: 110px; display: block; }
   .disc { transform-box: fill-box; transform-origin: center; }
   .arm { transform-box: fill-box; transform-origin: 100% 0; transition: transform 0.4s; }
-  [aria-pressed="true"] .disc { animation: spin 1.8s linear infinite; }
-  [aria-pressed="true"] .arm { transform: rotate(22deg); }
+  [aria-pressed="true"] .disc, :global(.room-toy.linked:hover) .disc { animation: spin 1.8s linear infinite; }
+  [aria-pressed="true"] .arm, :global(.room-toy.linked:hover) .arm { transform: rotate(22deg); }
   @keyframes spin { to { transform: rotate(360deg); } }
   .player :global(.note) { position: absolute; top: 6px; font-size: 18px; font-weight: 700; color: var(--pop); pointer-events: none; animation: note 1.6s ease-out forwards; }
   @keyframes note { to { transform: translate(var(--dx), -50px) rotate(20deg); opacity: 0; } }

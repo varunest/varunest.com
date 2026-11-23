@@ -24,12 +24,16 @@ const Tag = inert ? "span" : "button";
 
 <script>
   import { formatMoney, nextBalance } from "../../lib/piggy";
-  document.querySelectorAll<HTMLButtonElement>(".toy-piggy button").forEach((btn) => {
+  // The pig is a button on the Vault page and a drawing inside a link on the home page;
+  // a hovering mouse drops a coin in both. Dim rooms stay still.
+  document.querySelectorAll<HTMLElement>(".toy-piggy .pig").forEach((btn) => {
+    if (btn.closest(".room-toy.inert")) return;
     let balance = 0;
     const label = btn.querySelector<HTMLElement>(".balance")!;
     const svg = btn.querySelector("svg")!;
-    btn.disabled = false;
-    btn.addEventListener("click", () => {
+    const isButton = btn instanceof HTMLButtonElement;
+    if (isButton) btn.disabled = false;
+    const deposit = () => {
       balance = nextBalance(balance);
       label.textContent = formatMoney(balance);
       btn.classList.remove("wiggle");
@@ -41,7 +45,10 @@ const Tag = inert ? "span" : "button";
       coin.setAttribute("class", "coin");
       svg.appendChild(coin);
       setTimeout(() => coin.remove(), 460);
-    });
+    };
+    if (isButton) btn.addEventListener("click", deposit); // on home, a click goes into the Vault
+    // A coin drops each time a mouse arrives over the pig (taps are handled by click).
+    btn.addEventListener("pointerenter", (e) => { if (e.pointerType !== "touch") deposit(); });
   });
 </script>
 

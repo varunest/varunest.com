@@ -16,7 +16,7 @@ const { rooms } = Astro.props;
         <span class="blurb">{r.blurb}</span>
         <h3>{r.name}</h3>
       </div>
-      <RoomToy toy={r.toy} inert={!r.lit} />
+      <RoomToy toy={r.toy} inert={!r.lit} href={r.lit ? roomUrl(r.id) : undefined} />
       <p class="foot">
         {r.lit ? (
           <>{r.count} · <a href={roomUrl(r.id)}>Go in <span aria-hidden="true">→</span></a></>
