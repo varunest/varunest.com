@@ -56,12 +56,16 @@ test.describe("without JavaScript", () => {
 for (const width of [360, 1280]) {
   test.describe(`shelves at ${width}px`, () => {
     test.use({ viewport: { width, height: 900 } });
-    test("every book sits on a board and boards join up across a row", async ({ page }) => {
+    test("every book's bottom lands exactly on a shelf board", async ({ page }) => {
       await page.goto("/library");
       const row = page.locator(".shelves .row");
-      expect(await row.evaluate((r) => getComputedStyle(r).columnGap)).toBe("0px");
-      const boards = await page.locator(".shelves .bk").evaluateAll((els) => els.map((e) => getComputedStyle(e).borderBottomWidth));
-      expect(new Set(boards)).toEqual(new Set(["12px"]));
+      // Boards are painted every 236px (202px of books, 12px board, 22px gap).
+      const offsets = await row.evaluate((r) => {
+        const top = r.getBoundingClientRect().top;
+        return [...r.querySelectorAll(".bk")].map((b) => Math.round(b.getBoundingClientRect().bottom - top) % 236);
+      });
+      expect(new Set(offsets)).toEqual(new Set([202]));
+      expect(await row.evaluate((r) => getComputedStyle(r).gridAutoRows)).toBe("214px");
     });
     test("drawn covers keep their titles inside the cover", async ({ page }) => {
       await page.goto("/library");
@@ -75,3 +79,30 @@ test("no review shows a raw link to the old blog", async ({ page }) => {
   await page.goto("/library");
   expect(await page.content()).not.toContain("varunest.com/blog");
 });
+
+for (const width of [1280, 900, 375]) {
+  test(`shelf boards run the full width of the shelves at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/library");
+    const row = page.locator(".shelves .row");
+    const rowBox = (await row.boundingBox())!;
+    const books = await row.locator(".bk").evaluateAll((els) => els.map((e) => e.getBoundingClientRect().toJSON()));
+    // Books are spread across the whole width: first starts near the left, the last in each line ends near the right.
+    const lines = new Map<number, { left: number; right: number }>();
+    for (const b of books) {
+      const k = Math.round(b.top);
+      const l = lines.get(k) ?? { left: Infinity, right: -Infinity };
+      lines.set(k, { left: Math.min(l.left, b.left), right: Math.max(l.right, b.right) });
+    }
+    const full = [...lines.values()].slice(0, -1);
+    expect(full.length).toBeGreaterThan(0);
+    for (const l of full) {
+      expect(l.left - rowBox.x).toBeLessThan(30);
+      expect(rowBox.x + rowBox.width - l.right).toBeLessThan(30);
+    }
+    // Every line, including the last, sits on a board that spans the row.
+    const boards = await row.evaluate((el) => getComputedStyle(el).backgroundImage);
+    expect(boards).toContain("linear-gradient");
+    expect(await row.evaluate((el) => el.scrollWidth <= el.clientWidth + 1)).toBe(true);
+  });
+}
