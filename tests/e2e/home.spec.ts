@@ -34,10 +34,21 @@ test.describe("home without JavaScript", () => {
     await expect(page.getByRole("heading", { name: "Things I've shipped" })).toHaveCount(0);
   });
 
-  test("header is just the brand", async ({ page }) => {
+  test("header has the brand and a Rooms link to the floor plan", async ({ page }) => {
     await page.goto("/");
-    await expect(page.locator("header nav")).toHaveCount(0);
-    await expect(page.locator("header a")).toHaveCount(1);
+    await expect(page.locator("header a")).toHaveCount(2);
+    const rooms = page.getByRole("navigation", { name: "Site" }).getByRole("link", { name: "Rooms" });
+    await expect(rooms).toHaveAttribute("href", "/#rooms");
+    await rooms.click();
+    await expect(page).toHaveURL(/\/#rooms$/);
+    await expect(page.locator("#rooms")).toBeInViewport();
+  });
+
+  test("the Rooms link reaches the floor plan from a room page", async ({ page }) => {
+    await page.goto("/library");
+    await page.getByRole("navigation", { name: "Site" }).getByRole("link", { name: "Rooms" }).click();
+    await expect(page).toHaveURL(/\/#rooms$/);
+    await expect(page.locator("#rooms")).toBeInViewport();
   });
 
   test("garden footer groups its links", async ({ page }) => {

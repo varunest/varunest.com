@@ -23,7 +23,7 @@
     "description": "40+ releases across the restaurant finder, ordering and merchant apps. Open-sourced PhotoFilters from my trial week.",
     "images": [
       { "file": "zomato.jpg", "alt": "Zomato restaurant finder app" },
-      { "file": "photofilters.gif", "alt": "PhotoFilters applying filters to a photo" }
+      { "file": "photofilters.mp4", "alt": "PhotoFilters applying filters to a photo" }
     ],
     "chips": [],
     "repo": "Zomato/AndroidPhotoFilters",
@@ -38,7 +38,7 @@
     "role": "Open source",
     "years": "2016",
     "description": "An Android button with a little firework, like Twitter's heart. Highly customisable and lightweight.",
-    "images": [{ "file": "spark-button.gif", "alt": "Spark Button bursting into sparks when tapped" }],
+    "images": [{ "file": "spark-button.mp4", "alt": "Spark Button bursting into sparks when tapped" }],
     "chips": [],
     "repo": "varunest/sparkbutton",
     "starsFallback": 1000,
@@ -51,7 +51,7 @@
     "role": "Open source",
     "years": "2018",
     "description": "A native Android progress indicator that glows, built from a design by Shashank Sahay.",
-    "images": [{ "file": "glowing-loader.gif", "alt": "Glowing Loader animating" }],
+    "images": [{ "file": "glowing-loader.mp4", "alt": "Glowing Loader animating" }],
     "chips": [],
     "repo": "varunest/theglowingloader",
     "starsFallback": 300,

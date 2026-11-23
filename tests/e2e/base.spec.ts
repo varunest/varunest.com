@@ -56,3 +56,16 @@ for (const scheme of ["light", "dark"] as const) {
     });
   });
 }
+
+for (const width of [360, 1280, 1920, 2560]) {
+  test(`the garden's cat sleeps fully in view at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    const garden = (await page.locator(".garden").boundingBox())!;
+    const cat = (await page.locator(".garden .cat").boundingBox())!;
+    expect(cat.y).toBeGreaterThanOrEqual(garden.y);
+    expect(cat.y + cat.height).toBeLessThanOrEqual(garden.y + garden.height);
+    expect(cat.x).toBeGreaterThanOrEqual(0);
+    expect(cat.x + cat.width).toBeLessThanOrEqual(width);
+  });
+}
