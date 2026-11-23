@@ -3,14 +3,10 @@ import Base from "../layouts/Base.astro";
 import Portrait from "../components/Portrait.astro";
 import Skyline from "../components/Skyline.astro";
 import { SITE } from "../lib/site";
-import { getStars } from "../lib/github";
+import PostRows from "../components/rooms/PostRows.astro";
+import { getPublishedPosts } from "../lib/posts";
 
-const [sparkStars, loaderStars, filterStars] = await Promise.all([
-  getStars("varunest/sparkbutton", 1000),
-  getStars("varunest/theglowingloader", 300),
-  getStars("Zomato/AndroidPhotoFilters", 2100),
-]);
-const fmt = (n: number) => `${n.toLocaleString("en-US")}+`;
+const latest = (await getPublishedPosts()).slice(0, 6);
 ---
 <Base
   title="Varun Verma"
@@ -34,31 +30,9 @@ const fmt = (n: number) => `${n.toLocaleString("en-US")}+`;
       <Skyline />
     </section>
 
-    <section class="block" aria-labelledby="shipped-h">
-      <h2 id="shipped-h">Things I've shipped</h2>
-      <ul class="shipped">
-        <li class="card">
-          <h3>Uber</h3>
-          <p>At Uber since 2019; now Staff Engineer. Android at very large scale.</p>
-        </li>
-        <li class="card">
-          <h3>Videoder</h3>
-          <p>Co-founded it. 50M+ downloads.</p>
-        </li>
-        <li class="card">
-          <h3>Zomato</h3>
-          <p>Android engineer. Built <a href="https://github.com/Zomato/AndroidPhotoFilters">PhotoFilters</a>, an open-source photo filter library. <span class="stars">{fmt(filterStars)} stars</span></p>
-        </li>
-        <li class="card">
-          <h3><a href="https://github.com/varunest/sparkbutton">Spark Button</a></h3>
-          <p>An open-source Android button with a little firework. <span class="stars">{fmt(sparkStars)} stars</span></p>
-        </li>
-        <li class="card">
-          <h3><a href="https://github.com/varunest/theglowingloader">Glowing Loader</a></h3>
-          <p>An open-source Android loading animation. <span class="stars">{fmt(loaderStars)} stars</span></p>
-        </li>
-      </ul>
-      <p class="earlier">Earlier experiments: Crazy Driver, Movie Memo, Lazy Music and 9Facts.</p>
+    <section class="block" id="latest" aria-labelledby="latest-h">
+      <h2 id="latest-h">Latest posts</h2>
+      <PostRows posts={latest} showRoom={true} />
     </section>
   </div>
 </Base>
@@ -76,9 +50,6 @@ const fmt = (n: number) => `${n.toLocaleString("en-US")}+`;
   .btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
   .hero-text, .hero-portrait { position: relative; z-index: 1; }
   .block { padding: 40px 0; border-top: 2px dashed var(--line); }
-  .shipped { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 14px; }
-  .shipped h3 { margin: 0 0 4px; font-size: 1.2rem; }
-  .shipped p { margin: 0; color: var(--soft); font-size: 16px; }
   .stars { font-weight: 700; color: var(--ink); white-space: nowrap; }
   .earlier { margin-top: 20px; color: var(--soft); }
   @media (max-width: 680px) {
