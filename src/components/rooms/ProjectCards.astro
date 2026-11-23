@@ -6,6 +6,9 @@ import { getStars } from "../../lib/github";
 
 const files = import.meta.glob<{ default: ImageMetadata }>("../../assets/projects/*", { eager: true });
 const img = (f: string) => files[`../../assets/projects/${f}`].default;
+// Animated demos live in public/projects as WebM + MP4 with a first-frame poster:
+// a fraction of the GIF bytes at the same look, and they can pause for reduced motion.
+const demo = (f: string) => `/projects/${f.replace(/\.mp4$/, "")}`;
 
 const withStars = await Promise.all(
   projects.map(async (p) => ({
@@ -19,12 +22,17 @@ const withStars = await Promise.all(
     <li class:list={["project", { feature: p.feature }]} style={`--c:${p.colour}`}>
       <div class="media">
         {p.images.map((im, i) => {
-          const meta = img(im.file);
           const tilt = p.images.length > 1 ? `tilt${(i % 2) + 1}` : undefined;
-          // Animated GIFs are served as-is; converting them would freeze the animation.
-          return im.file.endsWith(".gif")
-            ? <img src={meta.src} alt={im.alt} class={tilt} width={meta.width} height={meta.height} loading="lazy" decoding="async" />
-            : <Image src={meta} alt={im.alt} class={tilt} widths={[240, 480]} sizes="240px" />;
+          if (im.file.endsWith(".mp4")) {
+            const base = demo(im.file);
+            return (
+              <video class={tilt} aria-label={im.alt} poster={`${base}.webp`} autoplay muted loop playsinline preload="metadata">
+                <source src={`${base}.webm`} type="video/webm" />
+                <source src={`${base}.mp4`} type="video/mp4" />
+              </video>
+            );
+          }
+          return <Image src={img(im.file)} alt={im.alt} class={tilt} widths={[240, 480]} sizes="240px" />;
         })}
       </div>
       <div class="body">
@@ -40,6 +48,19 @@ const withStars = await Promise.all(
     </li>
   ))}
 </ul>
+<script>
+  // Autoplaying demos hold still for people who ask for less motion.
+  const still = matchMedia("(prefers-reduced-motion: reduce)");
+  const sync = () =>
+    document.querySelectorAll<HTMLVideoElement>(".projects video").forEach((v) => {
+      v.autoplay = !still.matches;
+      v.controls = still.matches;
+      if (still.matches) v.pause();
+      else v.play().catch(() => {});
+    });
+  sync();
+  still.addEventListener("change", sync);
+</script>
 <p class="earlier">Earlier experiments: Crazy Driver, Movie Memo, Lazy Music and 9Facts.</p>
 
 <style>
@@ -51,7 +72,7 @@ const withStars = await Promise.all(
     background: color-mix(in srgb, var(--c) 30%, var(--bg)); border-bottom: 2px solid var(--ink); overflow: hidden;
   }
   .feature .media { border-bottom: 0; border-right: 2px solid var(--ink); }
-  .media :global(img) { width: auto; max-width: 100%; height: auto; max-height: 200px; border: 2px solid var(--ink); border-radius: 12px; box-shadow: 0 4px 0 var(--ink); background: #fff; }
+  .media :global(img), .media video { width: auto; max-width: 100%; height: auto; max-height: 200px; border: 2px solid var(--ink); border-radius: 12px; box-shadow: 0 4px 0 var(--ink); background: #fff; }
   .media :global(.tilt1) { transform: rotate(-4deg); }
   .media :global(.tilt2) { transform: rotate(3deg); }
   .body { display: grid; gap: 6px; align-content: start; padding: 18px 22px 22px; }
