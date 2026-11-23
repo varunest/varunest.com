@@ -25,7 +25,7 @@
   }
 
   function nudge(el: HTMLElement) {
-    el.classList.remove("nudge");
+    el.classList.remove("sway", "nudge");
     void el.offsetWidth;
     el.classList.add("nudge");
   }
@@ -33,7 +33,9 @@
   if (cord) {
     let startY: number | null = null;
 
+    cord.classList.add("sway");
     cord.addEventListener("pointerdown", (e) => {
+      if (!e.isPrimary || e.button !== 0) return;
       startY = e.clientY;
       cord.classList.add("pulling");
       cord.setPointerCapture(e.pointerId);
@@ -58,7 +60,7 @@
     cord.addEventListener("click", (e) => {
       if (e.detail === 0) toggle();
     });
-    cord.addEventListener("animationend", () => cord.classList.remove("nudge"));
+    cord.addEventListener("animationend", () => cord.classList.remove("sway", "nudge"));
   }
 </script>
 
@@ -76,8 +78,8 @@
     touch-action: none;
     transform-origin: 50% 0;
     transition: height 0.45s cubic-bezier(0.3, 2.2, 0.5, 1);
-    animation: sway 2.2s ease-in-out 0.7s 2;
   }
+  .cord.sway { animation: sway 2.2s ease-in-out 0.7s 2; }
   .cord:hover { height: calc(84px + var(--pull, 0px)); }
   .cord.pulling { transition: none; cursor: grabbing; }
   .cord.nudge { animation: nudge 0.5s ease-in-out; }
@@ -119,7 +121,7 @@
     60% { transform: translateY(-2px); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .cord, .cord.nudge { animation: none; transition: none; }
+    .cord, .cord.sway, .cord.nudge { animation: none; transition: none; }
     .cord:hover { height: calc(74px + var(--pull, 0px)); }
   }
 </style>
