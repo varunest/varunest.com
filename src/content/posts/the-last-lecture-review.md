@@ -1,19 +1,19 @@
 ---
+slug: the-last-lecture-review
+date: 2022-09-25
+legacySlug: "a-professor's-reminisce-and-crux-of-his-teachings"
 title: A professor's reminisce and crux of his teachings
-layout: post
-class: post
 summary: Book review of "The last lecture" by Randy Pausch
 rating: 5/5
 tags:
 - book-review
 ---
 
-![The last lecture - Book Cover](/images/posts/last_lecture.jpeg)
-Book review of "[The last lecture](https://www.goodreads.com/book/show/40611510-the-last-lecture){:target="_blank"}" by Randy Pausch. A professor gets to know he has several months to live and decides to give a lecture at Carnegie Mellon to leave a legacy and commemorate his profession as a teacher. 
+![The last lecture - Book Cover](../../assets/posts/last_lecture.jpeg)
+Book review of "[The last lecture](https://www.goodreads.com/book/show/40611510-the-last-lecture)" by Randy Pausch. A professor gets to know he has several months to live and decides to give a lecture at Carnegie Mellon to leave a legacy and commemorate his profession as a teacher. 
 
-<!--break-->
 
-The recording of the lecture is [available on youtube](https://www.youtube.com/watch?v=ji5_MqicxSo&t=3873s&ab_channel=CarnegieMellonUniversity){:target="_blank"} as well, if you can't take out time to read the book, I would recommend watching the 1.5hr lecture. 
+The recording of the lecture is [available on youtube](https://www.youtube.com/watch?v=ji5_MqicxSo&t=3873s&ab_channel=CarnegieMellonUniversity) as well, if you can't take out time to read the book, I would recommend watching the 1.5hr lecture. 
 
 Book has 61 chapters, each chapter is advice by Randy that he believed in and adhered to. After ruminating Randy decides to spend a significant time of his remaining life preparing and delivering this lecture. He did so to leave a legacy and teachings for his children who were all of a very small age at the time. 
 
