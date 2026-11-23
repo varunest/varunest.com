@@ -21,6 +21,8 @@ import portrait from "../assets/portrait.webp";
 </button>
 
 <script>
+  import { pickGreeting } from "../lib/greetings";
+
   const TAP_MS = 2200;
   const MAX_TILT = 14;
   const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -31,7 +33,16 @@ import portrait from "../assets/portrait.webp";
     let tapTimer: number | undefined;
     let lastPointer = "mouse";
 
-    const show = () => el.classList.add("on");
+    const bubble = el.querySelector<HTMLElement>(".bubble");
+    const show = () => {
+      // A new greeting each time the bubble appears (not while it's already showing).
+      if (bubble && !el.classList.contains("on")) {
+        const g = pickGreeting(bubble.textContent);
+        bubble.textContent = g.text;
+        bubble.lang = g.lang;
+      }
+      el.classList.add("on");
+    };
     const hide = () => {
       el.classList.remove("on", "moved");
       card.style.transform = "";
