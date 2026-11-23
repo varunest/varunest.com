@@ -10,7 +10,7 @@ tags:
 ![Candle chart placeholder](../../assets/posts/candle_stick.jpeg)
 Being in a profession which demands majority of my time, it didn't look feasible for me to be an aggresive investor. So I started thinking on how to strategize my long term investing game. It was clear to me that I need to be disciplined with the investments and have right portfolio diversification. Discipline helps you to take benefit of [dollar cost averaging](https://www.investopedia.com/terms/d/dollarcostaveraging.asp), whereas right diversification provides you with [hedge](https://www.investopedia.com/terms/h/hedge.asp) and helps you to maximize your gains as you recognize trends and maintain risk ratio accordingly.
 
-I chose to use and configure google sheet for managing my investments. You can find the template that I designed for myself [here](https://www.google.com/url?sa=t&rct=j&esrc=s&source=appssearch&uact=8&cd=0&cad=rja&q&sig2=Yx8jGGjkLwmYM59t05Aprw&ved=0ahUKEwivtpHpxJbvAhVOBGgKHfbkBAo4ABABKAAwAA&url=https://drive.google.com/a/uber.com/open?id%3D1L8FKH-a6_kZPzypsgofT6MsRa5JtArf7rmGRqlFskW4%26usp%3Dchrome_omnibox&usg=AOvVaw3ocbt9IuMk2AngiuzfAiEv).
+I chose to use and configure google sheet for managing my investments.
 
 **Note**: This post is about my approach and not about what is the best way to manage your finances or plan your budget. Please do your own research using different credible sources. Also the numbers used are placeholders and not real.
 
