@@ -4,8 +4,8 @@
   <canvas
     width="440"
     height="340"
-    role="img"
-    aria-label="A pendulum. Drag the weight, or press the left and right arrow keys to nudge it."
+    role="application"
+    aria-label="A pendulum. Press the left and right arrow keys to nudge it, or drag the weight."
   ></canvas>
   <svg class="static" viewBox="0 0 440 340" aria-hidden="true" focusable="false">
     <g stroke="var(--ink)" stroke-linecap="round" fill="none">
@@ -26,11 +26,17 @@
   const LENGTH = 220;
   const BOB_R = 30;
   const NUDGE = 0.06;
+  const GRAB_PX = 40; // CSS px around the bob that start a drag; elsewhere the page scrolls
+  const REST = 0.0005; // |angle| and |velocity| below this: stop the loop
+  const DPR = Math.min(2, window.devicePixelRatio || 1);
 
   const canvas = document.querySelector<HTMLCanvasElement>(".pendulum-toy canvas");
   const ctx = canvas?.getContext("2d");
   if (canvas && ctx) {
     canvas.tabIndex = 0;
+    canvas.width = W * DPR;
+    canvas.height = H * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     let last = 0;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     let state = { angle: 0.8, velocity: 0 };
@@ -69,6 +75,12 @@
       const dt = last ? Math.min(3, Math.max(0.1, (now - last) / (1000 / 60))) : 1;
       last = now;
       if (!dragging) state = stepPendulum(state, dt);
+      if (!dragging && Math.abs(state.angle) < REST && Math.abs(state.velocity) < REST) {
+        state = { angle: 0, velocity: 0 };
+        draw();
+        last = 0; // idle: nothing schedules another frame until a drag, nudge or theme change
+        return;
+      }
       draw();
       schedule();
     }
@@ -94,6 +106,7 @@
 
     function nudge(by: number) {
       state = { angle: state.angle, velocity: state.velocity + by };
+      schedule();
       if (!shouldRun()) {
         // No loop: apply the nudge as a visible displacement so the drawing still responds.
         state = { angle: state.angle + by * 8, velocity: 0 };
@@ -102,8 +115,16 @@
     }
 
     canvas.addEventListener("pointerdown", (e) => {
+      const r = canvas.getBoundingClientRect();
+      const scale = W / r.width; // CSS px -> canvas units
+      const bx = PIVOT_X + LENGTH * Math.sin(state.angle);
+      const by = PIVOT_Y + LENGTH * Math.cos(state.angle);
+      const dx = (e.clientX - r.left) * scale - bx;
+      const dy = (e.clientY - r.top) * scale - by;
+      if (Math.hypot(dx, dy) > GRAB_PX * scale) return; // away from the bob: let the page scroll
       dragging = true;
       canvas.setPointerCapture(e.pointerId);
+      schedule();
     });
     canvas.addEventListener("pointermove", (e) => {
       if (!dragging) return;
@@ -116,6 +137,7 @@
     });
     const release = () => {
       dragging = false;
+      schedule();
     };
     canvas.addEventListener("pointerup", release);
     canvas.addEventListener("pointercancel", release);
@@ -126,7 +148,10 @@
       }
     });
 
-    document.addEventListener("themechange", draw);
+    document.addEventListener("themechange", () => {
+      draw();
+      schedule();
+    });
     document.addEventListener("visibilitychange", sync);
     reduced.addEventListener("change", sync);
     new IntersectionObserver((entries) => {
@@ -141,7 +166,7 @@
 
 <style>
   .pendulum-toy { display: grid; place-items: center; background: var(--bg); border-radius: 10px; }
-  canvas { width: 100%; max-width: 440px; height: auto; aspect-ratio: 440 / 340; touch-action: none; cursor: grab; border-radius: 10px; }
+  canvas { width: 100%; max-width: 440px; height: auto; aspect-ratio: 440 / 340; touch-action: pan-y; cursor: grab; border-radius: 10px; }
   canvas:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
   .static { display: none; width: 100%; max-width: 440px; height: auto; }
   :global(.no-js) canvas { display: none; }
