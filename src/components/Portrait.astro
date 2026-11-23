@@ -1,0 +1,149 @@
+---
+import { Picture } from "astro:assets";
+import portrait from "../assets/portrait.webp";
+---
+<button class="portrait" type="button" aria-label="Varun. Say hello.">
+  <span class="bubble" aria-hidden="true">Hello!</span>
+  <span class="portrait-card">
+    <Picture
+      src={portrait}
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      width={220}
+      height={220}
+      widths={[220, 440]}
+      sizes="220px"
+      alt="Illustrated portrait of Varun"
+      loading="eager"
+    />
+    <span class="shine"></span>
+  </span>
+</button>
+
+<script>
+  const TAP_MS = 2200;
+  const MAX_TILT = 14;
+  const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const el = document.querySelector<HTMLButtonElement>(".portrait");
+  const card = el?.querySelector<HTMLElement>(".portrait-card");
+
+  if (el && card) {
+    let tapTimer: number | undefined;
+    let lastPointer = "mouse";
+
+    const show = () => el.classList.add("on");
+    const hide = () => {
+      el.classList.remove("on", "moved");
+      card.style.transform = "";
+    };
+
+    el.addEventListener("pointerdown", (e) => {
+      lastPointer = e.pointerType;
+    });
+    el.addEventListener("pointerenter", (e) => {
+      if (e.pointerType === "mouse" || e.pointerType === "pen") show();
+    });
+    el.addEventListener("pointerleave", (e) => {
+      if (e.pointerType === "mouse" || e.pointerType === "pen") hide();
+    });
+    el.addEventListener("pointermove", (e) => {
+      if (calm || (e.pointerType !== "mouse" && e.pointerType !== "pen")) return;
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top) / r.height;
+      el.classList.add("moved");
+      card.style.transform = `rotateY(${(x - 0.5) * 2 * MAX_TILT}deg) rotateX(${(0.5 - y) * 2 * MAX_TILT}deg) scale(1.04)`;
+      el.style.setProperty("--sx", `${x * 100}%`);
+      el.style.setProperty("--sy", `${y * 100}%`);
+    });
+    el.addEventListener("focus", () => {
+      if (el.matches(":focus-visible")) show();
+    });
+    el.addEventListener("blur", hide);
+    el.addEventListener("click", () => {
+      if (lastPointer === "mouse" || lastPointer === "pen") return;
+      hide();
+      void el.offsetWidth;
+      show();
+      window.clearTimeout(tapTimer);
+      tapTimer = window.setTimeout(hide, TAP_MS);
+    });
+  }
+</script>
+
+<style>
+  .portrait {
+    all: unset;
+    position: relative;
+    display: block;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    cursor: pointer;
+    perspective: 700px;
+  }
+  .portrait:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 8px;
+  }
+  .portrait-card {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease-out;
+  }
+  .portrait-card :global(img) {
+    display: block;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: var(--stroke) solid var(--ink);
+    box-shadow: 0 6px 0 var(--ink);
+    background: var(--pop2);
+  }
+  .on:not(.moved) .portrait-card {
+    transform: rotateY(-12deg) rotateX(6deg) scale(1.04);
+  }
+  .shine {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at var(--sx, 30%) var(--sy, 20%), rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 45%);
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+  }
+  .on .shine { opacity: 1; }
+  .bubble {
+    position: absolute;
+    left: -30px;
+    top: -10px;
+    z-index: 5;
+    background: var(--card);
+    color: var(--ink);
+    border: var(--stroke) solid var(--ink);
+    border-radius: 16px 16px 4px 16px;
+    padding: 3px 13px;
+    font: 700 17px var(--head);
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.6);
+    transform-origin: 100% 100%;
+    transition: opacity 0.25s, transform 0.25s cubic-bezier(0.3, 1.8, 0.5, 1), visibility 0.25s;
+    pointer-events: none;
+  }
+  .on .bubble {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+  }
+  @media (max-width: 680px) {
+    .bubble { left: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .portrait-card { transform: none !important; }
+    .shine { display: none; }
+  }
+</style>

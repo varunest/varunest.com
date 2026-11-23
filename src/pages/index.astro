@@ -1,7 +1,6 @@
 ---
-import { Picture } from "astro:assets";
 import Base from "../layouts/Base.astro";
-import portrait from "../assets/portrait.webp";
+import Portrait from "../components/Portrait.astro";
 import { SITE } from "../lib/site";
 import { hasLab } from "../lib/lab";
 import { getStars } from "../lib/github";
@@ -35,20 +34,7 @@ const fmt = (n: number) => `${n.toLocaleString("en-US")}+`;
             : <a class="btn alt" href="/blog/">Read my writing</a>}
         </div>
       </div>
-      <!-- Task 8: the interactive portrait wraps this picture. -->
-      <div class="hero-portrait">
-        <Picture
-          src={portrait}
-          formats={["avif", "webp"]}
-          fallbackFormat="webp"
-          width={220}
-          height={220}
-          widths={[220, 440]}
-          sizes="220px"
-          alt="Illustrated portrait of Varun"
-          loading="eager"
-        />
-      </div>
+      <div class="hero-portrait"><Portrait /></div>
       <!-- Task 9: the skyline goes here. -->
       <div class="hero-skyline"></div>
     </section>
@@ -100,15 +86,6 @@ const fmt = (n: number) => `${n.toLocaleString("en-US")}+`;
   }
   .hero-text p { margin-top: 18px; max-width: 33em; color: var(--soft); }
   .btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
-  .hero-portrait :global(img) {
-    display: block;
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    border: var(--stroke) solid var(--ink);
-    box-shadow: 0 6px 0 var(--ink);
-    background: var(--pop2);
-  }
   .hero-skyline { grid-column: 1 / -1; }
   .block { padding: 40px 0; border-top: 2px dashed var(--line); }
   .shipped { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 14px; }
