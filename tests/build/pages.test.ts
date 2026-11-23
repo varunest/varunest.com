@@ -40,9 +40,13 @@ describe("posts under their rooms", () => {
 });
 
 describe("comments", () => {
-  it("renders no comments section until Giscus ids are filled in", () => {
+  it("every post has a comments section wired to the real repo and Comments category", () => {
     for (const [room, s] of posts) {
-      expect(readFileSync(`dist/${room}/${s}.html`, "utf8")).not.toContain('id="comments"');
+      const html = readFileSync(`dist/${room}/${s}.html`, "utf8").replaceAll("&quot;", '"');
+      expect(html).toContain('id="comments"');
+      expect(html).toContain('"repoId":"MDEwOlJlcG9zaXRvcnkxMDYyMDkxODg="');
+      expect(html).toContain('"categoryId":"DIC_kwDOBlSfpM4DLyA7"');
     }
   });
 });
+

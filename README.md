@@ -78,7 +78,7 @@ Pushing to `master` triggers Cloudflare Workers Builds: `npm run build`, then `n
 
 ### Comments (Giscus)
 
-`src/lib/giscus.ts` has blank `repoId` and `categoryId`. While either is blank, no comments section is rendered. After enabling GitHub Discussions (see manual step 5), copy the two IDs from [giscus.app](https://giscus.app) into `GISCUS.repoId` and `GISCUS.categoryId`, and push. They are public values.
+Comments are GitHub Discussions in this repo's "Comments" category (Announcement format: only the owner starts threads, anyone signed in to GitHub can reply), shown through the Giscus app. `src/lib/giscus.ts` holds the public `repoId` and `categoryId`; blanking either removes the comments section.
 
 ## Manual steps (Cloudflare, GitHub, DNS)
 
@@ -86,7 +86,7 @@ Pushing to `master` triggers Cloudflare Workers Builds: `npm run build`, then `n
 2. **Before touching DNS:** DNS → Records → screenshot or export the current `A`/`AAAA`/`CNAME` records for `varunest.com` and `www` (they point at the old server), for rollback.
 3. **Custom domain:** Worker → Settings → Domains & Routes → Add custom domain `www.varunest.com`. Then Rules → Redirect Rules → create: when hostname equals `varunest.com`, dynamic redirect to `concat("https://www.varunest.com", http.request.uri.path)`, status 301, preserve query string. Ensure the apex has a proxied DNS record (orange cloud) so the rule fires.
 4. **Analytics:** Analytics & Logs → Web Analytics → add site `www.varunest.com` (automatic setup on a proxied domain).
-5. **Comments:** GitHub repo Settings → enable Discussions, create category "Comments" (Announcement type), install the Giscus app, then copy `repoId` and `categoryId` from giscus.app into `src/lib/giscus.ts` and push.
+5. **Comments:** done. Discussions are on, the "Comments" category exists, the Giscus app is installed on this repo and the IDs are in `src/lib/giscus.ts`.
 6. **Résumé:** replace `public/resume.pdf` with the current one.
 7. **After a week:** if traffic and Search Console look normal, shut down the old server.
 
