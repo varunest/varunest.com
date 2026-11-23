@@ -72,10 +72,54 @@ test.describe("floor plan on a phone", () => {
   });
 });
 
-test("room scenes have no glow behind the toy", async ({ page }) => {
+test("the lamp's glow hangs centred under its shade", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
   for (const room of ["library", "workshop", "studio"]) {
     await page.goto(`/${room}`);
-    await expect(page.locator("section.scene")).toBeVisible();
-    await expect(page.locator(".glow")).toHaveCount(0);
+    const glow = (await page.locator("section.scene .glow").boundingBox())!;
+    const shade = await page.locator("section.scene .lamp").evaluate((el) => {
+      const r = el.getBoundingClientRect();
+      const s = getComputedStyle(el, "::after");
+      const left = r.left + parseFloat(s.left);
+      const top = r.top + parseFloat(s.top);
+      return { cx: left + parseFloat(s.width) / 2, bottom: top + parseFloat(s.height) };
+    });
+    const vp = await page.evaluate(() => window.scrollY);
+    expect(Math.abs(glow.x + glow.width / 2 - shade.cx)).toBeLessThanOrEqual(3);
+    expect(glow.y - vp).toBeGreaterThanOrEqual(shade.bottom - 4);
+    // ...and the lamp hangs over the stand, above the toy, so the light falls on it.
+    const stand = (await page.locator("section.scene .stand").boundingBox())!;
+    const toy = (await page.locator("section.scene .stand .on").boundingBox())!;
+    expect(Math.abs(stand.x + stand.width / 2 - shade.cx)).toBeLessThanOrEqual(3);
+    expect(shade.bottom).toBeLessThanOrEqual(toy.y - vp + 2);
   }
+});
+
+test("room header is a shopfront: awning, name on the fascia, count on an open sign, toy in the window", async ({ page }) => {
+  const cases = [
+    ["library", "The Library", "books"],
+    ["workshop", "The Workshop", "4 projects"],
+  ] as const;
+  for (const [room, name, count] of cases) {
+    await page.goto(`/${room}`);
+    const scene = page.locator("section.scene");
+    await expect(scene.locator(".awning")).toHaveCount(1);
+    await expect(scene.locator(".fascia").getByRole("heading", { level: 1 })).toHaveText(name);
+    await expect(scene.locator(".fascia .blurb")).not.toBeEmpty();
+    await expect(scene.locator(".open-sign")).toContainText(count);
+    await expect(scene.locator(".window .stand .on")).toHaveCount(1);
+    await expect(scene.getByRole("link", { name: "Home" })).toHaveAttribute("href", "/#rooms");
+  }
+});
+
+test("the shop window is lit: lamp and glow inside the window, light spilling onto the pavement", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/workshop");
+  const win = (await page.locator("section.scene .window").boundingBox())!;
+  const lamp = (await page.locator("section.scene .window .lamp").boundingBox())!;
+  expect(lamp.x).toBeGreaterThan(win.x);
+  expect(lamp.x).toBeLessThan(win.x + win.width);
+  const spill = (await page.locator("section.scene .spill").boundingBox())!;
+  expect(spill.y).toBeGreaterThanOrEqual(win.y + win.height - 2);
+  expect(Math.abs(spill.x + spill.width / 2 - (win.x + win.width / 2))).toBeLessThanOrEqual(3);
 });
