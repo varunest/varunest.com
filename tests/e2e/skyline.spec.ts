@@ -52,6 +52,7 @@ test.describe("reduced motion", () => {
 
   test("nothing animates in the skyline", async ({ page }) => {
     await page.goto("/");
+    await expect(page.locator(".skyline")).toHaveCount(1);
     await page.evaluate(() => document.documentElement.setAttribute("data-theme", "dark"));
     await page.waitForTimeout(100);
     const n = await page.evaluate(() =>
@@ -59,4 +60,24 @@ test.describe("reduced motion", () => {
     );
     expect(n).toBe(0);
   });
+});
+
+test.describe("motion allowed", () => {
+  test.use({ reducedMotion: "no-preference", colorScheme: "dark" });
+
+  test("bridge lights twinkle at night", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator(".skyline")).toHaveCount(1);
+    await page.evaluate(() => document.documentElement.setAttribute("data-theme", "dark"));
+    await page.waitForTimeout(100);
+    const n = await page.evaluate(
+      () => [...document.querySelectorAll(".skyline *")].flatMap((e) => e.getAnimations()).filter((a) => a.playState === "running").length,
+    );
+    expect(n).toBeGreaterThan(0);
+  });
+});
+
+test("Sutro Tower is drawn", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".skyline .sutro")).toHaveCount(1);
 });
