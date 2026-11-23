@@ -6,8 +6,10 @@ test.describe("home without JavaScript", () => {
 
   test("hero copy and buttons", async ({ page }) => {
     await page.goto("/");
-    await expect(page.locator("h1")).toHaveText("I build software people enjoy touching.");
-    await expect(page.locator(".hero p").first()).toContainText("Staff Engineer at Uber");
+    await expect(page.locator("h1")).toHaveText("Happiest when I'm building or learning.");
+    await expect(page.locator(".hero p").first()).toHaveText(
+      "I'm Varun, a Staff Engineer at Uber. I've spent 12 years building across fullstack. These days I'm learning a new way to build, with AI agents.",
+    );
     await expect(page.getByRole("link", { name: "Say hello" })).toHaveAttribute("href", `mailto:${SITE.email}`);
     await expect(page.locator(".hero .btn").nth(1)).toHaveText("Look around");
     await expect(page.locator(".hero .btn").nth(1)).toHaveAttribute("href", "#rooms");
