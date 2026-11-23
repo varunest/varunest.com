@@ -25,14 +25,19 @@ const books = [
 <script>
   document.querySelectorAll<HTMLElement>(".toy-bookshelf").forEach((root) => {
     const books = [...root.querySelectorAll<HTMLButtonElement>("button.book")];
+    const lift = (btn: HTMLButtonElement | null) => books.forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
     books.forEach((btn) => {
       btn.disabled = false;
-      btn.addEventListener("click", () => {
-        const on = btn.getAttribute("aria-pressed") !== "true";
-        books.forEach((b) => b.setAttribute("aria-pressed", "false"));
-        btn.setAttribute("aria-pressed", String(on));
+      btn.addEventListener("click", (e) => {
+        // A mouse has already lifted this book by hovering, so its click keeps it up;
+        // taps and the keyboard toggle it.
+        const mouse = (e as PointerEvent).pointerType === "mouse";
+        lift(!mouse && btn.getAttribute("aria-pressed") === "true" ? null : btn);
       });
+      // A hovering mouse lifts the book under it (taps are handled by click).
+      btn.addEventListener("pointerenter", (e) => { if (e.pointerType !== "touch") lift(btn); });
     });
+    root.addEventListener("pointerleave", (e) => { if (e.pointerType !== "touch") lift(null); });
   });
 </script>
 
@@ -42,5 +47,6 @@ const books = [
   button.book { cursor: pointer; }
   button.book:disabled { cursor: default; }
   .book[aria-pressed="true"] { transform: translateY(-14px) rotate(-6deg); }
+  :global(.room-toy.linked) .book:hover { transform: translateY(-14px) rotate(-6deg); }
   @media (prefers-reduced-motion: reduce) { .book { transition: none; } }
 </style>

@@ -34,6 +34,9 @@ const Tag = inert ? "span" : "button";
   document.querySelectorAll<HTMLButtonElement>(".toy-gears button").forEach((btn) => {
     let turns = 0;
     btn.disabled = false;
+    // Spin while a mouse hovers; clicks and taps still turn them a step.
+    btn.addEventListener("pointerenter", (e) => { if (e.pointerType !== "touch") btn.classList.add("spinning"); });
+    btn.addEventListener("pointerleave", () => btn.classList.remove("spinning"));
     btn.addEventListener("click", () => {
       turns++;
       const a = turns * 120;
@@ -49,5 +52,12 @@ const Tag = inert ? "span" : "button";
   button.spin { cursor: pointer; }
   svg { width: 150px; height: 110px; overflow: visible; display: block; }
   g { transform-box: fill-box; transform-origin: center; transition: transform 1.1s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  /* While hovered the gears spin continuously, at speeds set by their tooth counts (24:34:14). */
+  @media (prefers-reduced-motion: no-preference) {
+    .spinning .g1, :global(.room-toy.linked:hover) .g1 { animation: gear-spin 2.4s linear infinite; }
+    .spinning .g2, :global(.room-toy.linked:hover) .g2 { animation: gear-spin 1.69s linear infinite reverse; }
+    .spinning .g3, :global(.room-toy.linked:hover) .g3 { animation: gear-spin 0.99s linear infinite; }
+  }
+  @keyframes gear-spin { to { transform: rotate(360deg); } }
   @media (prefers-reduced-motion: reduce) { g { transition: none; } }
 </style>

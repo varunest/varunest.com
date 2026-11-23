@@ -43,6 +43,8 @@ const areas = [
       area.setAttribute("aria-label", area.dataset.label!);
       const fill = () => area.setAttribute("fill", colour);
       area.addEventListener("click", fill);
+      // The brush paints as a mouse passes over an area.
+      area.addEventListener("pointerenter", (e) => { if (e.pointerType !== "touch") fill(); });
       area.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fill(); }
       });
@@ -60,5 +62,6 @@ const areas = [
   .swatches { display: flex; gap: 8px; }
   .swatch { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--ink); padding: 0; cursor: pointer; }
   .swatch[aria-pressed="true"] { outline: 3px solid var(--ink); outline-offset: 2px; }
+  :global(.room-toy.linked) .area:hover { fill: #FFC857; }
   @media (prefers-reduced-motion: reduce) { .area { transition: none; } }
 </style>

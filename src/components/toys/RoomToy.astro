@@ -10,17 +10,27 @@ import RecordPlayer from "./RecordPlayer.astro";
 interface Props {
   toy: ToyName;
   inert?: boolean;
+  /** On the home floor plan: the toy is a picture that links into its room and plays on hover. */
+  href?: string;
 }
-const { toy, inert = false } = Astro.props;
+const { toy, inert = false, href } = Astro.props;
 const Toys = { bookshelf: Bookshelf, gears: Gears, paint: PaintByNumbers, piggy: PiggyBank, packets: Packets, record: RecordPlayer };
 const Toy = Toys[toy];
 ---
-<div class:list={["room-toy", { inert }]} data-toy={toy} aria-hidden={inert ? "true" : undefined}>
-  <Toy inert={inert} />
-</div>
+{href ? (
+  // The room's "Go in" link is the keyboard and screen-reader way in, so this one is mouse-only.
+  <a class="room-toy linked" href={href} data-toy={toy} tabindex="-1" aria-hidden="true">
+    <Toy inert />
+  </a>
+) : (
+  <div class:list={["room-toy", { inert }]} data-toy={toy} aria-hidden={inert ? "true" : undefined}>
+    <Toy inert={inert} />
+  </div>
+)}
 
 <style>
   .room-toy { display: grid; place-items: center; min-height: 130px; min-width: 0; }
   .room-toy :global(svg) { max-width: 100%; height: auto; }
   .room-toy.inert { opacity: 0.3; filter: grayscale(1); pointer-events: none; }
+  .room-toy.linked { color: inherit; text-decoration: none; cursor: pointer; }
 </style>

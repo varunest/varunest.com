@@ -44,6 +44,7 @@ const nodes: [string, number, number][] = [["router", 30, 20], ["nas", 140, 20],
         });
       };
       node.addEventListener("click", send);
+      node.addEventListener("pointerenter", (e) => { if (e.pointerType !== "touch") send(); });
       node.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); send(); } });
     });
   });
