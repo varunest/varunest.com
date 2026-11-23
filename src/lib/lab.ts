@@ -17,3 +17,11 @@ export async function hasLab(): Promise<boolean> {
 export function labIndexPaths(entries: unknown[]): { params: { index: undefined } }[] {
   return entries.length > 0 ? [{ params: { index: undefined } }] : [];
 }
+
+/**
+ * Public URL for the lab index or an entry. Matches the built files on Cloudflare's
+ * auto-trailing-slash: `lab.html` serves `/lab`, `lab/<id>.html` serves `/lab/<id>`.
+ */
+export function labUrl(id?: string): string {
+  return id ? `/lab/${id}` : "/lab";
+}
