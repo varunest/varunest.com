@@ -1,0 +1,37 @@
+---
+import type { GetStaticPaths } from "astro";
+import Base from "../layouts/Base.astro";
+import RoomScene from "../components/rooms/RoomScene.astro";
+import PostRows from "../components/rooms/PostRows.astro";
+import { getHouse } from "../lib/house";
+import { roomUrl } from "../lib/rooms";
+
+export const getStaticPaths = (async () => {
+  const house = await getHouse();
+  return house.filter((r) => r.lit).map((room) => ({ params: { room: room.id }, props: { room } }));
+}) satisfies GetStaticPaths;
+
+const { room } = Astro.props;
+const BLURBS: Record<string, string> = {
+  library: "Books I've read, newest first.",
+  workshop: "Apps and libraries I've built and shipped.",
+  studio: "Things I've drawn, hung on the wall.",
+  vault: "Notes on money and investing.",
+  "server-closet": "My home lab: servers, tools and what broke.",
+  "living-room": "Everyday writing.",
+};
+---
+<Base title={`${room.name} | Varun Verma`} description={`${room.blurb}: ${BLURBS[room.id]}`} path={roomUrl(room.id)}>
+  <div class="wrap">
+    <RoomScene room={room} blurb={BLURBS[room.id]} />
+    {room.posts.length > 0 && (
+      <section class="room-posts" aria-label={`Posts in ${room.name}`}>
+        <PostRows posts={room.posts} headingLevel={2} />
+      </section>
+    )}
+  </div>
+</Base>
+
+<style>
+  .room-posts { margin-bottom: 56px; }
+</style>
