@@ -14,7 +14,7 @@ interface Props {
 }
 const { title, description, path, ogImage, type = "website", showLab = false } = Astro.props;
 const canonical = SITE.url + path;
-const image = ogImage ? new URL(ogImage, SITE.url).toString() : undefined;
+const image = new URL(ogImage ?? "/og.png", SITE.url).toString();
 ---
 <!doctype html>
 <html lang="en">
@@ -24,6 +24,12 @@ const image = ogImage ? new URL(ogImage, SITE.url).toString() : undefined;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#0B7A75" />
     <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
     <link rel="alternate" type="application/atom+xml" title={SITE.title} href="/atom.xml" />
     <meta property="og:type" content={type} />
@@ -31,11 +37,11 @@ const image = ogImage ? new URL(ogImage, SITE.url).toString() : undefined;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    {image && <meta property="og:image" content={image} />}
-    <meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
+    <meta property="og:image" content={image} />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    {image && <meta name="twitter:image" content={image} />}
+    <meta name="twitter:image" content={image} />
     <script is:inline>
       document.documentElement.dataset.theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     </script>
