@@ -1,0 +1,154 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import type { Book } from "../../lib/books";
+import { getPublishedPosts, postUrl } from "../../lib/posts";
+
+interface Props {
+  books: Book[];
+}
+const { books } = Astro.props;
+const desk = books.filter((b) => b.shelf === "currently-reading");
+const read = books.filter((b) => b.shelf === "read");
+
+const covers = import.meta.glob<{ default: ImageMetadata }>("../../assets/books/*.jpg", { eager: true });
+const coverOf = (b: Book) => (b.cover ? covers[`../../assets/books/${b.cover}`]?.default : undefined);
+
+const posts = await getPublishedPosts();
+const postFor = (b: Book) => (b.reviewPost ? posts.find((p) => p.id === b.reviewPost) : undefined);
+
+const SPINES = ["#0B7A75", "#FF6B4A", "#FFC857", "#8AB4FF", "#E9A6C2", "#9AD1B9"];
+const spine = (b: Book) => SPINES[Number(b.id) % SPINES.length];
+const stars = (n: number) => (n ? "★".repeat(n) + "☆".repeat(5 - n) : "");
+const readOn = (d: string | null) =>
+  d ? new Date(`${d.replaceAll("/", "-")}T00:00:00Z`).toLocaleDateString("en-GB", { month: "long", year: "numeric", timeZone: "UTC" }) : null;
+const hasNotes = (b: Book) => b.review.length > 0 || !!b.reviewPost;
+const shortTitle = (t: string) => t.split(":")[0].split(" (")[0];
+---
+{desk.length > 0 && (
+  <section class="desk" aria-labelledby="desk-h">
+    <h2 id="desk-h">On the desk</h2>
+    <div class="row">
+      {desk.map((b) => (
+        <a class="bk" href={`#book-${b.id}`} data-book={b.id}>
+          <span class="cv" style={`--cc:${spine(b)}`}>
+            {coverOf(b) ? <Image src={coverOf(b)!} alt="" width={96} height={144} densities={[1, 2]} /> : <span class="drawn">{shortTitle(b.title)}</span>}
+          </span>
+          <span class="sr-only">{b.title} by {b.author}, reading now</span>
+        </a>
+      ))}
+    </div>
+  </section>
+)}
+
+<section class="shelves" aria-labelledby="shelves-h">
+  <h2 id="shelves-h" class="sr-only">Books I've read</h2>
+  <div class="row">
+    {read.map((b) => (
+      <a class="bk" href={`#book-${b.id}`} data-book={b.id}>
+        <span class="cv" style={`--cc:${spine(b)}`}>
+          {coverOf(b) ? <Image src={coverOf(b)!} alt="" width={96} height={144} densities={[1, 2]} /> : <span class="drawn">{shortTitle(b.title)}</span>}
+          {hasNotes(b) && <span class="tag-review" aria-hidden="true">review</span>}
+        </span>
+        <span class="stars" aria-hidden="true">{stars(b.rating)}</span>
+        <span class="sr-only">{b.title} by {b.author}{b.rating ? `, ${b.rating} out of 5` : ""}{hasNotes(b) ? ", has a review" : ""}</span>
+      </a>
+    ))}
+  </div>
+</section>
+
+<section class="details" aria-labelledby="details-h">
+  <h2 id="details-h">Every book, with notes</h2>
+  <ol>
+    {[...desk, ...read].map((b) => (
+      <li id={`book-${b.id}`} class="detail" data-book={b.id}>
+        <h3>{b.title}</h3>
+        <p class="by">{b.author}</p>
+        <p class="meta">
+          {b.rating > 0 && <span class="stars" aria-label={`${b.rating} out of 5`}>{stars(b.rating)}</span>}
+          <span>{b.shelf === "currently-reading" ? "Reading now" : readOn(b.dateRead) ? `Read ${readOn(b.dateRead)}` : "Read"}</span>
+        </p>
+        {b.review.length > 0 && <div class="review">{b.review.map((p) => <p>{p}</p>)}</div>}
+        {postFor(b) && (
+          b.review.length > 0
+            ? <p><a href={postUrl(postFor(b)!)}>Read my full review on the blog →</a></p>
+            : <p class="review">{postFor(b)!.data.summary} <a href={postUrl(postFor(b)!)}>Read the full review →</a></p>
+        )}
+        {!hasNotes(b) && <p class="by">No notes on this one.</p>}
+      </li>
+    ))}
+  </ol>
+</section>
+
+<dialog class="book-dialog" aria-labelledby="dlg-title">
+  <button class="close" type="button" aria-label="Close">×</button>
+  <div class="dlg-body"></div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>(".book-dialog");
+  const body = dialog?.querySelector<HTMLElement>(".dlg-body");
+  if (dialog && body) {
+    document.documentElement.classList.add("js-library");
+    dialog.querySelector(".close")!.addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", (e) => { if (e.target === dialog) dialog.close(); });
+    document.querySelectorAll<HTMLAnchorElement>(".bk[data-book]").forEach((bk) => {
+      bk.addEventListener("click", (e) => {
+        const detail = document.getElementById(`book-${bk.dataset.book}`);
+        if (!detail) return;
+        e.preventDefault();
+        const cover = bk.querySelector(".cv")!.cloneNode(true) as HTMLElement;
+        cover.querySelector(".tag-review")?.remove();
+        const copy = detail.cloneNode(true) as HTMLElement;
+        copy.removeAttribute("id");
+        copy.querySelector("h3")!.id = "dlg-title";
+        body.replaceChildren(cover, copy);
+        dialog.showModal();
+      });
+    });
+  }
+</script>
+
+<style>
+  h2 { font-size: 22px; margin: 0 0 12px; }
+  .desk { margin: 0 0 34px; padding: 16px 20px; border: 2px solid var(--ink); border-radius: 14px; background: color-mix(in srgb, #c7975c 22%, var(--card)); }
+  .row { display: flex; flex-wrap: wrap; gap: 18px 16px; align-items: flex-end; }
+  .shelves .row {
+    padding: 0 14px;
+    background: repeating-linear-gradient(to bottom, transparent 0 196px, #8b6d47 196px 208px);
+  }
+  .bk { width: 96px; display: grid; gap: 4px; color: var(--ink); text-decoration: none; }
+  .shelves .bk { height: 196px; align-content: end; padding-bottom: 6px; }
+  .cv {
+    position: relative; display: grid; place-items: center; width: 96px; height: 144px; overflow: hidden;
+    border: 2px solid var(--ink); border-radius: 3px 6px 6px 3px; background: var(--cc);
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.18); transition: transform 0.25s cubic-bezier(0.3, 1.8, 0.5, 1);
+  }
+  .cv :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cv:has(.drawn) { background: color-mix(in srgb, var(--cc) 40%, #fff); }
+  .drawn { padding: 8px; text-align: center; font: 700 12px/1.25 var(--head); color: #0F2A2E; }
+  .bk:hover .cv, .bk:focus-visible .cv { transform: translateY(-10px) rotate(-2deg); }
+  .bk:focus-visible { outline: none; }
+  .bk:focus-visible .cv { outline: 3px solid var(--ink); outline-offset: 3px; }
+  .tag-review { position: absolute; top: 4px; right: 4px; padding: 0 6px; border-radius: 99px; border: 1.5px solid #0F2A2E; background: var(--pop2); color: #0F2A2E; font-size: 10px; font-weight: 700; }
+  .stars { color: #B23B1E; font-size: 13px; letter-spacing: 1px; min-height: 18px; }
+  :global([data-theme="dark"]) .stars { color: var(--pop); }
+  .details { margin-top: 40px; }
+  .details ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+  .detail h3 { margin: 0; font-size: 19px; }
+  .by, .meta { margin: 2px 0; color: var(--soft); font-size: 15px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .review p { margin: 8px 0 0; }
+  :global(.js-library) .details { display: none; }
+  .book-dialog {
+    width: min(640px, calc(100% - 32px)); max-height: min(80vh, 720px); padding: 0;
+    border: 3px solid var(--ink); border-radius: 16px; background: var(--card); color: var(--ink);
+    box-shadow: 0 10px 0 var(--ink);
+  }
+  .book-dialog::backdrop { background: rgba(15, 42, 46, 0.5); }
+  .dlg-body { display: grid; grid-template-columns: 110px 1fr; gap: 20px; padding: 24px; }
+  .dlg-body :global(.cv) { width: 110px; height: 165px; transform: none; }
+  .dlg-body :global(.review) { max-height: 46vh; overflow: auto; }
+  .close { position: absolute; top: 8px; right: 12px; border: 0; background: none; font-size: 28px; line-height: 1; color: var(--ink); cursor: pointer; }
+  @media (max-width: 560px) { .dlg-body { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { .cv { transition: none; } }
+</style>
