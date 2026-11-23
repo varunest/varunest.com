@@ -72,28 +72,6 @@ test.describe("floor plan on a phone", () => {
   });
 });
 
-test("the lamp's glow hangs centred under its shade", async ({ page }) => {
-  await page.setViewportSize({ width: 1280, height: 900 });
-  for (const room of ["library", "workshop", "studio"]) {
-    await page.goto(`/${room}`);
-    const glow = (await page.locator("section.scene .glow").boundingBox())!;
-    const shade = await page.locator("section.scene .lamp").evaluate((el) => {
-      const r = el.getBoundingClientRect();
-      const s = getComputedStyle(el, "::after");
-      const left = r.left + parseFloat(s.left);
-      const top = r.top + parseFloat(s.top);
-      return { cx: left + parseFloat(s.width) / 2, bottom: top + parseFloat(s.height) };
-    });
-    const vp = await page.evaluate(() => window.scrollY);
-    expect(Math.abs(glow.x + glow.width / 2 - shade.cx)).toBeLessThanOrEqual(3);
-    expect(glow.y - vp).toBeGreaterThanOrEqual(shade.bottom - 4);
-    // ...and the lamp hangs over the stand, above the toy, so the light falls on it.
-    const stand = (await page.locator("section.scene .stand").boundingBox())!;
-    const toy = (await page.locator("section.scene .stand .on").boundingBox())!;
-    expect(Math.abs(stand.x + stand.width / 2 - shade.cx)).toBeLessThanOrEqual(3);
-    expect(shade.bottom).toBeLessThanOrEqual(toy.y - vp + 2);
-  }
-});
 
 test("room header is a shopfront: awning, name on the fascia, count on an open sign, toy in the window", async ({ page }) => {
   const cases = [
@@ -112,14 +90,42 @@ test("room header is a shopfront: awning, name on the fascia, count on an open s
   }
 });
 
-test("the shop window is lit: lamp and glow inside the window, light spilling onto the pavement", async ({ page }) => {
+
+for (const width of [1280, 375]) {
+  test(`string lights hang under the awning across the whole shopfront at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/workshop");
+    const scene = (await page.locator("section.scene").boundingBox())!;
+    const awning = (await page.locator("section.scene .awning").boundingBox())!;
+    await expect(page.locator("section.scene .lamp")).toHaveCount(0);
+    const bulbs = await page.locator("section.scene .lights .bulb").evaluateAll((els) => els.map((e) => e.getBoundingClientRect().toJSON()));
+    expect(bulbs.length).toBeGreaterThanOrEqual(8);
+    const xs = bulbs.map((b) => b.x + b.width / 2 - scene.x);
+    expect(Math.min(...xs)).toBeLessThan(scene.width * 0.15);
+    expect(Math.max(...xs)).toBeGreaterThan(scene.width * 0.85);
+    const vp = await page.evaluate(() => window.scrollY);
+    const front = (await page.locator("section.scene .fascia").boundingBox())!;
+    const win = (await page.locator("section.scene .window").boundingBox())!;
+    for (const b of bulbs) {
+      expect(b.y + vp).toBeGreaterThanOrEqual(awning.y + awning.height - 2);
+      expect(b.y + vp + b.height).toBeLessThanOrEqual(Math.min(front.y, win.y) + 1);
+    }
+  });
+}
+
+test("the lit window spills light onto the pavement", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("/workshop");
   const win = (await page.locator("section.scene .window").boundingBox())!;
-  const lamp = (await page.locator("section.scene .window .lamp").boundingBox())!;
-  expect(lamp.x).toBeGreaterThan(win.x);
-  expect(lamp.x).toBeLessThan(win.x + win.width);
   const spill = (await page.locator("section.scene .spill").boundingBox())!;
   expect(spill.y).toBeGreaterThanOrEqual(win.y + win.height - 2);
   expect(Math.abs(spill.x + spill.width / 2 - (win.x + win.width / 2))).toBeLessThanOrEqual(3);
+});
+
+test("string lights hold still for reduced motion", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/workshop");
+  const names = await page.locator("section.scene .lights .bulb").evaluateAll((els) => els.map((e) => getComputedStyle(e).animationName));
+  expect(names.length).toBeGreaterThanOrEqual(8);
+  expect(names.every((n) => n === "none")).toBe(true);
 });

@@ -6,9 +6,30 @@ interface Props {
   blurb: string;
 }
 const { room, blurb } = Astro.props;
+
+// A festoon of bulbs under the awning: the wire sags between hooks, with a bulb hanging at each
+// hook and at the bottom of each sag. The wire is drawn in a 1000-wide box stretched to the
+// scene, so x is a percentage of the width; y is px down from the top of the lights strip.
+const SAGS = 6;
+const HOOK_Y = 4;
+const CONTROL_Y = 52; // a quadratic curve bottoms out at (HOOK_Y + CONTROL_Y) / 2
+const SAG_Y = (HOOK_Y + CONTROL_Y) / 2;
+const xAt = (t: number) => 3 + t * 94; // keep the end bulbs off the rounded corners
+const bulbs = Array.from({ length: SAGS * 2 + 1 }, (_, i) => ({
+  x: xAt(i / (SAGS * 2)),
+  y: (i % 2 ? SAG_Y : HOOK_Y) - 2,
+}));
+const wire = Array.from({ length: SAGS }, (_, i) => {
+  const a = xAt(i / SAGS) * 10, b = xAt((i + 1) / SAGS) * 10;
+  return `${i ? "" : `M${a} ${HOOK_Y} `}Q${(a + b) / 2} ${CONTROL_Y} ${b} ${HOOK_Y}`;
+}).join(" ");
 ---
 <section class="scene" style={`--c:${room.colour}`} aria-labelledby="room-h">
   <div class="awning" aria-hidden="true"></div>
+  <div class="lights" aria-hidden="true">
+    <svg class="wire" viewBox="0 0 1000 50" preserveAspectRatio="none"><path d={wire} /></svg>
+    {bulbs.map((b, i) => <span class="bulb" style={`left:${b.x}%;top:${b.y}px;--d:${(i % 4) * 0.7}s`}></span>)}
+  </div>
   <div class="front">
     <div class="fascia">
       <p class="crumb"><a href="/#rooms">Home</a> / {room.name}</p>
@@ -18,7 +39,6 @@ const { room, blurb } = Astro.props;
     {room.count && <p class="open-sign"><span class="dot" aria-hidden="true"></span>Open · {room.count}</p>}
   </div>
   <div class="window">
-    <div class="lamp" aria-hidden="true"><div class="glow"></div></div>
     <div class="stand">
       <div class="on"><slot name="toy" /></div>
       <div class="top" aria-hidden="true"></div>
@@ -36,7 +56,7 @@ const { room, blurb } = Astro.props;
   .scene {
     --ink-fixed: #0f2a2e;
     --warm: 255, 210, 122;
-    position: relative; height: 380px; margin: 8px 0 40px; border-radius: 18px; overflow: hidden;
+    position: relative; height: 410px; margin: 8px 0 40px; border-radius: 18px; overflow: hidden;
     border: 2px solid var(--ink);
     background:
       repeating-linear-gradient(0deg, transparent 0 22px, color-mix(in srgb, var(--c) 14%, transparent) 22px 24px),
@@ -52,7 +72,7 @@ const { room, blurb } = Astro.props;
     background: radial-gradient(circle at 18px 0, var(--c) 0 16px, transparent 17px) 0 0 / 72px 14px repeat-x,
       radial-gradient(circle at 54px 0, #fff6ea 0 16px, transparent 17px) 0 0 / 72px 14px repeat-x;
   }
-  .front { position: absolute; left: 40px; top: 84px; width: min(440px, 46%); z-index: 1; }
+  .front { position: absolute; left: 40px; top: 118px; width: min(440px, 46%); z-index: 1; }
   .fascia {
     background: var(--ink-fixed); color: #fff6ea; border-radius: 8px; padding: 12px 20px 16px;
     box-shadow: 0 5px 0 color-mix(in srgb, var(--ink-fixed) 60%, #000);
@@ -76,15 +96,17 @@ const { room, blurb } = Astro.props;
   .dot { width: 8px; height: 8px; border-radius: 50%; background: #3fbf7f; box-shadow: 0 0 0 2px #d6f5e5; }
 
   .window {
-    position: absolute; right: 40px; top: 74px; bottom: 44px; width: 360px; overflow: hidden;
+    position: absolute; right: 40px; top: 112px; bottom: 44px; width: 360px; overflow: hidden;
     border: 6px solid var(--ink-fixed); border-bottom-width: 12px; border-radius: 6px 6px 2px 2px;
     background:
-      radial-gradient(ellipse 70% 80% at 50% 0%, rgba(var(--warm), 0.55), transparent 75%),
+      radial-gradient(ellipse 90% 70% at 50% 0%, rgba(var(--warm), 0.55), transparent 80%),
+      linear-gradient(rgba(var(--warm), 0.3), rgba(var(--warm), 0.1) 75%),
       color-mix(in srgb, var(--c) 10%, #fff3df);
   }
   :global([data-theme="dark"]) .window {
     background:
-      radial-gradient(ellipse 70% 85% at 50% 0%, rgba(var(--warm), 0.42), transparent 75%),
+      radial-gradient(ellipse 90% 70% at 50% 0%, rgba(var(--warm), 0.45), transparent 80%),
+      linear-gradient(rgba(var(--warm), 0.22), rgba(var(--warm), 0.06) 75%),
       color-mix(in srgb, var(--c) 10%, #2a2118);
   }
   .glass {
@@ -99,16 +121,20 @@ const { room, blurb } = Astro.props;
     border-left: 8px solid color-mix(in srgb, var(--ink-fixed) 80%, #8b6d47);
     border-right: 8px solid color-mix(in srgb, var(--ink-fixed) 80%, #8b6d47);
   }
-  .lamp { position: absolute; left: calc(50% - 1px); top: 0; width: 2px; height: 12px; background: var(--ink-fixed); }
-  .lamp::after {
-    content: ""; position: absolute; left: -26px; top: 12px; width: 54px; height: 26px;
-    background: var(--pop2); border: 3px solid var(--ink-fixed); border-radius: 30px 30px 4px 4px;
+  .lights { position: absolute; left: 0; right: 0; top: 52px; height: 50px; z-index: 3; pointer-events: none; }
+  .wire { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .wire path { fill: none; stroke: var(--ink-fixed); stroke-width: 2.5; vector-effect: non-scaling-stroke; }
+  :global([data-theme="dark"]) .wire path { stroke: #8a7660; }
+  .bulb {
+    position: absolute; width: 13px; height: 17px; margin-left: -6.5px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    background: #ffe29a; border: 1.5px solid color-mix(in srgb, var(--ink-fixed) 70%, #8b6d47);
+    border-top: 4px solid var(--ink-fixed); box-shadow: 0 2px 8px 1px rgba(var(--warm), 0.55);
   }
-  /* The glow hangs from the lamp itself, so it always sits centred under the shade. */
-  .glow {
-    position: absolute; left: 1px; top: 44px; width: 320px; height: 260px; transform: translateX(-50%);
-    pointer-events: none; background: radial-gradient(ellipse at top, rgba(var(--warm), 0.45), transparent 70%);
+  :global([data-theme="dark"]) .bulb { background: #fff0c2; box-shadow: 0 2px 12px 5px rgba(var(--warm), 0.6); }
+  @media (prefers-reduced-motion: no-preference) {
+    .bulb { animation: twinkle 3.2s ease-in-out var(--d, 0s) infinite; }
   }
+  @keyframes twinkle { 50% { filter: brightness(0.82); } }
   .pavement {
     position: absolute; left: 0; right: 0; bottom: 0; height: 44px;
     background: color-mix(in srgb, var(--soft) 30%, var(--bg)); border-top: 3px solid var(--ink-fixed);
@@ -121,7 +147,7 @@ const { room, blurb } = Astro.props;
   :global([data-theme="dark"]) .spill { background: linear-gradient(rgba(var(--warm), 0.38), rgba(var(--warm), 0)); }
 
   @media (max-width: 900px) {
-    .scene { height: auto; padding: 76px 18px 44px; display: grid; gap: 22px; }
+    .scene { height: auto; padding: 116px 18px 44px; display: grid; gap: 22px; }
     .front { position: relative; left: 0; top: 0; width: auto; }
     .window { position: relative; right: auto; top: auto; bottom: auto; width: auto; height: 290px; }
     .spill { right: 18px; left: 18px; width: auto; }
