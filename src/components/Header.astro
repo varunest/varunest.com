@@ -16,13 +16,13 @@ const { showLab = false } = Astro.props;
         <li><a href="/resume.pdf">Résumé</a></li>
       </ul>
     </nav>
+    <PullCord />
   </div>
-  <PullCord />
 </header>
 
 <style>
-  .site-header { position: relative; }
   .bar {
+    position: relative; /* the pull cord hangs from the bar's right edge */
     display: flex;
     justify-content: space-between;
     align-items: center;
