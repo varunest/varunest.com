@@ -8,8 +8,8 @@
   },
   "dependencies": {
     "add-commas": "0.0.4",
-    "body-parser": "^1.18.2",
-    "express": "^4.16.2",
+    "body-parser": "^1.20.9",
+    "express": "^4.22.3",
     "jquery": "^3.2.1",
     "mysql": "^2.15.0",
     "throttleit": "^1.0.0"
