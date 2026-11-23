@@ -7,5 +7,13 @@ export default defineConfig({
   site: "https://www.varunest.com",
   build: { format: "preserve" },
   trailingSlash: "ignore",
-  integrations: [mdx(), sitemap()],
+  integrations: [mdx(), sitemap({
+      // Directory-index pages (dist/blog/index.html, dist/tag/<t>/index.html) are served at
+      // "/dir/" on Cloudflare; "/dir" would 307. File pages (blog/<slug>.html) have no slash.
+      serialize(item) {
+        const u = new URL(item.url);
+        if (/^\/(blog|tag\/[^/]+)$/.test(u.pathname)) item.url = `${item.url}/`;
+        return item;
+      },
+    })],
 });
