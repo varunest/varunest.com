@@ -5,7 +5,7 @@ const servers = ["nas", "agents", "media"];
   <div class="stage">
     <div class="rack">
       {servers.map((name) => (
-        <button class="srv" type="button" data-name={name}>
+        <button class="srv" type="button" disabled data-name={name}>
           <i></i><i></i>{name}<span class="state">up</span>
         </button>
       ))}
@@ -19,6 +19,7 @@ const servers = ["nas", "agents", "media"];
   const root = document.querySelector<HTMLElement>(".rack-toy");
   const status = root?.querySelector<HTMLElement>(".status");
   root?.querySelectorAll<HTMLButtonElement>(".srv").forEach((btn) => {
+    btn.disabled = false;
     const state = btn.querySelector<HTMLElement>(".state")!;
     btn.addEventListener("click", () => {
       if (btn.classList.contains("boot")) return;
