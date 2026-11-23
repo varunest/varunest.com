@@ -1,0 +1,81 @@
+---
+import { getImage } from "astro:assets";
+import { Image } from "astro:assets";
+import { formatDate, postUrl, type Post } from "../../lib/posts";
+
+interface Props {
+  posts: Post[];
+}
+const pieces = await Promise.all(
+  Astro.props.posts
+    .filter((p) => p.data.image)
+    .map(async (p) => ({ post: p, full: await getImage({ src: p.data.image!, width: 1600 }) })),
+);
+---
+<section class="gallery" aria-labelledby="gallery-h">
+  <h2 id="gallery-h" class="sr-only">Gallery</h2>
+  <div class="rail" aria-hidden="true"></div>
+  <ul class="frames">
+    {pieces.map(({ post, full }) => (
+      <li class="art">
+        <span class="wire" aria-hidden="true"></span>
+        <a class="frame" href={full.src} data-full={full.src} data-caption={`${post.data.title} · ${post.data.medium ?? ""}`}>
+          <Image src={post.data.image!} alt={post.data.title} widths={[340, 680]} sizes="340px" />
+          <span class="sr-only">Open {post.data.title} full size</span>
+        </a>
+        <div class="placard">
+          <b>{post.data.title}</b>
+          <span>{post.data.medium}{post.data.medium ? ", " : ""}{formatDate(post.data.date)}</span>
+          <a href={postUrl(post)}>Read the story <span aria-hidden="true">→</span></a>
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<dialog class="lightbox" aria-label="Artwork">
+  <button class="close" type="button" aria-label="Close">×</button>
+  <img alt="" />
+  <p class="caption"></p>
+</dialog>
+
+<script>
+  const box = document.querySelector<HTMLDialogElement>("dialog.lightbox");
+  if (box) {
+    const img = box.querySelector("img")!;
+    const cap = box.querySelector<HTMLElement>(".caption")!;
+    box.querySelector(".close")!.addEventListener("click", () => box.close());
+    box.addEventListener("click", (e) => { if (e.target === box) box.close(); });
+    document.querySelectorAll<HTMLAnchorElement>(".gallery .frame").forEach((a) => {
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        img.src = a.dataset.full!;
+        img.alt = a.querySelector("img")?.alt ?? "";
+        cap.textContent = a.dataset.caption ?? "";
+        box.showModal();
+      });
+    });
+  }
+</script>
+
+<style>
+  .gallery { position: relative; margin: 0 0 40px; padding: 48px 20px 50px; border-radius: 18px; background: linear-gradient(color-mix(in srgb, #FFC857 12%, var(--bg)), color-mix(in srgb, #FFC857 5%, var(--bg))); }
+  .rail { position: absolute; left: 0; right: 0; top: 22px; height: 6px; background: var(--ink); opacity: 0.8; }
+  .frames { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 48px; }
+  .art { position: relative; display: grid; justify-items: center; gap: 14px; }
+  .wire { position: absolute; top: -26px; width: 120px; height: 28px; border: 2px solid var(--ink); border-bottom: 0; border-radius: 60px 60px 0 0; }
+  .frame { display: block; padding: 14px; background: #8b6d47; border: 3px solid var(--ink); box-shadow: 0 10px 0 rgba(0, 0, 0, 0.18), inset 0 0 0 4px #a8865a; cursor: zoom-in; transition: transform 0.2s; }
+  .frame:hover, .frame:focus-visible { transform: rotate(-1deg); }
+  .frame :global(img) { display: block; width: 340px; height: 248px; object-fit: cover; border: 10px solid #f7f1e6; }
+  .placard { display: grid; gap: 2px; min-width: 240px; padding: 10px 14px; background: var(--card); border: 2px solid var(--ink); border-radius: 4px; font-size: 14px; }
+  .placard b { font: 700 17px var(--head); }
+  .placard span { color: var(--soft); }
+  .placard a { font-weight: 700; }
+  .lightbox { max-width: min(1000px, calc(100% - 32px)); padding: 14px; border: 3px solid var(--ink); border-radius: 12px; background: var(--card); color: var(--ink); }
+  .lightbox::backdrop { background: rgba(10, 14, 16, 0.85); }
+  .lightbox img { display: block; max-width: 100%; max-height: 78vh; border: 6px solid #f7f1e6; }
+  .caption { margin: 8px 0 0; text-align: center; }
+  .close { position: absolute; top: 4px; right: 10px; border: 0; background: none; font-size: 28px; color: var(--ink); cursor: pointer; }
+  @media (max-width: 520px) { .frame :global(img) { width: 240px; height: 175px; } }
+  @media (prefers-reduced-motion: reduce) { .frame { transition: none; } }
+</style>

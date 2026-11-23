@@ -6,6 +6,8 @@ import PostRows from "../components/rooms/PostRows.astro";
 import RoomToy from "../components/toys/RoomToy.astro";
 import { books, getHouse } from "../lib/house";
 import LibraryShelves from "../components/rooms/LibraryShelves.astro";
+import ProjectCards from "../components/rooms/ProjectCards.astro";
+import Gallery from "../components/rooms/Gallery.astro";
 import { roomUrl } from "../lib/rooms";
 
 export const getStaticPaths = (async () => {
@@ -29,6 +31,8 @@ const BLURBS: Record<string, string> = {
       <RoomToy slot="toy" toy={room.toy} />
     </RoomScene>
     {room.id === "library" && <LibraryShelves books={books} />}
+    {room.id === "workshop" && <ProjectCards />}
+    {room.id === "studio" && <Gallery posts={room.posts} />}
     {room.posts.length > 0 && (
       <section class="room-posts" aria-labelledby="posts-h">
         <h2 id="posts-h" class:list={{ "sr-only": !["library", "workshop", "studio"].includes(room.id) }}>

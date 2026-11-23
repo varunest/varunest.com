@@ -1,1 +1,61 @@
-[]
+[
+  {
+    "id": "videoder",
+    "name": "Videoder",
+    "role": "Co-founder",
+    "years": "2016–2020",
+    "description": "A video downloader for Android that grew to more than 50 million downloads, with support for 50+ sites.",
+    "images": [
+      { "file": "videoder-ss1.jpg", "alt": "Videoder app screenshot: the list of supported sites" },
+      { "file": "videoder.jpg", "alt": "Videoder on a phone and a laptop" },
+      { "file": "videoder-ss2.jpg", "alt": "Videoder app screenshot: download quality options" }
+    ],
+    "chips": ["50M+ downloads", "1.2M fans"],
+    "links": [{ "label": "Website", "href": "https://www.videoder.com" }],
+    "colour": "#FF6B4A",
+    "feature": true
+  },
+  {
+    "id": "zomato",
+    "name": "Zomato",
+    "role": "Android engineer",
+    "years": "2015–2016",
+    "description": "40+ releases across the restaurant finder, ordering and merchant apps. Open-sourced PhotoFilters from my trial week.",
+    "images": [
+      { "file": "zomato.jpg", "alt": "Zomato restaurant finder app" },
+      { "file": "photofilters.gif", "alt": "PhotoFilters applying filters to a photo" }
+    ],
+    "chips": [],
+    "repo": "Zomato/AndroidPhotoFilters",
+    "starsFallback": 2100,
+    "starsLabel": "PhotoFilters",
+    "links": [{ "label": "PhotoFilters on GitHub", "href": "https://github.com/Zomato/AndroidPhotoFilters" }],
+    "colour": "#E9A6C2"
+  },
+  {
+    "id": "spark-button",
+    "name": "Spark Button",
+    "role": "Open source",
+    "years": "2016",
+    "description": "An Android button with a little firework, like Twitter's heart. Highly customisable and lightweight.",
+    "images": [{ "file": "spark-button.gif", "alt": "Spark Button bursting into sparks when tapped" }],
+    "chips": [],
+    "repo": "varunest/sparkbutton",
+    "starsFallback": 1000,
+    "links": [{ "label": "GitHub", "href": "https://github.com/varunest/sparkbutton" }],
+    "colour": "#FFC857"
+  },
+  {
+    "id": "glowing-loader",
+    "name": "Glowing Loader",
+    "role": "Open source",
+    "years": "2018",
+    "description": "A native Android progress indicator that glows, built from a design by Shashank Sahay.",
+    "images": [{ "file": "glowing-loader.gif", "alt": "Glowing Loader animating" }],
+    "chips": [],
+    "repo": "varunest/theglowingloader",
+    "starsFallback": 300,
+    "links": [{ "label": "GitHub", "href": "https://github.com/varunest/theglowingloader" }],
+    "colour": "#8AB4FF"
+  }
+]
