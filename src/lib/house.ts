@@ -1,5 +1,8 @@
-import books from "../data/books.json";
+import booksData from "../data/books.json";
+import type { Book } from "./books";
 import projects from "../data/projects.json";
+
+export const books = booksData as Book[];
 import { getPublishedPosts, type Post } from "./posts";
 import { ROOMS, isLit, type Room, type RoomId } from "./rooms";
 
@@ -13,7 +16,7 @@ export interface RoomState extends Room {
 const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
 function countLabel(id: RoomId, posts: number): string {
-  if (id === "library" && books.length > 0) return plural(books.filter((b: { shelf?: string }) => b.shelf === "read").length, "book");
+  if (id === "library" && books.length > 0) return plural(books.filter((b) => b.shelf === "read").length, "book");
   if (id === "workshop" && projects.length > 0) return plural(projects.length, "project");
   if (id === "studio") return plural(posts, "piece");
   return plural(posts, "post");
