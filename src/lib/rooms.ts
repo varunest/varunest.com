@@ -1,5 +1,5 @@
 export type RoomId = "library" | "workshop" | "studio" | "vault" | "server-closet" | "living-room";
-export type ToyName = "bookshelf" | "gears" | "paint" | "piggy" | "packets" | "record";
+export type ToyName = "bookshelf" | "gears" | "splatter" | "piggy" | "packets" | "record";
 
 export interface Room {
   id: RoomId;
@@ -13,7 +13,7 @@ export interface Room {
 export const ROOMS: Room[] = [
   { id: "library", name: "The Library", blurb: "Books I've read", colour: "#0B7A75", toy: "bookshelf" },
   { id: "workshop", name: "The Workshop", blurb: "Things I've shipped", colour: "#FF6B4A", toy: "gears" },
-  { id: "studio", name: "The Studio", blurb: "Art and drawing", colour: "#FFC857", toy: "paint" },
+  { id: "studio", name: "The Studio", blurb: "Art and drawing", colour: "#FFC857", toy: "splatter" },
   { id: "vault", name: "The Vault", blurb: "Money and investing", colour: "#8AB4FF", toy: "piggy" },
   { id: "server-closet", name: "Server Closet", blurb: "Home lab", colour: "#9AD1B9", toy: "packets" },
   { id: "living-room", name: "The Living Room", blurb: "Everyday writing", colour: "#E9A6C2", toy: "record" },

@@ -16,17 +16,6 @@ test("gears turn when pressed", async ({ page }) => {
   await expect(page.locator(".scene .toy-gears .g1")).not.toHaveCSS("transform", "none");
 });
 
-test("paint by numbers fills the chosen area with the chosen colour", async ({ page }) => {
-  await page.goto("/studio");
-  const toy = page.locator(".scene .toy-paint");
-  const swatch = toy.locator(".swatch").nth(2);
-  await swatch.click();
-  const colour = await swatch.getAttribute("data-colour");
-  const area = toy.locator(".area").nth(1);
-  await area.focus();
-  await area.press("Enter");
-  await expect(area).toHaveAttribute("fill", colour!);
-});
 
 test("piggy bank compounds: three coins make $35 (keyboard and taps)", async ({ page }) => {
   await page.goto("/vault");
@@ -88,9 +77,9 @@ test.describe("without JavaScript", () => {
 
 test.describe("dark theme", () => {
   test.use({ colorScheme: "dark" });
-  test("paint by numbers keeps dark outlines on its white canvas", async ({ page }) => {
+  test("the splatter painting keeps dark outlines", async ({ page }) => {
     await page.goto("/studio");
-    const stroke = await page.locator(".scene .toy-paint .area").first().evaluate((e) => getComputedStyle(e).stroke);
+    const stroke = await page.locator(".scene .toy-splatter .art > *").first().evaluate((e) => getComputedStyle(e).stroke);
     expect(stroke).toBe("rgb(15, 42, 46)");
   });
 });
@@ -122,15 +111,7 @@ test.describe("toys react to a hovering mouse", () => {
     await expect(btn).not.toHaveClass(/spinning/);
   });
 
-  test("paint by numbers paints an area as the brush passes over it", async ({ page }) => {
-    await page.goto("/studio");
-    const toy = page.locator(".scene .toy-paint");
-    const swatch = toy.locator(".swatch").nth(3);
-    await swatch.click();
-    const area = toy.locator(".area").nth(0);
-    await area.hover({ position: { x: 10, y: 10 } });
-    await expect(area).toHaveAttribute("fill", (await swatch.getAttribute("data-colour"))!);
-  });
+
 
   test("piggy bank takes a coin each time the pointer arrives", async ({ page }) => {
     await page.goto("/vault");
@@ -149,5 +130,60 @@ test.describe("a tap on a touch screen counts once", () => {
     await page.goto("/vault");
     await page.locator(".scene .toy-piggy button").tap();
     await expect(page.locator(".scene .toy-piggy .balance")).toHaveText("$11");
+  });
+});
+
+test.describe("paint splatter (Studio)", () => {
+  test.use({ viewport: { width: 1280, height: 900 }, reducedMotion: "no-preference" });
+  const splats = (page: import("@playwright/test").Page) => page.locator(".scene .toy-splatter .splat");
+
+  test("starts as an abstract painting, not a blank board", async ({ page }) => {
+    await page.goto("/studio");
+    expect(await page.locator(".scene .toy-splatter .art > *").count()).toBeGreaterThanOrEqual(6);
+    await expect(splats(page)).toHaveCount(0);
+  });
+
+  test("hovering flicks paint onto the canvas, inside its frame", async ({ page }) => {
+    await page.goto("/studio");
+    const board = (await page.locator(".scene .toy-splatter .board").boundingBox())!;
+    for (let i = 0; i <= 8; i++) {
+      await page.mouse.move(board.x + 20 + i * ((board.width - 40) / 8), board.y + board.height / 2, { steps: 2 });
+      await page.waitForTimeout(90);
+    }
+    expect(await splats(page).count()).toBeGreaterThanOrEqual(5);
+    const outside = await splats(page).evaluateAll(
+      (els, b) => els.filter((e) => {
+        const r = e.getBoundingClientRect();
+        const cx = r.x + r.width / 2, cy = r.y + r.height / 2;
+        return cx < b.x - 1 || cx > b.x + b.width + 1 || cy < b.y - 1 || cy > b.y + b.height + 1;
+      }).length,
+      board,
+    );
+    expect(outside).toBe(0);
+  });
+
+  test("the canvas never fills up: old splats make way for new ones", async ({ page }) => {
+    await page.goto("/studio");
+    const board = (await page.locator(".scene .toy-splatter .board").boundingBox())!;
+    for (let i = 0; i < 400; i++) {
+      await page.mouse.move(board.x + 10 + ((i * 37) % (board.width - 20)), board.y + 10 + ((i * 23) % (board.height - 20)));
+      if (i % 4 === 0) await page.waitForTimeout(80);
+    }
+    expect(await splats(page).count()).toBeLessThanOrEqual(60);
+  });
+
+  test("the keyboard splatters too", async ({ page }) => {
+    await page.goto("/studio");
+    await page.locator(".scene .toy-splatter button").press("Enter");
+    await expect.poll(() => splats(page).count()).toBeGreaterThan(0);
+  });
+});
+
+test.describe("paint splatter on a touch screen", () => {
+  test.use({ hasTouch: true, isMobile: true, viewport: { width: 375, height: 812 } });
+  test("a tap flicks one splat where you tap", async ({ page }) => {
+    await page.goto("/studio");
+    await page.locator(".scene .toy-splatter .board").tap();
+    await expect(page.locator(".scene .toy-splatter .splat")).toHaveCount(1);
   });
 });
