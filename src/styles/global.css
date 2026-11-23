@@ -152,3 +152,9 @@ hr,
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
 }
+
+/* While a popup (a modal <dialog>) is open, the page behind it stays put.
+   The scrollbar's space is kept so the page doesn't shift sideways when it hides. */
+html { scrollbar-gutter: stable; }
+html:has(dialog:modal) { overflow: hidden; }
+dialog { overscroll-behavior: contain; }
