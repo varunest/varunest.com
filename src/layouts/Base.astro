@@ -33,7 +33,8 @@ const image = new URL(ogImage ?? "/og.png", SITE.url).toString();
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="google-site-verification" content="FZuwNujwyxt3ri-debC9SRIUo1rTda-I9G384-govWY" />
-    <meta name="theme-color" content="#0B7A75" />
+    <meta name="theme-color" content="#0B7A75" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#15171C" media="(prefers-color-scheme: dark)" />
     <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
     <link rel="alternate" type="application/atom+xml" title={SITE.title} href="/atom.xml" />
     <meta property="og:type" content={type} />
