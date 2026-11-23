@@ -1,7 +1,7 @@
 :root {
   --head: "Fraunces Variable", Georgia, serif;
   --body: "Figtree Variable", system-ui, sans-serif;
-  --content: 760px;
+  --content: 1040px;
   --radius: 18px;
   --stroke: 2px;
 }
