@@ -11,7 +11,7 @@
       { "file": "videoder-ss2.jpg", "alt": "Videoder app screenshot: download quality options" }
     ],
     "chips": ["50M+ downloads", "1.2M fans"],
-    "links": [{ "label": "Website", "href": "https://www.videoder.com" }],
+    "links": [{ "label": "Website", "href": "https://web.archive.org/web/20190406035719/https://www.videoder.com/" }],
     "colour": "#FF6B4A",
     "feature": true
   },

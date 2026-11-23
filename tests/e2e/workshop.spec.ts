@@ -44,3 +44,9 @@ test("demo videos stay still for people who prefer reduced motion", async ({ pag
   expect(paused.length).toBe(3);
   expect(paused.every(Boolean)).toBe(true);
 });
+
+test("Videoder links to its archived website", async ({ page }) => {
+  await page.goto("/workshop");
+  const link = page.locator(".project", { hasText: "Videoder" }).getByRole("link", { name: /Website/ });
+  await expect(link).toHaveAttribute("href", "https://web.archive.org/web/20190406035719/https://www.videoder.com/");
+});
