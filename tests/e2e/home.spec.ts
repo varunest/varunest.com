@@ -8,13 +8,13 @@ test.describe("home without JavaScript", () => {
     await expect(page.locator("h1")).toHaveText("I build software people enjoy touching.");
     await expect(page.locator(".hero p").first()).toContainText("Staff Engineer at Uber");
     await expect(page.getByRole("link", { name: "Say hello" })).toHaveAttribute("href", "mailto:mailvarunest@gmail.com");
-    await expect(page.locator(".hero .btn").nth(1)).toHaveText("Read my writing");
-    await expect(page.locator(".hero .btn").nth(1)).toHaveAttribute("href", "/blog/");
+    await expect(page.locator(".hero .btn").nth(1)).toHaveText("Look around");
+    await expect(page.locator(".hero .btn").nth(1)).toHaveAttribute("href", "#rooms");
   });
 
   test("lab is hidden", async ({ page }) => {
     await page.goto("/");
-    await expect(page.locator("header nav a", { hasText: "Lab" })).toHaveCount(0);
+    await expect(page.locator("header a", { hasText: "Lab" })).toHaveCount(0);
     await expect(page.getByRole("heading", { name: "In the lab" })).toHaveCount(0);
   });
 

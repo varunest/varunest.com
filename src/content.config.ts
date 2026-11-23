@@ -1,34 +1,24 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
+import { ROOM_IDS } from "./lib/rooms";
 
 const posts = defineCollection({
   loader: glob({ base: "./src/content/posts", pattern: "*.{md,mdx}" }),
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    summary: z.string(),
-    tags: z.array(z.string()),
-    rating: z.string().optional(),
-    toy: z.enum(["pendulum", "bookshelf", "server-rack", "none"]).optional(),
-    legacySlug: z.string().optional(),
-    draft: z.boolean().default(false),
-  }),
-});
-
-const lab = defineCollection({
-  loader: glob({ base: "./src/content/lab", pattern: "*.{md,mdx}" }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
       date: z.coerce.date(),
       summary: z.string(),
-      tags: z.array(z.string()),
-      repo: z.string().url().optional(),
-      demo: z.string().url().optional(),
-      cover: image().optional(),
-      toy: z.enum(["pendulum", "bookshelf", "server-rack", "none"]).optional(),
+      room: z.enum(ROOM_IDS),
+      tags: z.array(z.string()).default([]),
+      rating: z.string().optional(),
+      /** Studio posts: the artwork shown in the gallery. */
+      image: image().optional(),
+      /** Studio posts: e.g. "Digital painting, Procreate". */
+      medium: z.string().optional(),
+      legacySlug: z.string().optional(),
       draft: z.boolean().default(false),
     }),
 });
 
-export const collections = { posts, lab };
+export const collections = { posts };

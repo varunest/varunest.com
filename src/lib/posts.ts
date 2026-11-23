@@ -1,4 +1,5 @@
 import type { CollectionEntry } from "astro:content";
+import type { RoomId } from "./rooms";
 
 export type Post = CollectionEntry<"posts">;
 
@@ -9,20 +10,12 @@ export async function getPublishedPosts(): Promise<Post[]> {
   return posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 }
 
-export function postUrl(id: string): string {
-  return `/blog/${id}`;
+export function postUrl(post: { id: string; data: { room: RoomId } }): string {
+  return `/${post.data.room}/${post.id}`;
 }
 
 export function legacyId(entry: Pick<Post, "id" | "data">): string {
   return `https://varunest.com/blog/${entry.data.legacySlug ?? entry.id}`;
-}
-
-export function allTags(posts: Post[]): string[] {
-  return [...new Set(posts.flatMap((p) => p.data.tags))].sort();
-}
-
-export function tagLabel(tag: string): string {
-  return tag.replace(/-/g, " ");
 }
 
 const fmt = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });

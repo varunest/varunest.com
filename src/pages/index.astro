@@ -3,12 +3,8 @@ import Base from "../layouts/Base.astro";
 import Portrait from "../components/Portrait.astro";
 import Skyline from "../components/Skyline.astro";
 import { SITE } from "../lib/site";
-import LabCards from "../components/LabCards.astro";
-import { getPublishedLab, labUrl } from "../lib/lab";
 import { getStars } from "../lib/github";
 
-const labEntries = await getPublishedLab();
-const lab = labEntries.length > 0;
 const [sparkStars, loaderStars, filterStars] = await Promise.all([
   getStars("varunest/sparkbutton", 1000),
   getStars("varunest/theglowingloader", 300),
@@ -20,7 +16,6 @@ const fmt = (n: number) => `${n.toLocaleString("en-US")}+`;
   title="Varun Verma"
   description="Staff Engineer at Uber. Ten years of Android apps used by millions, now building with AI agents, a home lab, and small machines that move."
   path="/"
-  showLab={lab}
 >
   <div class="wrap">
     <section class="hero">
@@ -32,22 +27,12 @@ const fmt = (n: number) => `${n.toLocaleString("en-US")}+`;
         </p>
         <div class="btns">
           <a class="btn btn-primary" href={`mailto:${SITE.email}`}>Say hello</a>
-          {lab
-            ? <a class="btn alt" href={labUrl()}>See the lab</a>
-            : <a class="btn alt" href="/blog/">Read my writing</a>}
+          <a class="btn alt" href="#rooms">Look around</a>
         </div>
       </div>
       <div class="hero-portrait"><Portrait /></div>
       <Skyline />
     </section>
-
-    {lab && (
-      <section class="block" aria-labelledby="lab-h">
-        <h2 id="lab-h">In the lab</h2>
-        <p>Experiments, prototypes and small machines. <a href={labUrl()}>See all of it</a>.</p>
-        <LabCards entries={labEntries.slice(0, 3)} />
-      </section>
-    )}
 
     <section class="block" aria-labelledby="shipped-h">
       <h2 id="shipped-h">Things I've shipped</h2>

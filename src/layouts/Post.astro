@@ -1,6 +1,7 @@
 ---
 import Base from "./Base.astro";
 import { formatDate, postUrl, type Post } from "../lib/posts";
+import { roomById, roomUrl } from "../lib/rooms";
 
 interface Props {
   post: Post;
@@ -8,27 +9,23 @@ interface Props {
   older?: Post;
 }
 const { post, newer, older } = Astro.props;
-const { title, summary, date, rating, tags } = post.data;
+const { title, summary, date, rating } = post.data;
+const room = roomById(post.data.room);
 ---
-<Base title={`${title} | Varun Verma`} description={summary} path={postUrl(post.id)} type="article">
+<Base title={`${title} | Varun Verma`} description={summary} path={postUrl(post)} type="article">
   <article class="post">
-    <div class="top">
     <header>
+      <a class="room-label" href={roomUrl(room.id)} style={`--c:${room.colour}`}>{room.name}</a>
       <h1>{title}</h1>
       <p class="meta">
         <time datetime={date.toISOString()}>{formatDate(date)}</time>
         {rating && <span class="rating">Rating {rating}</span>}
       </p>
-      <ul class="tags">
-        {tags.map((t) => <li><a class="tag" href={`/tag/${t}/`}>{t.replace(/-/g, " ")}</a></li>)}
-      </ul>
     </header>
-    <slot name="toy" />
-    </div>
     <div class="body"><slot /></div>
     <nav class="pager" aria-label="More posts">
-      {older && <a rel="prev" href={postUrl(older.id)}><span>Older</span> {older.data.title}</a>}
-      {newer && <a rel="next" href={postUrl(newer.id)}><span>Newer</span> {newer.data.title}</a>}
+      {older && <a rel="prev" href={postUrl(older)}><span>Older</span> {older.data.title}</a>}
+      {newer && <a rel="next" href={postUrl(newer)}><span>Newer</span> {newer.data.title}</a>}
     </nav>
     <slot name="comments" />
   </article>
@@ -36,17 +33,15 @@ const { title, summary, date, rating, tags } = post.data;
 
 <style>
   .post { max-width: var(--content); margin: 0 auto; padding: 40px 24px 64px; }
-  .top { display: block; }
-  .top > :global(.toy) { max-width: 460px; }
-  @media (min-width: 900px) {
-    .top { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 48px; align-items: start; }
-    .top > header { grid-column: 1; grid-row: 1; min-width: 0; }
-    .top > :global(.toy) { grid-column: 2; grid-row: 1; margin-top: 8px; }
+  .room-label {
+    display: inline-block; margin-bottom: 14px; padding: 2px 12px; border-radius: 99px;
+    border: 1.5px solid var(--ink); color: var(--ink); text-decoration: none;
+    font-size: 13px; font-weight: 700;
+    background: color-mix(in srgb, var(--c) 35%, var(--card));
   }
+  .room-label:hover { text-decoration: underline; }
   h1 { margin: 0 0 8px; }
-  .meta { margin: 0 0 12px; color: var(--soft); display: flex; gap: 16px; flex-wrap: wrap; }
-  .tags { list-style: none; margin: 0 0 24px; padding: 0; display: flex; gap: 8px; flex-wrap: wrap; }
-  .tags a { text-decoration: none; }
+  .meta { margin: 0 0 24px; color: var(--soft); display: flex; gap: 16px; flex-wrap: wrap; }
   .body { max-width: 68ch; }
   .body :global(img) { max-width: 100%; height: auto; border-radius: var(--radius); }
   .body :global(blockquote) { margin: 1.2em 0; padding: 0 0 0 16px; border-left: 4px solid var(--pop2); }

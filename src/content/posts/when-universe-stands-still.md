@@ -1,5 +1,6 @@
 ---
 slug: when-universe-stands-still
+room: studio
 date: 2021-03-19
 title: When universe stands still
 summary: An art piece that I did to remind myself to keep moving

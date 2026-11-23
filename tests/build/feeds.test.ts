@@ -27,7 +27,7 @@ describe("atom.xml", () => {
   it("links to www post urls and has content, summary, updated", () => {
     for (const e of entries) {
       const alt = arr(e.link).find((l: any) => l["@_rel"] === "alternate");
-      expect(alt["@_href"].startsWith("https://www.varunest.com/blog/")).toBe(true);
+      expect(alt["@_href"]).toMatch(/^https:\/\/www\.varunest\.com\/(library|workshop|studio|vault|server-closet|living-room)\/[^/]+$/);
       expect(String(e.content["#text"]).length).toBeGreaterThan(50);
       expect(e.summary).toBeTruthy();
       expect(e.updated).toMatch(/^\d{4}-\d\d-\d\dT/);
@@ -47,7 +47,7 @@ describe("rss.xml", () => {
   it("has 5 items with www links and no trailing slash", () => {
     expect(items).toHaveLength(5);
     for (const i of items) {
-      expect(i.link.startsWith("https://www.varunest.com/blog/")).toBe(true);
+      expect(i.link).toMatch(/^https:\/\/www\.varunest\.com\/(library|workshop|studio|vault|server-closet|living-room)\/[^/]+$/);
       expect(i.link.endsWith("/")).toBe(false);
       expect(String(i["content:encoded"]).length).toBeGreaterThan(50);
     }

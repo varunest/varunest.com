@@ -4,7 +4,6 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Sparks from "../components/Sparks.astro";
 import { SITE } from "../lib/site";
-import { hasLab } from "../lib/lab";
 
 interface Props {
   title: string;
@@ -12,10 +11,8 @@ interface Props {
   path: string;
   ogImage?: string;
   type?: "website" | "article";
-  showLab?: boolean;
 }
-const { title, description, path, ogImage, type = "website", showLab } = Astro.props;
-const labVisible = showLab ?? (await hasLab());
+const { title, description, path, ogImage, type = "website" } = Astro.props;
 const canonical = SITE.url + path;
 const image = new URL(ogImage ?? "/og.png", SITE.url).toString();
 ---
@@ -59,7 +56,7 @@ const image = new URL(ogImage ?? "/og.png", SITE.url).toString();
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
-    <Header showLab={labVisible} />
+    <Header />
     <main id="main"><slot /></main>
     <Footer />
     <Sparks />

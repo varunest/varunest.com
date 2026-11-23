@@ -18,18 +18,41 @@ function raw(path: string): Promise<{ status: number; location?: string; body: s
   });
 }
 
+const JRD = "/library/jrd-tata-biography-beyond-the-last-blue-mountain";
+const LL = "/library/the-last-lecture-review";
 const redirects: [string, string][] = [
-  [`/blog/${BIO}'s-life`, "/blog/jrd-tata-biography-beyond-the-last-blue-mountain"],
-  [`/blog/${BIO}%27s-life`, "/blog/jrd-tata-biography-beyond-the-last-blue-mountain"],
-  [`/blog/${PROF}'s-reminisce-and-crux-of-his-teachings`, "/blog/the-last-lecture-review"],
-  [`/blog/${PROF}%27s-reminisce-and-crux-of-his-teachings`, "/blog/the-last-lecture-review"],
-  [`/blog/${BIO}'s-life.html`, "/blog/jrd-tata-biography-beyond-the-last-blue-mountain"],
-  [`/blog/${BIO}%27s-life.html`, "/blog/jrd-tata-biography-beyond-the-last-blue-mountain"],
-  [`/blog/${PROF}'s-reminisce-and-crux-of-his-teachings.html`, "/blog/the-last-lecture-review"],
-  [`/blog/${PROF}%27s-reminisce-and-crux-of-his-teachings.html`, "/blog/the-last-lecture-review"],
-  ["/blog/reworking-website-and-setting-up-blog-using-jekyll.html", "/blog/reworking-website-and-setting-up-blog-using-jekyll"],
-  ["/blog/organizing-budget-and-systematic-investment-planning.html", "/blog/organizing-budget-and-systematic-investment-planning"],
-  ["/blog/when-universe-stands-still.html", "/blog/when-universe-stands-still"],
+  [`/blog/${BIO}'s-life`, JRD],
+  [`/blog/${BIO}%27s-life`, JRD],
+  [`/blog/${BIO}'s-life.html`, JRD],
+  [`/blog/${BIO}%27s-life.html`, JRD],
+  [`/blog/${PROF}'s-reminisce-and-crux-of-his-teachings`, LL],
+  [`/blog/${PROF}%27s-reminisce-and-crux-of-his-teachings`, LL],
+  [`/blog/${PROF}'s-reminisce-and-crux-of-his-teachings.html`, LL],
+  [`/blog/${PROF}%27s-reminisce-and-crux-of-his-teachings.html`, LL],
+  ["/blog/jrd-tata-biography-beyond-the-last-blue-mountain", JRD],
+  ["/blog/the-last-lecture-review", LL],
+  ["/blog/reworking-website-and-setting-up-blog-using-jekyll", "/workshop/reworking-website-and-setting-up-blog-using-jekyll"],
+  ["/blog/reworking-website-and-setting-up-blog-using-jekyll.html", "/workshop/reworking-website-and-setting-up-blog-using-jekyll"],
+  ["/blog/organizing-budget-and-systematic-investment-planning", "/vault/organizing-budget-and-systematic-investment-planning"],
+  ["/blog/organizing-budget-and-systematic-investment-planning.html", "/vault/organizing-budget-and-systematic-investment-planning"],
+  ["/blog/when-universe-stands-still", "/studio/when-universe-stands-still"],
+  ["/blog/when-universe-stands-still.html", "/studio/when-universe-stands-still"],
+  ["/blog", "/"],
+  ["/blog/", "/"],
+  ["/tag/book-review/", "/library"],
+  ["/tag/book-review", "/library"],
+  ["/tag/art/", "/studio"],
+  ["/tag/art", "/studio"],
+  ["/tag/procreate/", "/studio"],
+  ["/tag/procreate", "/studio"],
+  ["/tag/investment/", "/vault"],
+  ["/tag/investment", "/vault"],
+  ["/tag/website/", "/workshop"],
+  ["/tag/website", "/workshop"],
+  ["/tag/design/", "/workshop"],
+  ["/tag/design", "/workshop"],
+  ["/tag/jekyll/", "/workshop"],
+  ["/tag/jekyll", "/workshop"],
   ["/404/", "/404"],
 ];
 
@@ -42,10 +65,9 @@ for (const [from, to] of redirects) {
 }
 
 for (const path of [
-  "/blog/when-universe-stands-still",
-  "/blog/jrd-tata-biography-beyond-the-last-blue-mountain",
-  "/blog/the-last-lecture-review",
-  "/tag/art/",
+  "/studio/when-universe-stands-still",
+  JRD,
+  LL,
   "/atom.xml",
   "/resume.pdf",
   "/images/varun.jpg",

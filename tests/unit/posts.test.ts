@@ -1,10 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { legacyId, postUrl } from "../../src/lib/posts";
+import { legacyId } from "../../src/lib/posts";
 
 describe("posts helpers", () => {
-  it("builds post urls", () => {
-    expect(postUrl("x")).toBe("/blog/x");
-  });
   it("uses legacySlug for legacy ids when present", () => {
     expect(
       legacyId({
