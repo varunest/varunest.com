@@ -32,23 +32,26 @@
 
   if (cord) {
     let startY: number | null = null;
+    let pointerId: number | null = null;
 
     cord.classList.add("sway");
     cord.addEventListener("pointerdown", (e) => {
       if (!e.isPrimary || e.button !== 0) return;
       startY = e.clientY;
+      pointerId = e.pointerId;
       cord.classList.add("pulling");
       cord.setPointerCapture(e.pointerId);
     });
     cord.addEventListener("pointermove", (e) => {
-      if (startY === null) return;
+      if (startY === null || e.pointerId !== pointerId) return;
       const pull = Math.max(0, Math.min(PULL_MAX, e.clientY - startY));
       cord.style.setProperty("--pull", `${pull}px`);
     });
     const release = (e: PointerEvent) => {
-      if (startY === null) return;
+      if (startY === null || e.pointerId !== pointerId) return;
       const dy = e.clientY - startY;
       startY = null;
+      pointerId = null;
       cord.classList.remove("pulling");
       cord.style.setProperty("--pull", "0px");
       if (e.type === "pointerup" && dy > PULL_THRESHOLD) toggle();
