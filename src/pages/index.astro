@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Portrait from "../components/Portrait.astro";
+import Skyline from "../components/Skyline.astro";
 import { SITE } from "../lib/site";
 import { hasLab } from "../lib/lab";
 import { getStars } from "../lib/github";
@@ -35,8 +36,7 @@ const fmt = (n: number) => `${n.toLocaleString("en-US")}+`;
         </div>
       </div>
       <div class="hero-portrait"><Portrait /></div>
-      <!-- Task 9: the skyline goes here. -->
-      <div class="hero-skyline"></div>
+      <Skyline />
     </section>
 
     {lab && (
@@ -82,11 +82,11 @@ const fmt = (n: number) => `${n.toLocaleString("en-US")}+`;
     grid-template-columns: 1fr 220px;
     gap: 30px;
     align-items: center;
-    padding: 44px 0 56px;
+    padding: 44px 0 130px;
   }
   .hero-text p { margin-top: 18px; max-width: 33em; color: var(--soft); }
   .btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
-  .hero-skyline { grid-column: 1 / -1; }
+  .hero-text, .hero-portrait { position: relative; z-index: 1; }
   .block { padding: 40px 0; border-top: 2px dashed var(--line); }
   .shipped { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 14px; }
   .shipped h3 { margin: 0 0 4px; font-size: 1.2rem; }
@@ -94,7 +94,7 @@ const fmt = (n: number) => `${n.toLocaleString("en-US")}+`;
   .stars { font-weight: 700; color: var(--ink); white-space: nowrap; }
   .earlier { margin-top: 20px; color: var(--soft); }
   @media (max-width: 680px) {
-    .hero { grid-template-columns: 1fr; }
+    .hero { grid-template-columns: 1fr; padding-bottom: 110px; }
     .hero-portrait { justify-self: start; }
   }
 </style>
