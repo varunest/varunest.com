@@ -71,7 +71,10 @@ test.describe("motion allowed", () => {
     await page.evaluate(() => document.documentElement.setAttribute("data-theme", "dark"));
     await page.waitForTimeout(100);
     const n = await page.evaluate(
-      () => [...document.querySelectorAll(".skyline *")].flatMap((e) => e.getAnimations()).filter((a) => a.playState === "running").length,
+      () =>
+        [...document.querySelectorAll(".skyline *")]
+          .flatMap((e) => e.getAnimations())
+          .filter((a) => a instanceof CSSAnimation && a.animationName === "skyline-twinkle" && a.playState === "running").length,
     );
     expect(n).toBeGreaterThan(0);
   });

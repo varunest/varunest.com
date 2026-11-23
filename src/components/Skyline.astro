@@ -63,7 +63,7 @@ const lights = Array.from({ length: 14 }, (_, i) => 640 + i * 20).map((x) => ({
   <path class="stars" d={stars} />
   <path class="h1" d="M480 200V150Q560 110 640 140T820 120Q900 100 1000 130V200Z" />
   <path class="h2" d="M0 200V160Q80 130 170 150T360 140Q430 120 500 150V200Z" />
-  <path class="sutro" d="M174 150 185 84 196 150M185 84V70M180 106h10M177 128h16M181 98l8 8M189 98l-8 8" />
+  <path class="sutro" d="M174 150 185 84 196 150M185 84V150M185 84V70M180 106h10M177 128h16M181 98l8 8M189 98l-8 8" />
   <g class="city">
     <g class="bldg">
       {blocks.map(([x, y, w, h]) => <rect x={x} y={y} width={w} height={h} rx="2" />)}
@@ -169,9 +169,9 @@ const lights = Array.from({ length: 14 }, (_, i) => 640 + i * 20).map((x) => ({
 
   @keyframes skyline-twinkle { 50% { opacity: 0.2; } }
 
-  @media (max-width: 639px) {
+  @media (max-width: 680px) {
     /* Taller box, cropped to the right so the full bridge stays in view; the city
-       shrinks and tucks up against the bridge's left tower. */
+       shrinks to 60% and slides right so it sits beside, and partly behind, the bridge's left tower and sun. */
     .skyline { aspect-ratio: auto; height: 150px; }
     .skyline .city { transform: translate(300px, 0) scale(0.6); transform-origin: 476px 190px; }
   }
