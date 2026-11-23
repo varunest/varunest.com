@@ -1,0 +1,49 @@
+---
+import Base from "./Base.astro";
+import { formatDate, postUrl, type Post } from "../lib/posts";
+
+interface Props {
+  post: Post;
+  newer?: Post;
+  older?: Post;
+}
+const { post, newer, older } = Astro.props;
+const { title, summary, date, rating, tags } = post.data;
+---
+<Base title={`${title} | Varun Verma`} description={summary} path={postUrl(post.id)} type="article">
+  <article class="post">
+    <header>
+      <h1>{title}</h1>
+      <p class="meta">
+        <time datetime={date.toISOString()}>{formatDate(date)}</time>
+        {rating && <span class="rating">Rating {rating}</span>}
+      </p>
+      <ul class="tags">
+        {tags.map((t) => <li><a class="tag" href={`/tag/${t}/`}>{t.replace(/-/g, " ")}</a></li>)}
+      </ul>
+    </header>
+    <slot name="toy" />
+    <div class="body"><slot /></div>
+    <nav class="pager" aria-label="More posts">
+      {older && <a rel="prev" href={postUrl(older.id)}><span>Older</span> {older.data.title}</a>}
+      {newer && <a rel="next" href={postUrl(newer.id)}><span>Newer</span> {newer.data.title}</a>}
+    </nav>
+    <slot name="comments" />
+  </article>
+</Base>
+
+<style>
+  .post { max-width: 760px; margin: 0 auto; padding: 40px 20px 64px; }
+  h1 { margin: 0 0 8px; }
+  .meta { margin: 0 0 12px; opacity: 0.8; display: flex; gap: 16px; flex-wrap: wrap; }
+  .tags { list-style: none; margin: 0 0 24px; padding: 0; display: flex; gap: 8px; flex-wrap: wrap; }
+  .tags a { text-decoration: none; }
+  .body { max-width: 68ch; }
+  .body :global(img) { max-width: 100%; height: auto; border-radius: var(--radius); }
+  .body :global(blockquote) { margin: 1.2em 0; padding: 0 0 0 16px; border-left: 4px solid var(--pop2); }
+  .pager { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 48px; }
+  .pager a { display: block; max-width: 45%; }
+  .pager span { display: block; font-size: 13px; font-weight: 700; text-transform: uppercase; opacity: 0.7; }
+  .pager a[rel="next"] { margin-left: auto; text-align: right; }
+  @media (max-width: 600px) { .pager a { max-width: 100%; } }
+</style>

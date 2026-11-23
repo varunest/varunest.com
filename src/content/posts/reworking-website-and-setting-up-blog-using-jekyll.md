@@ -1,9 +1,8 @@
 ---
+slug: reworking-website-and-setting-up-blog-using-jekyll
+date: 2018-12-11
 title: Reworking website and setting up blog using Jekyll
-layout: post
-class: post
 summary: Benefits of Jekyll, Ruby based static site generator and how to setup a blog using it.
-github: https://github.com/varunest/varunest.com
 tags:
 - website
 - design
@@ -11,7 +10,6 @@ tags:
 ---
 
 All of my posts are written in Markdown and the blog is powered by [Jekyll](https://github.com/mojombo/jekyll), a static site generator that takes Markdown blog posts and converts them into HTML files. I went for this approach (and not Wordpress or any other CMS for that matter) because:
-<!--break-->
 
 1.  Whole website/blog can be easily version controlled.
 2.  Little or no maintainance is required (No longer out-of-date Wordpress installations!)
