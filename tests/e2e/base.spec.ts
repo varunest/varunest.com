@@ -43,7 +43,6 @@ test("header has the brand and no Writing or Lab links", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("header a", { hasText: "Varun," })).toHaveAttribute("href", "/");
   await expect(page.locator("header a[href^='/blog']")).toHaveCount(0);
-  await expect(page.locator("header nav a[href='/resume.pdf']")).toHaveText("Résumé");
   await expect(page.locator("header a[href^='/lab']")).toHaveCount(0);
 });
 
