@@ -87,11 +87,29 @@ test("no horizontal scroll at 360px", async ({ page }) => {
   }
 });
 
-test("without JavaScript the toy is a drawing, not a broken control", async ({ browser }) => {
-  const ctx = await browser.newContext({ javaScriptEnabled: false });
+test("without JavaScript the toy is a drawing with nothing focusable", async ({ browser, baseURL }) => {
+  const ctx = await browser.newContext({ javaScriptEnabled: false, baseURL });
   const page = await ctx.newPage();
-  await page.goto("http://localhost:4322/blog/" + reviews[0] + "/");
-  await expect(page.locator(".toy")).toBeVisible();
+  await page.goto(`/blog/${reviews[0]}/`);
   await expect(page.locator(".toy .shelf")).toBeVisible();
+  const focusable = await page.locator(".toy").evaluate((el) =>
+    [...el.querySelectorAll<HTMLElement>("button, canvas, a, input, [tabindex]")].filter((n) => {
+      const disabled = (n as HTMLButtonElement).disabled;
+      return !disabled && (n.tabIndex >= 0) && getComputedStyle(n).display !== "none";
+    }).length,
+  );
+  expect(focusable).toBe(0);
+  await page.goto("/blog/when-universe-stands-still/");
+  await expect(page.locator(".toy .static")).toBeVisible();
   await ctx.close();
+});
+
+test("the post column lines up with the header brand at 1280px", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  for (const slug of [...reviews, "when-universe-stands-still"]) {
+    await page.goto(`/blog/${slug}/`);
+    const brand = (await page.locator("a.brand").boundingBox())!;
+    const h1 = (await page.locator("h1").boundingBox())!;
+    expect(Math.abs(brand.x - h1.x), slug).toBeLessThanOrEqual(1);
+  }
 });

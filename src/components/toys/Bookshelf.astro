@@ -13,7 +13,7 @@ const label = (b: Book) => (b.rating ? `${b.title}: ${b.rating}` : b.title);
   <div class="stage">
     <div class="shelf">
       {real.map((b, i) => (
-        <button class="book" type="button" aria-pressed="false" data-label={label(b)} aria-label={b.title}
+        <button class="book" type="button" disabled aria-pressed="false" data-label={label(b)} aria-label={b.title}
           style={`height:${heights[i]}px;background:${colours[i]}`}></button>
       ))}
       {Array.from({ length: fillers }, (_, j) => (
@@ -29,6 +29,7 @@ const label = (b: Book) => (b.rating ? `${b.title}: ${b.rating}` : b.title);
   const blurb = root?.querySelector<HTMLElement>(".blurb");
   const books = [...(root?.querySelectorAll<HTMLButtonElement>("button.book") ?? [])];
   books.forEach((btn) => {
+    btn.disabled = false;
     btn.addEventListener("click", () => {
       const on = btn.getAttribute("aria-pressed") !== "true";
       books.forEach((b) => b.setAttribute("aria-pressed", "false"));
