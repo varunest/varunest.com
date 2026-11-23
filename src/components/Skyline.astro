@@ -171,7 +171,7 @@ const lights = Array.from({ length: 14 }, (_, i) => 640 + i * 20).map((x) => ({
 
   @media (max-width: 680px) {
     /* Taller box, cropped to the right so the full bridge stays in view; the city
-       shrinks to 60% and slides right so it sits beside, and partly behind, the bridge's left tower and sun. */
+       shrinks to 60% and slides right so it sits beside the bridge's left tower. */
     .skyline { aspect-ratio: auto; height: 150px; }
     .skyline .city { transform: translate(300px, 0) scale(0.6); transform-origin: 476px 190px; }
   }
