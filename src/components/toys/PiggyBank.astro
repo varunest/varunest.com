@@ -1,0 +1,59 @@
+---
+interface Props { inert?: boolean }
+const { inert = false } = Astro.props;
+const Tag = inert ? "span" : "button";
+---
+<div class="toy-piggy">
+  <Tag class="pig" type={inert ? undefined : "button"} disabled={inert ? undefined : true}>
+    {!inert && <span class="sr-only">Drop a coin in the piggy bank. Balance:</span>}
+    <svg viewBox="0 0 170 120" aria-hidden="true">
+      <g class="body">
+        <ellipse cx="85" cy="70" rx="56" ry="40" fill="#F4A6B8" stroke="var(--ink)" stroke-width="3" />
+        <circle cx="138" cy="66" r="13" fill="#F7BCC9" stroke="var(--ink)" stroke-width="3" />
+        <circle cx="134" cy="64" r="2" fill="#0F2A2E" /><circle cx="141" cy="64" r="2" fill="#0F2A2E" />
+        <circle cx="112" cy="52" r="3" fill="#0F2A2E" />
+        <path d="M70 34l8-12 10 10" fill="#F4A6B8" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round" />
+        <rect x="72" y="30" width="26" height="6" rx="3" fill="#0F2A2E" />
+        <path d="M52 104v10M70 108v8M100 108v8M118 104v10" stroke="var(--ink)" stroke-width="6" stroke-linecap="round" />
+        <path d="M30 66q-14-4-8-14" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round" />
+      </g>
+    </svg>
+    <span class="balance" aria-live="polite">$0</span>
+  </Tag>
+</div>
+
+<script>
+  import { formatMoney, nextBalance } from "../../lib/piggy";
+  document.querySelectorAll<HTMLButtonElement>(".toy-piggy button").forEach((btn) => {
+    let balance = 0;
+    const label = btn.querySelector<HTMLElement>(".balance")!;
+    const svg = btn.querySelector("svg")!;
+    btn.disabled = false;
+    btn.addEventListener("click", () => {
+      balance = nextBalance(balance);
+      label.textContent = formatMoney(balance);
+      btn.classList.remove("wiggle");
+      void btn.offsetWidth;
+      btn.classList.add("wiggle");
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const coin = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      coin.setAttribute("cx", "85"); coin.setAttribute("cy", "26"); coin.setAttribute("r", "8");
+      coin.setAttribute("class", "coin");
+      svg.appendChild(coin);
+      setTimeout(() => coin.remove(), 460);
+    });
+  });
+</script>
+
+<style>
+  .pig { background: none; border: 0; padding: 0; display: grid; justify-items: center; gap: 2px; color: var(--ink); font: inherit; }
+  button.pig { cursor: pointer; }
+  svg { width: 160px; height: 113px; overflow: visible; display: block; }
+  .body { transform-box: fill-box; transform-origin: center bottom; }
+  .wiggle .body { animation: wiggle 0.45s ease-in-out; }
+  @keyframes wiggle { 25% { transform: rotate(-5deg); } 75% { transform: rotate(5deg); } }
+  svg :global(.coin) { fill: #FFC857; stroke: #0F2A2E; stroke-width: 2; animation: drop 0.45s cubic-bezier(0.5, 0, 0.8, 0.6) forwards; }
+  @keyframes drop { from { transform: translateY(-60px); } to { transform: translateY(0); opacity: 0; } }
+  .balance { font: 800 15px ui-monospace, Menlo, monospace; }
+  @media (prefers-reduced-motion: reduce) { .wiggle .body { animation: none; } }
+</style>

@@ -3,6 +3,7 @@ import type { GetStaticPaths } from "astro";
 import Base from "../layouts/Base.astro";
 import RoomScene from "../components/rooms/RoomScene.astro";
 import PostRows from "../components/rooms/PostRows.astro";
+import RoomToy from "../components/toys/RoomToy.astro";
 import { getHouse } from "../lib/house";
 import { roomUrl } from "../lib/rooms";
 
@@ -23,7 +24,9 @@ const BLURBS: Record<string, string> = {
 ---
 <Base title={`${room.name} | Varun Verma`} description={`${room.blurb}: ${BLURBS[room.id]}`} path={roomUrl(room.id)}>
   <div class="wrap">
-    <RoomScene room={room} blurb={BLURBS[room.id]} />
+    <RoomScene room={room} blurb={BLURBS[room.id]}>
+      <RoomToy slot="toy" toy={room.toy} />
+    </RoomScene>
     {room.posts.length > 0 && (
       <section class="room-posts" aria-label={`Posts in ${room.name}`}>
         <PostRows posts={room.posts} headingLevel={2} />
