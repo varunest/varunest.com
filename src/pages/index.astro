@@ -4,9 +4,12 @@ import Portrait from "../components/Portrait.astro";
 import Skyline from "../components/Skyline.astro";
 import { SITE } from "../lib/site";
 import PostRows from "../components/rooms/PostRows.astro";
+import FloorPlan from "../components/rooms/FloorPlan.astro";
+import { getHouse } from "../lib/house";
 import { getPublishedPosts } from "../lib/posts";
 
 const latest = (await getPublishedPosts()).slice(0, 6);
+const house = await getHouse();
 ---
 <Base
   title="Varun Verma"
@@ -30,6 +33,12 @@ const latest = (await getPublishedPosts()).slice(0, 6);
       <Skyline />
     </section>
 
+    <section class="block" id="rooms" aria-labelledby="rooms-h">
+      <h2 id="rooms-h">Come on in</h2>
+      <p class="sub">Each room is a corner of what I do. Every one has something to play with.</p>
+      <FloorPlan rooms={house} />
+    </section>
+
     <section class="block" id="latest" aria-labelledby="latest-h">
       <h2 id="latest-h">Latest posts</h2>
       <PostRows posts={latest} showRoom={true} />
@@ -50,6 +59,7 @@ const latest = (await getPublishedPosts()).slice(0, 6);
   .btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
   .hero-text, .hero-portrait { position: relative; z-index: 1; }
   .block { padding: 40px 0; border-top: 2px dashed var(--line); }
+  .sub { margin: 0 0 22px; color: var(--soft); }
   .stars { font-weight: 700; color: var(--ink); white-space: nowrap; }
   .earlier { margin-top: 20px; color: var(--soft); }
   @media (max-width: 680px) {

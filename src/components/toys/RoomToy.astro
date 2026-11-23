@@ -1,0 +1,18 @@
+---
+import type { ToyName } from "../../lib/rooms";
+
+interface Props {
+  toy: ToyName;
+  inert?: boolean;
+}
+const { toy, inert = false } = Astro.props;
+---
+<div class:list={["room-toy", { inert }]} data-toy={toy} aria-hidden={inert ? "true" : undefined}>
+  <span class="placeholder">{toy}</span>
+</div>
+
+<style>
+  .room-toy { display: grid; place-items: center; min-height: 120px; }
+  .room-toy.inert { opacity: 0.3; filter: grayscale(1); pointer-events: none; }
+  .placeholder { font-size: 12px; color: var(--soft); }
+</style>
