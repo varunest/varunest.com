@@ -1,4 +1,5 @@
 ---
+import PullCord from "./PullCord.astro";
 interface Props {
   showLab?: boolean;
 }
@@ -15,7 +16,7 @@ const { showLab = false } = Astro.props;
       </ul>
     </nav>
   </div>
-  <slot name="cord" />
+  <PullCord />
 </header>
 
 <style>
@@ -26,6 +27,7 @@ const { showLab = false } = Astro.props;
     align-items: center;
     padding-top: 22px;
     padding-bottom: 22px;
+    padding-right: 64px; /* room for the pull cord */
   }
   .brand {
     font-family: var(--head);
