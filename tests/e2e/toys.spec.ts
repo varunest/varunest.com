@@ -113,3 +113,23 @@ test("the post column lines up with the header brand at 1280px", async ({ page }
     expect(Math.abs(brand.x - h1.x), slug).toBeLessThanOrEqual(1);
   }
 });
+
+test.describe("phones", () => {
+  test.use({ viewport: { width: 375, height: 700 }, hasTouch: true, isMobile: true });
+
+  test("a vertical swipe that starts away from the bob scrolls the page", async ({ page }) => {
+    await page.goto("/blog/when-universe-stands-still/");
+    const canvas = page.locator(".toy canvas");
+    await canvas.scrollIntoViewIfNeeded();
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await canvas.scrollIntoViewIfNeeded();
+    const y0 = await page.evaluate(() => window.scrollY);
+    const box = (await canvas.boundingBox())!;
+    // Top-left corner of the canvas: far from the bob, which hangs lower right at first.
+    const x = box.x + 20;
+    const y = box.y + 20;
+    const cdp = await page.context().newCDPSession(page);
+    await cdp.send("Input.synthesizeScrollGesture", { x, y, yDistance: -200, speed: 800, gestureSourceType: "touch" });
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(y0 + 50);
+  });
+});
