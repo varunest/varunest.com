@@ -1,0 +1,46 @@
+---
+interface Props { inert?: boolean }
+const { inert = false } = Astro.props;
+const books = [
+  { colour: "#0B7A75", h: 78 },
+  { colour: "#FF6B4A", h: 62 },
+  { colour: "#FFC857", h: 86 },
+  { colour: "var(--card)", h: 70 },
+  { colour: "#8AB4FF", h: 58 },
+];
+---
+<div class="toy-bookshelf">
+  <div class="shelf">
+    {books.map((b, i) =>
+      inert ? (
+        <span class="book" style={`height:${b.h}px;background:${b.colour}`}></span>
+      ) : (
+        <button class="book" type="button" disabled aria-pressed="false" aria-label={`Pull out book ${i + 1}`}
+          style={`height:${b.h}px;background:${b.colour}`}></button>
+      ),
+    )}
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".toy-bookshelf").forEach((root) => {
+    const books = [...root.querySelectorAll<HTMLButtonElement>("button.book")];
+    books.forEach((btn) => {
+      btn.disabled = false;
+      btn.addEventListener("click", () => {
+        const on = btn.getAttribute("aria-pressed") !== "true";
+        books.forEach((b) => b.setAttribute("aria-pressed", "false"));
+        btn.setAttribute("aria-pressed", String(on));
+      });
+    });
+  });
+</script>
+
+<style>
+  .shelf { display: flex; align-items: flex-end; gap: 5px; height: 96px; padding: 0 10px; border-bottom: 4px solid var(--ink); }
+  .book { width: 22px; padding: 0; border: 2px solid var(--ink); border-radius: 3px 3px 0 0; transition: transform 0.25s cubic-bezier(0.3, 1.8, 0.5, 1); }
+  button.book { cursor: pointer; }
+  button.book:disabled { cursor: default; }
+  .book[aria-pressed="true"] { transform: translateY(-14px) rotate(-6deg); }
+  @media (prefers-reduced-motion: reduce) { .book { transition: none; } }
+</style>

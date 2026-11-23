@@ -1,0 +1,13 @@
+{
+  "name": "varunest-com",
+  "compatibility_date": "2026-11-22",
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  // Branch builds get a public *.workers.dev preview URL.
+  "preview_urls": true,
+  // Branch builds run `wrangler preview`, which needs this block (it can stay empty).
+  "previews": {}
+}

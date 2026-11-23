@@ -1,0 +1,84 @@
+---
+import { SITE } from "../lib/site";
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <section class="group" aria-labelledby="f-hello">
+        <h2 id="f-hello">Say hello</h2>
+        <a class="sign" style="--r:-2deg" href={`mailto:${SITE.email}`}>Email</a>
+        <a class="sign" style="--r:1.5deg" href="/resume.pdf">Résumé</a>
+      </section>
+      <section class="group" aria-labelledby="f-find">
+        <h2 id="f-find">Find me</h2>
+        <a class="sign" style="--r:2deg" href={SITE.social.github}>GitHub</a>
+        <a class="sign" style="--r:-1deg" href={SITE.social.linkedin}>LinkedIn</a>
+        <a class="sign" style="--r:1deg" href={SITE.social.x}>X</a>
+      </section>
+      <section class="group" aria-labelledby="f-follow">
+        <h2 id="f-follow">Follow along</h2>
+        <a class="sign" style="--r:-1.5deg" href="/rss.xml">RSS</a>
+        <a class="sign" style="--r:2deg" href="/atom.xml">Atom</a>
+      </section>
+    </div>
+  </div>
+  <div class="garden" aria-hidden="true">
+    <!-- The lawn stretches to any width; the scene keeps its size so nothing is cropped. -->
+    <svg class="lawn" viewBox="0 0 1040 110" preserveAspectRatio="none">
+      <path d="M0 70Q120 50 260 66T540 60T820 68T1040 58V110H0Z" class="grass" />
+    </svg>
+    <svg class="scene" viewBox="0 0 1040 110" width="1040" height="110">
+      <g class="blades"><path d="M80 70v-18M88 70v-26M96 70v-14M700 66v-20M708 66v-28M716 66v-12M940 60v-22M948 60v-14" /></g>
+      <g transform="translate(170 52)"><circle r="9" class="flower a" /><path d="M0 9v18" class="stem" /></g>
+      <g transform="translate(610 50)"><circle r="8" class="flower b" /><path d="M0 8v20" class="stem" /></g>
+      <g class="cat" transform="translate(440 32)">
+        <ellipse cx="40" cy="38" rx="34" ry="16" class="fur" />
+        <circle cx="74" cy="30" r="13" class="fur" />
+        <path d="M66 20l4-10 6 8M78 18l6-8 2 12" class="fur ears" />
+        <path d="M70 31q3 2 6 0" class="line" />
+        <path class="tail" d="M8 40q-18-2-14-20" />
+        <text class="zzz" x="88" y="12">z</text>
+      </g>
+      <circle class="fly" cx="300" cy="30" r="3" />
+      <circle class="fly" cx="820" cy="22" r="3" style="animation-delay:1s" />
+      <circle class="fly" cx="980" cy="34" r="3" style="animation-delay:2s" />
+    </svg>
+  </div>
+  <p class="build wrap">Built with Astro, hosted on Cloudflare.</p>
+</footer>
+
+<style>
+  .site-footer { position: relative; margin-top: 60px; padding-top: 36px; border-top: 2px dashed var(--line); overflow: hidden; }
+  .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding-bottom: 120px; position: relative; z-index: 1; }
+  h2 { font-size: 20px; margin: 0 0 8px; }
+  .sign {
+    display: inline-block; margin: 0 6px 8px 0; padding: 4px 12px; border-radius: 6px;
+    background: var(--card); border: 3px solid var(--ink); box-shadow: 0 3px 0 var(--ink);
+    color: var(--ink); font-weight: 700; text-decoration: none; transform: rotate(var(--r, 0deg));
+    transition: transform 0.2s;
+  }
+  .sign:hover, .sign:focus-visible { transform: rotate(0deg) translateY(-2px); }
+  .garden { position: absolute; left: 0; right: 0; bottom: 0; height: 110px; }
+  .garden svg { position: absolute; bottom: 0; display: block; }
+  .lawn { left: 0; width: 100%; height: 100%; }
+  .scene { left: 50%; width: 1040px; height: 110px; transform: translateX(-50%); }
+  .grass { fill: #9AD1B9; }
+  :global([data-theme="dark"]) .grass { fill: #244a3c; }
+  .blades { stroke: var(--ink); stroke-width: 2.5; fill: none; stroke-linecap: round; }
+  .flower { stroke: var(--ink); stroke-width: 2.5; }
+  .flower.a { fill: var(--pop); }
+  .flower.b { fill: var(--pop2); }
+  .stem, .line { stroke: var(--ink); stroke-width: 2.5; fill: none; }
+  .fur { fill: var(--soft); stroke: var(--ink); stroke-width: 2.5; stroke-linejoin: round; }
+  .tail { stroke: var(--ink); stroke-width: 6; fill: none; stroke-linecap: round; transform-box: view-box; transform-origin: 448px 72px; }
+  .site-footer:hover .tail, .site-footer:focus-within .tail { animation: wag 0.5s ease-in-out 3; }
+  @keyframes wag { 50% { transform: rotate(25deg); } }
+  .zzz { font: 700 13px var(--body); fill: var(--soft); animation: z 2.4s ease-in-out infinite; }
+  @keyframes z { 0% { opacity: 0; transform: translate(0, 0); } 50% { opacity: 1; } 100% { opacity: 0; transform: translate(10px, -16px); } }
+  .fly { fill: var(--pop2); opacity: 0; }
+  :global([data-theme="dark"]) .fly { opacity: 1; animation: fly 3s ease-in-out infinite; }
+  @keyframes fly { 50% { transform: translate(12px, -10px); opacity: 0.3; } }
+  .build { position: absolute; left: 0; right: 0; bottom: 6px; z-index: 1; margin: 0 auto; font-size: 13px; color: var(--ink); }
+  @media (max-width: 700px) { .cols { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { .tail, .zzz, .fly { animation: none !important; } }
+</style>

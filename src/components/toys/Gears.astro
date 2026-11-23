@@ -1,0 +1,53 @@
+---
+interface Props { inert?: boolean }
+const { inert = false } = Astro.props;
+function gear(cx: number, cy: number, r: number, teeth: number) {
+  let d = "";
+  for (let i = 0; i < teeth * 2; i++) {
+    const a = (i * Math.PI) / teeth;
+    const rr = i % 2 ? r : r + 7;
+    d += `${i ? "L" : "M"}${(cx + Math.cos(a) * rr).toFixed(1)} ${(cy + Math.sin(a) * rr).toFixed(1)}`;
+  }
+  return `${d}Z`;
+}
+const gears = [
+  { cls: "g1", cx: 52, cy: 55, r: 34, t: 12, fill: "var(--pop)" },
+  { cls: "g2", cx: 105, cy: 48, r: 24, t: 8, fill: "var(--pop2)" },
+  { cls: "g3", cx: 118, cy: 88, r: 14, t: 6, fill: "var(--primary)" },
+];
+const Tag = inert ? "span" : "button";
+---
+<div class="toy-gears">
+  <Tag class="spin" type={inert ? undefined : "button"} disabled={inert ? undefined : true} aria-label={inert ? undefined : "Turn the gears"}>
+    <svg viewBox="0 0 150 110" aria-hidden="true">
+      {gears.map((g) => (
+        <g class={g.cls}>
+          <path d={gear(g.cx, g.cy, g.r, g.t)} fill={g.fill} stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round" />
+          <circle cx={g.cx} cy={g.cy} r={g.r * 0.32} fill="var(--card)" stroke="var(--ink)" stroke-width="2.5" />
+        </g>
+      ))}
+    </svg>
+  </Tag>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>(".toy-gears button").forEach((btn) => {
+    let turns = 0;
+    btn.disabled = false;
+    btn.addEventListener("click", () => {
+      turns++;
+      const a = turns * 120;
+      btn.querySelector<SVGGElement>(".g1")!.style.transform = `rotate(${a}deg)`;
+      btn.querySelector<SVGGElement>(".g2")!.style.transform = `rotate(${(-a * 34) / 24}deg)`;
+      btn.querySelector<SVGGElement>(".g3")!.style.transform = `rotate(${(a * 34) / 14}deg)`;
+    });
+  });
+</script>
+
+<style>
+  .spin { background: none; border: 0; padding: 0; display: block; }
+  button.spin { cursor: pointer; }
+  svg { width: 150px; height: 110px; overflow: visible; display: block; }
+  g { transform-box: fill-box; transform-origin: center; transition: transform 1.1s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  @media (prefers-reduced-motion: reduce) { g { transition: none; } }
+</style>

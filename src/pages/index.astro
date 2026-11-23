@@ -1,0 +1,69 @@
+---
+import Base from "../layouts/Base.astro";
+import Portrait from "../components/Portrait.astro";
+import Skyline from "../components/Skyline.astro";
+import { SITE } from "../lib/site";
+import PostRows from "../components/rooms/PostRows.astro";
+import FloorPlan from "../components/rooms/FloorPlan.astro";
+import { getHouse } from "../lib/house";
+import { getPublishedPosts } from "../lib/posts";
+
+const latest = (await getPublishedPosts()).slice(0, 6);
+const house = await getHouse();
+---
+<Base
+  title="Varun Verma"
+  description="Staff Engineer at Uber. Ten years of Android apps used by millions, now building with AI agents, a home lab, and small machines that move."
+  path="/"
+>
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-text">
+        <h1>I build software people enjoy touching.</h1>
+        <p>
+          I'm Varun, a Staff Engineer at Uber. Ten years of Android apps used by millions. Now I'm
+          building with AI agents, a home lab, and small machines that move.
+        </p>
+        <div class="btns">
+          <a class="btn btn-primary" href={`mailto:${SITE.email}`}>Say hello</a>
+          <a class="btn alt" href="#rooms">Look around</a>
+        </div>
+      </div>
+      <div class="hero-portrait"><Portrait /></div>
+      <Skyline />
+    </section>
+
+    <section class="block" id="rooms" aria-labelledby="rooms-h">
+      <h2 id="rooms-h">Come on in</h2>
+      <p class="sub">Each room is a corner of what I do. Every one has something to play with.</p>
+      <FloorPlan rooms={house} />
+    </section>
+
+    <section class="block" id="latest" aria-labelledby="latest-h">
+      <h2 id="latest-h">Latest posts</h2>
+      <PostRows posts={latest} showRoom={true} />
+    </section>
+  </div>
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 30px;
+    align-items: center;
+    padding: 44px 0 130px;
+  }
+  .hero-text p { margin-top: 18px; max-width: 33em; color: var(--soft); }
+  .btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
+  .hero-text, .hero-portrait { position: relative; z-index: 1; }
+  .block { padding: 40px 0; border-top: 2px dashed var(--line); }
+  .sub { margin: 0 0 22px; color: var(--soft); }
+  .stars { font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .earlier { margin-top: 20px; color: var(--soft); }
+  @media (max-width: 680px) {
+    .hero { grid-template-columns: 1fr; padding-bottom: 110px; }
+    .hero-portrait { justify-self: center; }
+  }
+</style>

@@ -1,0 +1,220 @@
+---
+// Golden hour skyline. Windows and stars are placed at build time with a seeded
+// PRNG, so the markup is identical on every build.
+function mulberry32(seed: number) {
+  return () => {
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const rand = mulberry32(1851);
+
+// Buildings: [x, y, width, height]. The two towers are drawn as paths below.
+const blocks = [
+  [40, 115, 18, 75], [61, 114, 18, 76], [82, 111, 18, 79], [103, 119, 22, 71],
+  [128, 101, 30, 89], [161, 121, 26, 69], [190, 127, 30, 63], [250, 106, 22, 84],
+  [275, 145, 22, 45], [330, 94, 30, 96], [363, 104, 26, 86], [392, 132, 30, 58],
+  [425, 143, 18, 47], [446, 140, 30, 50],
+];
+// Transamerica pyramid (206-234 at the base, apex 220,52) and Salesforce Tower (296-326).
+const pyramid = [206, 52, 28, 138];
+const tower = [296, 70, 30, 120];
+
+// One path of lit windows per building, in a group whose ripple delay follows its x.
+function windowsFor([x, y, w, h]: number[], inset: (row: number) => number = () => 0) {
+  let d = "";
+  for (let wy = y + 8; wy < y + h - 8; wy += 11) {
+    const pad = inset(wy);
+    for (let wx = x + 6 + pad; wx + 3 <= x + w - 5 - pad; wx += 7) {
+      if (rand() < 0.38) d += `M${wx} ${wy}h3v4h-3z`;
+    }
+  }
+  return { d, delay: Math.round((x / 1000) * 200) };
+}
+const wins = [
+  ...blocks.map((b) => windowsFor(b)),
+  // The pyramid narrows toward the top: inset grows as the row gets higher.
+  windowsFor(pyramid, (row) => Math.round(((190 - row) / 138) * 13)),
+  windowsFor(tower),
+]
+  .filter((g) => g.d)
+  .sort((a, b) => a.delay - b.delay);
+
+const stars = Array.from({ length: 26 }, () => `M${Math.round(rand() * 1000)} ${Math.round(8 + rand() * 80)}h0`).join("");
+
+// Golden Gate: tower tops at y 36, cable sags to y 136 at x 770, deck at y 150.
+const cableY = (x: number) => 36 + 100 * (1 - ((x - 770) / 130) ** 2);
+const suspenders = Array.from({ length: 25 }, (_, i) => 650 + i * 10)
+  .map((x) => `M${x} ${cableY(x).toFixed(1)}V150`)
+  .join("");
+const cable = Array.from({ length: 27 }, (_, i) => 640 + i * 10)
+  .map((x, i) => `${i ? "L" : "M"}${x} ${cableY(x).toFixed(1)}`)
+  .join("");
+const lights = Array.from({ length: 14 }, (_, i) => 640 + i * 20).map((x) => ({
+  x,
+  y: cableY(x).toFixed(1),
+}));
+---
+<svg class="skyline" viewBox="0 0 1000 200" preserveAspectRatio="xMaxYMax slice" aria-hidden="true" focusable="false">
+  <circle class="sun" cx="770" cy="118" r="54" />
+  <g class="moon"><circle cx="560" cy="40" r="16" /><circle class="cut" cx="567" cy="35" r="14" /></g>
+  <path class="stars" d={stars} />
+  <path class="h1" d="M480 200V150Q560 110 640 140T820 120Q900 100 1000 130V200Z" />
+  <path class="h2" d="M0 200V160Q80 130 170 150T360 140Q430 120 500 150V200Z" />
+  <path class="sutro" d="M174 150 185 84 196 150M185 84V150M185 84V70M180 106h10M177 128h16M181 98l8 8M189 98l-8 8" />
+  <g class="city">
+    <g class="bldg">
+      {blocks.map(([x, y, w, h]) => <rect x={x} y={y} width={w} height={h} rx="2" />)}
+      <path d="M206 190 220 52 234 190Z" />
+      <path d="M296 190V70q0-24 15-30 15 6 15 30v120Z" />
+    </g>
+    <g class="wins">
+      {wins.map((g) => <path d={g.d} style={`--d:${g.delay}ms`} />)}
+    </g>
+  </g>
+  <g class="bridge" stroke="currentColor" stroke-linecap="round" fill="none">
+    <path d="M631 196V36M649 196V36M891 196V36M909 196V36" stroke-width="7" />
+    <path d="M631 42h18M631 74h18M631 108h18M631 140h18M891 42h18M891 74h18M891 108h18M891 140h18" stroke-width="4" />
+    <path d={cable} stroke-width="3" />
+    <path d="M520 148Q580 110 640 36M900 36Q955 110 1010 148" stroke-width="3" />
+    <path d="M500 150H1010" stroke-width="6" />
+    <path d={suspenders} stroke-width="1.2" />
+  </g>
+  <g class="blights">{lights.map((l) => <circle cx={l.x} cy={l.y} r="1.8" />)}</g>
+  <path class="water" d="M0 190H1000V200H0Z" />
+</svg>
+
+<script>
+  // Sun sets a little as you scroll past the hero. Only listens while the hero is on screen.
+  const sky = document.querySelector<SVGSVGElement>(".skyline");
+  const hero = sky?.closest<HTMLElement>(".hero");
+  const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (sky && hero && !calm && "IntersectionObserver" in window) {
+    let queued = false;
+    const update = () => {
+      queued = false;
+      const r = hero.getBoundingClientRect();
+      const progress = Math.min(1, Math.max(0, -r.top / r.height));
+      sky.style.setProperty("--sun-y", `${(progress * 24).toFixed(1)}px`);
+    };
+    const onScroll = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(update);
+    };
+    let on = false;
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !on) {
+        window.addEventListener("scroll", onScroll, { passive: true });
+        on = true;
+        onScroll();
+      } else if (!entry.isIntersecting && on) {
+        window.removeEventListener("scroll", onScroll);
+        on = false;
+      }
+    }).observe(hero);
+  }
+</script>
+
+<style is:global>
+  .skyline {
+    --city: var(--primary);
+    --city-o: 0.32;
+    --hill1: var(--pop);
+    --hill1-o: 0.18;
+    --hill2: var(--primary);
+    --hill2-o: 0.16;
+    --sun-o: 0.75;
+    --night: 0;
+    --stars-o: 0;
+    position: absolute;
+    left: -24px;
+    right: -24px;
+    bottom: 0;
+    width: calc(100% + 48px);
+    aspect-ratio: 5 / 1;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .skyline .sun {
+    fill: var(--pop2);
+    opacity: var(--sun-o);
+    transform: translateY(var(--sun-y, 0px));
+  }
+  .skyline .h1 { fill: var(--hill1); opacity: var(--hill1-o); }
+  .skyline .h2 { fill: var(--hill2); opacity: var(--hill2-o); }
+  .skyline .bldg { fill: var(--city); opacity: var(--city-o); }
+  .skyline .sutro { fill: none; stroke: var(--city); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; opacity: var(--city-o); }
+  .skyline .bridge { color: var(--pop); opacity: 0.6; }
+  .skyline .water { fill: var(--primary); opacity: 0.25; }
+  .skyline .moon, .skyline .blights { opacity: var(--night); transition: opacity 0.6s; }
+  .skyline .moon circle { fill: var(--pop2); }
+  .skyline .moon .cut { fill: var(--bg); }
+  .skyline .blights { fill: var(--pop2); }
+  .skyline .stars {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    opacity: var(--stars-o);
+    transition: opacity 0.6s;
+  }
+  .skyline .wins { fill: var(--pop2); opacity: var(--night); }
+  /* Each building's windows light up a little after the one to its left (max 200ms + 400ms). */
+  .skyline .wins path { opacity: 0; transition: opacity 0.4s var(--d, 0ms); }
+
+  @keyframes skyline-twinkle { 50% { opacity: 0.2; } }
+
+  @media (max-width: 680px) {
+    /* Taller box, cropped to the right so the full bridge stays in view; the city
+       shrinks to 60% and slides right so it sits beside the bridge's left tower. */
+    .skyline { aspect-ratio: auto; height: 150px; }
+    .skyline .city { transform: translate(300px, 0) scale(0.6); transform-origin: 476px 190px; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .skyline .sun { transition: opacity 0.6s; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .skyline .sun { transform: none; }
+    .skyline .moon, .skyline .blights, .skyline .stars, .skyline .wins path { transition: none; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    :root[data-theme="dark"] .skyline .blights circle:nth-child(3n) { animation: skyline-twinkle 2.4s infinite; }
+  }
+
+  :root[data-theme="dark"] .skyline {
+    --city: #2a2e38;
+    --city-o: 1;
+    --hill1: #262a33;
+    --hill1-o: 1;
+    --hill2: #20232b;
+    --hill2-o: 1;
+    --sun-o: 0;
+    --night: 1;
+    --stars-o: 0.7;
+  }
+  :root[data-theme="dark"] .skyline .wins path { opacity: 1; }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) .skyline {
+      --city: #2a2e38;
+      --city-o: 1;
+      --hill1: #262a33;
+      --hill1-o: 1;
+      --hill2: #20232b;
+      --hill2-o: 1;
+      --sun-o: 0;
+      --night: 1;
+      --stars-o: 0.7;
+    }
+    :root:not([data-theme]) .skyline .wins path { opacity: 1; }
+  }
+  @media (prefers-color-scheme: dark) and (prefers-reduced-motion: no-preference) {
+    :root:not([data-theme]) .skyline .blights circle:nth-child(3n) { animation: skyline-twinkle 2.4s infinite; }
+  }
+</style>

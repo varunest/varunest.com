@@ -1,0 +1,557 @@
+[
+  {
+    "id": "35167685",
+    "title": "\"Surely You're Joking, Mr. Feynman!\": Adventures of a Curious Character",
+    "author": "Richard P. Feynman",
+    "rating": 0,
+    "dateRead": null,
+    "shelf": "currently-reading",
+    "cover": "35167685.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "56850126",
+    "title": "Programming Android with Kotlin: Achieving Structured Concurrency with Coroutines",
+    "author": "Pierre-Olivier Laurence",
+    "rating": 0,
+    "dateRead": null,
+    "shelf": "currently-reading",
+    "cover": null,
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "56977420",
+    "title": "Understanding Distributed Systems: What every developer should know about large distributed applications",
+    "author": "Roberto Vitillo",
+    "rating": 0,
+    "dateRead": null,
+    "shelf": "currently-reading",
+    "cover": null,
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "612428",
+    "title": "Bhagwat Gita ; An Easy To Read, Rare, English Translation Of The Greatest Book Of Hindu Philosophy",
+    "author": "Krishna-Dwaipayana Vyasa",
+    "rating": 0,
+    "dateRead": "2026/07/12",
+    "shelf": "read",
+    "cover": null,
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "143880",
+    "title": "The Book of Life: Daily Meditations with Krishnamurti",
+    "author": "J. Krishnamurti",
+    "rating": 4,
+    "dateRead": "2025/11/14",
+    "shelf": "read",
+    "cover": "143880.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "46223297",
+    "title": "Permanent Record",
+    "author": "Edward Snowden",
+    "rating": 3,
+    "dateRead": "2023/10/30",
+    "shelf": "read",
+    "cover": "46223297.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "44573628",
+    "title": "Super Pumped: The Battle for Uber",
+    "author": "Mike Isaac",
+    "rating": 5,
+    "dateRead": "2023/06/21",
+    "shelf": "read",
+    "cover": "44573628.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "714344",
+    "title": "Becoming a Technical Leader: An Organic Problem-Solving Approach",
+    "author": "Gerald M. Weinberg",
+    "rating": 5,
+    "dateRead": "2022/12/18",
+    "shelf": "read",
+    "cover": "714344.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "40611510",
+    "title": "The Last Lecture",
+    "author": "Randy Pausch",
+    "rating": 5,
+    "dateRead": "2022/09/25",
+    "shelf": "read",
+    "cover": "40611510.jpg",
+    "review": [
+      "A professor gets to know he has several months to live and decides to give a lecture at Carnegie Mellon to leave a legacy and commemorate his profession as a teacher.",
+      "The recording of the lecture is available on youtube as well, if you can’t take out time to read the book, I would recommend watching the 1.5hr lecture. Book has 61 chapters, each chapter is advice by Randy that he believed in and adhered to. After ruminating Randy decides to spend a significant time of his remaining life preparing and delivering this lecture. He did so to leave a legacy and teachings for his children who were all of a very small age at the time."
+    ],
+    "reviewPost": "the-last-lecture-review"
+  },
+  {
+    "id": "1753947",
+    "title": "Beyond the last blue mountain: A life of J.R.D. Tata",
+    "author": "R.M. Lala",
+    "rating": 5,
+    "dateRead": "2022/08/29",
+    "shelf": "read",
+    "cover": null,
+    "review": [
+      "I had often heard mentions of Tata’s and their legacy but knew close to nothing about vastness of their contribution to India’s foundation until I picked up this biography “Beyond the last blue mountain” by R. M. Lala.",
+      "After finishing this book I was left in a state of awe and admiration for J. R. D. Tata (Jeh). Its unbelievable that a person can be so humble yet so determined and has such humongous achievements under his belt."
+    ],
+    "reviewPost": "jrd-tata-biography-beyond-the-last-blue-mountain"
+  },
+  {
+    "id": "21343",
+    "title": "The Five Dysfunctions of a Team",
+    "author": "Patrick Lencioni",
+    "rating": 4,
+    "dateRead": "2022/07/11",
+    "shelf": "read",
+    "cover": "21343.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "27220736",
+    "title": "Shoe Dog: A Memoir by the Creator of Nike",
+    "author": "Phil Knight",
+    "rating": 5,
+    "dateRead": "2022/07/10",
+    "shelf": "read",
+    "cover": "27220736.jpg",
+    "review": [
+      "What an amazing composition by Phil of his journey through establishing NIKE as we know it today. The story has everything, a display of unfazed trust, guile, deceit, coup, determination, confusion & whatnot. I loved the writing and details; I was taken adrift to a different world every time I picked up this book.",
+      "So much wisdom and experience to be found here.",
+      "Don't stop. Don't even think about stopping until you get there, and don't give much thought to where \"there\" is. Whatever comes, just don't stop.",
+      "Belief is irresistible",
+      "For us business was no more about making money than being human is about making blood"
+    ],
+    "reviewPost": null
+  },
+  {
+    "id": "8520610",
+    "title": "Quiet: The Power of Introverts in a World That Can't Stop Talking",
+    "author": "Susan Cain",
+    "rating": 5,
+    "dateRead": "2022/06/26",
+    "shelf": "read",
+    "cover": "8520610.jpg",
+    "review": [
+      "I started reading this book mainly because of two reasons: 1. Where do I lie on the introvert spectrum (I was intrigued why I am able to act extroverted sometimes when more often than not I get exhausted when asked to socialize) 2. How do I make being introverted my strength (when clearly the world we are living in is pushing towards the extrovert ideal). This book helped me to get these answers! I got to know more about myself and how I can maintain better relationships with work and close ones. Getting introduced to concepts like free/fixed traits and high/low self-monitoring introverts & reading through different studies allowed me to gain deeper insights into my personality. I understood why I am sometimes able to behave extrovertedly when a situation demands and I am passionate about the project.",
+      "But I would like to point out that the first half of the book (part 1 & 2) felt a bit stretched and I was on the verge to put the book down (I am glad I didn't). It's the latter part of the book where I got hooked and it left a big impression on me.",
+      "I would like to thank Susan for composing great content on such a rare topic. While reading the book I felt her passion for the subject.",
+      "P.S",
+      "“Don't think of introversion as something that needs to be cured.”",
+      "“There's zero correlation between being the best talker and having the best ideas.”"
+    ],
+    "reviewPost": null
+  },
+  {
+    "id": "1202",
+    "title": "Freakonomics: A Rogue Economist Explores the Hidden Side of Everything",
+    "author": "Steven D. Levitt",
+    "rating": 4,
+    "dateRead": "2022/05/02",
+    "shelf": "read",
+    "cover": "1202.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "16248196",
+    "title": "The Art of Thinking Clearly",
+    "author": "Rolf Dobelli",
+    "rating": 3,
+    "dateRead": "2022/04/23",
+    "shelf": "read",
+    "cover": "16248196.jpg",
+    "review": [
+      "In his book, Dobelli talks about different biases we have curated through our evolutionary journey, which don't serve (at least always) in the modern world. His message is to acknowledge and be aware of these biases when we are making important decisions in our lives.",
+      "Though it is an interesting read, I felt the content could have been more refined. There are examples given for a particular bias that might not belong there, and contradictory examples are on several occasions across chapters. The author could have done a better job at conveying how not to stress about these biases and be paranoid always.",
+      "Personally, I feel I can benefit by reflecting back, assessing, and course-correcting instead of over contemplating every decision I make."
+    ],
+    "reviewPost": null
+  },
+  {
+    "id": "38820046",
+    "title": "21 Lessons for the 21st Century",
+    "author": "Yuval Noah Harari",
+    "rating": 4,
+    "dateRead": "2022/04/12",
+    "shelf": "read",
+    "cover": "38820046.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "68984",
+    "title": "The Power of Your Subconscious Mind",
+    "author": "Joseph Murphy",
+    "rating": 2,
+    "dateRead": "2021/09/26",
+    "shelf": "read",
+    "cover": "68984.jpg",
+    "review": [
+      "While its great that the overall theme is to motivate us to set goals that we believe completely in, and can be really effective, the book relies a lot on pseudoscience for its convincing. Also too much repetition and unwarranted verbosity is why I have to put the book down."
+    ],
+    "reviewPost": null
+  },
+  {
+    "id": "54898389",
+    "title": "The Almanack of Naval Ravikant: A Guide to Wealth and Happiness",
+    "author": "Eric Jorgenson",
+    "rating": 5,
+    "dateRead": "2021/09/26",
+    "shelf": "read",
+    "cover": "54898389.jpg",
+    "review": [
+      "This book resonated a lot with me and just helped to reinforce a lot of my thoughts & decisions. It is sort of a gateway book to help you understand how you can figure out what you want in life & how to do a better job at it. I like that the book is to the point & is not unnecessarily verbose."
+    ],
+    "reviewPost": null
+  },
+  {
+    "id": "500514",
+    "title": "The Dhandho Investor: The Low-Risk Value Method to High Returns",
+    "author": "Mohnish Pabrai",
+    "rating": 5,
+    "dateRead": "2021/09/25",
+    "shelf": "read",
+    "cover": "500514.jpg",
+    "review": [
+      "This book will get 100% recommendation from me. As someone who is just getting into learning about how the stock market works & value investing, this book was of great help in giving me directions. This book has a plethora of resources & definitely deserves a spot on the bookshelf. I will be reading it again."
+    ],
+    "reviewPost": null
+  },
+  {
+    "id": "51352731",
+    "title": "You Only Live Once : One for Passion. Two for Love. Three for Friendship.",
+    "author": "Stuti Changle",
+    "rating": 3,
+    "dateRead": "2021/08/29",
+    "shelf": "read",
+    "cover": null,
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "37976541",
+    "title": "Bad Blood: Secrets and Lies in a Silicon Valley Startup",
+    "author": "John Carreyrou",
+    "rating": 4,
+    "dateRead": "2021/07/18",
+    "shelf": "read",
+    "cover": "37976541.jpg",
+    "review": [
+      "I am astonished by the fact that fraud at this level can sustain itself for more than a decade & that too at a location where the laws & regulations are supposedly the best on the earth.",
+      "John has done astoundingly solid research & follow-up on the story. Reading this book doesn't feel less than a thriller.",
+      "As an engineer by profession, my big takeaway from this book is how to carefully select a venture you would be putting your valuable time & effort into. It may be hard!! but try to figure out any red flags & take your time to assess the business & its management before joining them in the ride."
+    ],
+    "reviewPost": null
+  },
+  {
+    "id": "23692271",
+    "title": "Sapiens: A Brief History of Humankind",
+    "author": "Yuval Noah Harari",
+    "rating": 5,
+    "dateRead": "2021/07/12",
+    "shelf": "read",
+    "cover": "23692271.jpg",
+    "review": [
+      "What a wholesome book. It covers everything from our past & expected future. Based on facts & research as it leaves very little space for the author's opinion. I can easily recommend this book to anyone. This book will give you a different perspective towards life, identity & understanding self.",
+      "GEM!!"
+    ],
+    "reviewPost": null
+  },
+  {
+    "id": "40121378",
+    "title": "Atomic Habits: An Easy & Proven Way to Build Good Habits & Break Bad Ones",
+    "author": "James Clear",
+    "rating": 4,
+    "dateRead": "2021/05/30",
+    "shelf": "read",
+    "cover": "40121378.jpg",
+    "review": [
+      "I liked how this book lays down a framework that is very actionable and helpful to form/avoid small habits. It stresses the importance of forming the right habits in your life and how we should approach creating the desired ones.",
+      "Initially, it talks about changing the process & focusing on identity instead of stressing about the goals to achieve them and why it is important. Then we go through the different strategies that can be used to improve the process and help in forming the habit. Habit lifecycle contains cue, craving, response & reward, to create one make the cue obvious, habit attractive, process easy and reward satisfying, whereas to avoid particular habit make them invisible, unattractive, hard & unsatisfying.",
+      "The only criticism I have is about the last section of the book, where it talks about \"mastery\". Its vague and tries to address the big subjects in few pages, diluting the objective it started with. Cutting it short and keeping it just about the framework for Atomic habit would have been better IMO."
+    ],
+    "reviewPost": null
+  },
+  {
+    "id": "20696027",
+    "title": "The Education of a Value Investor: My Transformative Quest for Wealth, Wisdom, and Enlightenment",
+    "author": "Guy Spier",
+    "rating": 5,
+    "dateRead": "2020/11/11",
+    "shelf": "read",
+    "cover": "20696027.jpg",
+    "review": [
+      "A very impactful read. Guy derives his life learnings and delivers them through this book. It is helpful and insightful. Definitely, a good read, it's not about stock picking but more about the journey of Guy Spier, how he became a value investor."
+    ],
+    "reviewPost": null
+  },
+  {
+    "id": "4865",
+    "title": "How to Win Friends & Influence People",
+    "author": "Dale Carnegie",
+    "rating": 4,
+    "dateRead": "2020/10/05",
+    "shelf": "read",
+    "cover": "4865.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "38315",
+    "title": "Fooled by Randomness: The Hidden Role of Chance in Life and in the Markets (Incerto)",
+    "author": "Nassim Nicholas Taleb",
+    "rating": 3,
+    "dateRead": "2020/02/29",
+    "shelf": "read",
+    "cover": "38315.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "17265065",
+    "title": "Our Moon Has Blood Clots: The Exodus of the Kashmiri Pandits",
+    "author": "Rahul Pandita",
+    "rating": 5,
+    "dateRead": "2020/01/18",
+    "shelf": "read",
+    "cover": "17265065.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "4069",
+    "title": "Man's Search for Meaning",
+    "author": "Viktor E. Frankl",
+    "rating": 4,
+    "dateRead": "2020/01/05",
+    "shelf": "read",
+    "cover": "4069.jpg",
+    "review": [
+      "The book talks about Viktor's experiences, observations and sufferings in the camps. He talks about the effects of extreme conditions on human psychology and how different people deal with it. He develops \"Logotherapy\" on a concept based on the premise that the primary motivational force of an individual is to find meaning in life. According to him the meaning of life and existence is very subjective and depends on what holds importance in one's life. This book has a very strong impact. (just placing myself in his place and being empathic gave me shivers)",
+      "P.S this book doesn't explain or wanders around questions like why are we here? what is the purpose of humanity but rather what life expects out of us and sheds light on how to survive and give meaning to our lives in this world.",
+      "Though this book has a different take on questions about our existence and life in general, I would also like to read on what different philosophers think on former questions."
+    ],
+    "reviewPost": null
+  },
+  {
+    "id": "22668729",
+    "title": "Hooked: How to Build Habit-Forming Products",
+    "author": "Nir   Eyal",
+    "rating": 5,
+    "dateRead": "2020/01/03",
+    "shelf": "read",
+    "cover": "22668729.jpg",
+    "review": [
+      "I would recommend this book to anyone who is building a product. While designing a product lot of ideas come through intuition, after reading \"Hooked\" you understand why these intuitions will work and how can we come up with even better ideas. Designing product aside, it gives you an insight over why you do what you do and even can be helpful in building new healthy habits and maybe drop the bad ones!",
+      "It's well researched, interesting, thorough and thought-provoking. I think you'll love this book."
+    ],
+    "reviewPost": null
+  },
+  {
+    "id": "18144590",
+    "title": "The Alchemist",
+    "author": "Paulo Coelho",
+    "rating": 4,
+    "dateRead": "2019/12/26",
+    "shelf": "read",
+    "cover": "18144590.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "3869",
+    "title": "A Brief History of Time",
+    "author": "Stephen W. Hawking",
+    "rating": 5,
+    "dateRead": "2019/12/01",
+    "shelf": "read",
+    "cover": "3869.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "449573",
+    "title": "The Theory of Everything: The Origin and Fate of the Universe",
+    "author": "Stephen W. Hawking",
+    "rating": 5,
+    "dateRead": "2019/12/01",
+    "shelf": "read",
+    "cover": "449573.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "9418297",
+    "title": "MongoDB: The Definitive Guide",
+    "author": "Kristina Chodorow",
+    "rating": 4,
+    "dateRead": "2018/10/01",
+    "shelf": "read",
+    "cover": "9418297.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "1423393",
+    "title": "The Art Of Dealing With People",
+    "author": "Les Giblin",
+    "rating": 5,
+    "dateRead": "2018/07/31",
+    "shelf": "read",
+    "cover": "1423393.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "14289134",
+    "title": "Learning Javascript Design Patterns",
+    "author": "Addy Osmani",
+    "rating": 3,
+    "dateRead": "2018/07/04",
+    "shelf": "read",
+    "cover": "14289134.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "28257707",
+    "title": "The Subtle Art of Not Giving a F*ck: A Counterintuitive Approach to Living a Good Life",
+    "author": "Mark Manson",
+    "rating": 3,
+    "dateRead": "2018/06/01",
+    "shelf": "read",
+    "cover": "28257707.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "6732019",
+    "title": "Rework",
+    "author": "Jason Fried",
+    "rating": 4,
+    "dateRead": "2018/02/10",
+    "shelf": "read",
+    "cover": "6732019.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "10631",
+    "title": "Sam Walton, Made in America: My Story",
+    "author": "Sam Walton",
+    "rating": 5,
+    "dateRead": "2018/01/03",
+    "shelf": "read",
+    "cover": "10631.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "3735293",
+    "title": "Clean Code: A Handbook of Agile Software Craftsmanship",
+    "author": "Robert C. Martin",
+    "rating": 4,
+    "dateRead": "2017/01/03",
+    "shelf": "read",
+    "cover": "3735293.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "6969361",
+    "title": "2 States: The Story of My Marriage",
+    "author": "Chetan Bhagat",
+    "rating": 1,
+    "dateRead": "2011/01/03",
+    "shelf": "read",
+    "cover": "6969361.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "105576",
+    "title": "Five Point Someone: What Not to Do at IIT",
+    "author": "Chetan Bhagat",
+    "rating": 1,
+    "dateRead": "2010/01/03",
+    "shelf": "read",
+    "cover": "105576.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "41721428",
+    "title": "Can't Hurt Me: Master Your Mind and Defy the Odds",
+    "author": "David Goggins",
+    "rating": 4,
+    "dateRead": null,
+    "shelf": "read",
+    "cover": "41721428.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "25744928",
+    "title": "Deep Work: Rules for Focused Success in a Distracted World",
+    "author": "Cal Newport",
+    "rating": 0,
+    "dateRead": null,
+    "shelf": "read",
+    "cover": "25744928.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "40957777",
+    "title": "How to See (Mindfulness Essentials #7)",
+    "author": "Thich Nhat Hanh",
+    "rating": 0,
+    "dateRead": null,
+    "shelf": "read",
+    "cover": null,
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "69571",
+    "title": "Rich Dad Poor Dad: What the Rich Teach Their Kids About Money—That the Poor and Middle Class Do Not!",
+    "author": "Robert T. Kiyosaki",
+    "rating": 5,
+    "dateRead": null,
+    "shelf": "read",
+    "cover": "69571.jpg",
+    "review": [],
+    "reviewPost": null
+  },
+  {
+    "id": "18114797",
+    "title": "Shiva Trilogy (Shiva Trilogy, #1-3)",
+    "author": "Amish Tripathi",
+    "rating": 4,
+    "dateRead": null,
+    "shelf": "read",
+    "cover": null,
+    "review": [],
+    "reviewPost": null
+  }
+]

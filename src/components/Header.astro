@@ -1,0 +1,52 @@
+---
+import PullCord from "./PullCord.astro";
+---
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="/">Varun,</a>
+    <nav aria-label="Site">
+      <a class="rooms" href="/#rooms">
+        <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M3 9.5 10 3.5l7 6V17H3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 17v-4.5h4V17" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        Rooms
+      </a>
+    </nav>
+    <PullCord />
+  </div>
+</header>
+
+<style>
+  .bar {
+    position: relative; /* the pull cord hangs from the bar's right edge */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 22px;
+    padding-bottom: 22px;
+    padding-right: 64px; /* room for the pull cord */
+  }
+  .brand {
+    font-family: var(--head);
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .rooms {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border: 2px solid var(--ink);
+    border-radius: 99px;
+    background: var(--card);
+    box-shadow: 0 3px 0 var(--ink);
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .rooms:hover { transform: translateY(-2px); box-shadow: 0 5px 0 var(--ink); }
+  .rooms:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
+  @media (prefers-reduced-motion: reduce) { .rooms { transition: none; } .rooms:hover { transform: none; } }
+</style>

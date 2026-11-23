@@ -1,0 +1,53 @@
+---
+import Base from "./Base.astro";
+import { formatDate, postUrl, type Post } from "../lib/posts";
+import { roomById, roomUrl } from "../lib/rooms";
+
+interface Props {
+  post: Post;
+  newer?: Post;
+  older?: Post;
+}
+const { post, newer, older } = Astro.props;
+const { title, summary, date, rating } = post.data;
+const room = roomById(post.data.room);
+---
+<Base title={`${title} | Varun Verma`} description={summary} path={postUrl(post)} type="article">
+  <article class="post">
+    <header>
+      <a class="room-label" href={roomUrl(room.id)} style={`--c:${room.colour}`}>{room.name}</a>
+      <h1>{title}</h1>
+      <p class="meta">
+        <time datetime={date.toISOString()}>{formatDate(date)}</time>
+        {rating && <span class="rating">Rating {rating}</span>}
+      </p>
+    </header>
+    <div class="body"><slot /></div>
+    <nav class="pager" aria-label="More posts">
+      {older && <a rel="prev" href={postUrl(older)}><span>Older</span> {older.data.title}</a>}
+      {newer && <a rel="next" href={postUrl(newer)}><span>Newer</span> {newer.data.title}</a>}
+    </nav>
+    <slot name="comments" />
+  </article>
+</Base>
+
+<style>
+  .post { max-width: var(--content); margin: 0 auto; padding: 40px 24px 64px; }
+  .room-label {
+    display: inline-block; margin-bottom: 14px; padding: 2px 12px; border-radius: 99px;
+    border: 1.5px solid var(--ink); color: var(--ink); text-decoration: none;
+    font-size: 13px; font-weight: 700;
+    background: color-mix(in srgb, var(--c) 35%, var(--card));
+  }
+  .room-label:hover { text-decoration: underline; }
+  h1 { margin: 0 0 8px; }
+  .meta { margin: 0 0 24px; color: var(--soft); display: flex; gap: 16px; flex-wrap: wrap; }
+  .body { max-width: 68ch; }
+  .body :global(img) { max-width: 100%; height: auto; border-radius: var(--radius); }
+  .body :global(blockquote) { margin: 1.2em 0; padding: 0 0 0 16px; border-left: 4px solid var(--pop2); }
+  .pager { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 48px; }
+  .pager a { display: block; max-width: 45%; }
+  .pager span { display: block; font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--soft); }
+  .pager a[rel="next"] { margin-left: auto; text-align: right; }
+  @media (max-width: 600px) { .pager a { max-width: 100%; } }
+</style>

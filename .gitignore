@@ -1,21 +1,27 @@
-# Sublime
+# Build output
+dist/
+dist-giscus/
+.astro/
+.wrangler/
+
+# Node
+node_modules/
+
+# Tests
+test-results/
+playwright-report/
+
+# Tooling
+.superpowers/
+
+# Mac OS
+.DS_Store
+
+# Editors
 *.sublime-project
 *.sublime-workspace
-# Jekyll
-_site
-_drafts
-.jekyll-metadata
-
-#IntelliJ
 .idea/*
 
-#Node
-node_modules/*
-
-# Varunest.com
-secret.js
-css/main.css
-
-#Mac OS
-.DS_Store
-.jekyll-cache/*
+# Legacy Jekyll leftovers
+_site/
+.jekyll-cache/

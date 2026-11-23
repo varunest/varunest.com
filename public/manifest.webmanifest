@@ -1,0 +1,11 @@
+{
+  "name": "Varun Verma",
+  "short_name": "Varun",
+  "icons": [
+    { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/android-chrome-384x384.png", "sizes": "384x384", "type": "image/png" }
+  ],
+  "theme_color": "#0B7A75",
+  "background_color": "#F1F7F5",
+  "display": "standalone"
+}

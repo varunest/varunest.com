@@ -1,0 +1,61 @@
+---
+interface Props { inert?: boolean }
+const { inert = false } = Astro.props;
+const nodes: [string, number, number][] = [["router", 30, 20], ["nas", 140, 20], ["pi", 85, 90]];
+---
+<div class="toy-packets">
+  <svg viewBox="0 0 170 110" aria-hidden={inert ? "true" : undefined} role={inert ? undefined : "group"} aria-label={inert ? undefined : "Home network: press a device to send packets"}>
+    <line x1="30" y1="20" x2="140" y2="20" /><line x1="30" y1="20" x2="85" y2="90" /><line x1="140" y1="20" x2="85" y2="90" />
+    {nodes.map(([n, x, y]) => (
+      <g class="node" data-x={x} data-y={y} data-name={n}>
+        <rect x={x - 24} y={y - 12} width="48" height="24" rx="5" />
+        <text x={x} y={y + 4} text-anchor="middle">{n}</text>
+      </g>
+    ))}
+  </svg>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".toy-packets").forEach((root) => {
+    const svg = root.querySelector("svg")!;
+    if (svg.getAttribute("aria-hidden") === "true") return;
+    const nodes = [...svg.querySelectorAll<SVGGElement>(".node")];
+    nodes.forEach((node) => {
+      node.setAttribute("tabindex", "0");
+      node.setAttribute("role", "button");
+      node.setAttribute("aria-label", `Send packets from the ${node.dataset.name}`);
+      const send = () => {
+        const fx = +node.dataset.x!, fy = +node.dataset.y!;
+        nodes.filter((o) => o !== node).forEach((o) => {
+          const tx = +o.dataset.x!, ty = +o.dataset.y!;
+          const p = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          p.setAttribute("r", "5"); p.setAttribute("class", "pkt");
+          p.setAttribute("cx", String(tx)); p.setAttribute("cy", String(ty));
+          svg.appendChild(p);
+          if (matchMedia("(prefers-reduced-motion: reduce)").matches) { setTimeout(() => p.remove(), 300); return; }
+          const t0 = performance.now();
+          const step = (t: number) => {
+            const k = Math.min(1, (t - t0) / 700);
+            p.setAttribute("cx", String(fx + (tx - fx) * k));
+            p.setAttribute("cy", String(fy + (ty - fy) * k));
+            if (k < 1) requestAnimationFrame(step); else p.remove();
+          };
+          requestAnimationFrame(step);
+        });
+      };
+      node.addEventListener("click", send);
+      node.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); send(); } });
+    });
+  });
+</script>
+
+<style>
+  svg { width: 170px; height: 110px; overflow: visible; display: block; }
+  line { stroke: var(--ink); stroke-width: 2; stroke-dasharray: 4 4; }
+  .node rect { fill: var(--card); stroke: var(--ink); stroke-width: 2.5; }
+  .node text { font-size: 10px; font-weight: 700; fill: var(--ink); }
+  .node[role="button"] { cursor: pointer; }
+  .node:focus-visible { outline: none; }
+  .node:focus-visible rect { stroke: var(--pop); stroke-width: 4; }
+  svg :global(.pkt) { fill: var(--pop); }
+</style>

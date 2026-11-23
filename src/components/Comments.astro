@@ -1,0 +1,68 @@
+---
+import { GISCUS, giscusEnabled } from "../lib/giscus";
+const enabled = giscusEnabled();
+---
+{enabled && (
+  <section id="comments" class="comments" data-giscus={JSON.stringify(GISCUS)}>
+    <h2>Comments</h2>
+    <p>Comments use GitHub Discussions. Sign in with GitHub to join in.</p>
+  </section>
+)}
+
+<script>
+  import { giscusTheme } from "../lib/giscus";
+
+  const section = document.querySelector<HTMLElement>("#comments");
+  const currentTheme = () => (document.documentElement.dataset.theme === "dark" ? "dark" : "light");
+
+  if (section) {
+    const g = JSON.parse(section.dataset.giscus ?? "{}");
+
+    document.addEventListener("themechange", (e) => {
+      const frame = section.querySelector<HTMLIFrameElement>("iframe.giscus-frame");
+      const theme = (e as CustomEvent<{ theme: string }>).detail?.theme ?? currentTheme();
+      frame?.contentWindow?.postMessage({ giscus: { setConfig: { theme: giscusTheme(theme) } } }, "https://giscus.app");
+    });
+
+    const load = () => {
+      const s = document.createElement("script");
+      s.src = "https://giscus.app/client.js";
+      s.async = true;
+      s.crossOrigin = "anonymous";
+      const attrs: Record<string, string> = {
+        repo: g.repo,
+        "repo-id": g.repoId,
+        category: g.category,
+        "category-id": g.categoryId,
+        mapping: g.mapping,
+        strict: "1",
+        "reactions-enabled": "1",
+        "input-position": "top",
+        lang: "en",
+        loading: "lazy",
+        theme: giscusTheme(currentTheme()),
+      };
+      for (const [k, v] of Object.entries(attrs)) s.setAttribute(`data-${k}`, v);
+      section.appendChild(s);
+    };
+
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((en) => en.isIntersecting)) {
+            io.disconnect();
+            load();
+          }
+        },
+        { rootMargin: "300px 0px" },
+      );
+      io.observe(section);
+    }
+  }
+</script>
+
+<style>
+  .comments { margin-top: 56px; }
+  .comments h2 { margin: 0 0 4px; }
+  .comments p { margin: 0 0 16px; opacity: 0.8; }
+</style>
