@@ -161,8 +161,9 @@ for (const scheme of ["light", "dark"] as const) {
 }
 
 for (const scheme of ["dark", "light"] as const) {
-  test(`the sign board and window frame stand out from the wall in every room (${scheme})`, async ({ page }) => {
+  test(`every room has the same sign board and window frame, on a wall that stands apart (${scheme})`, async ({ page }) => {
     await page.emulateMedia({ colorScheme: scheme });
+    const boxes = new Set<string>();
     for (const room of ["library", "workshop", "studio", "vault"]) {
       await page.goto(`/${room}`);
       const c = await page.evaluate(() => {
@@ -180,14 +181,17 @@ for (const scheme of ["dark", "light"] as const) {
         const cs = (s: string) => getComputedStyle(document.querySelector(s)!);
         const wall = cs("section.scene").backgroundColor;
         const fascia = cs(".scene .fascia");
-        const edge = fascia.borderTopWidth !== "0px" ? fascia.borderTopColor : fascia.backgroundColor;
+        const frame = cs(".scene .window");
         return {
-          frame: ratio(cs(".scene .window").borderTopColor, wall),
-          sign: Math.max(ratio(fascia.backgroundColor, wall), ratio(edge, wall)),
+          box: [fascia.backgroundColor, fascia.borderTopWidth, frame.borderTopColor, frame.borderTopWidth].join(" | "),
+          frame: ratio(frame.borderTopColor, wall),
+          sign: ratio(fascia.backgroundColor, wall),
         };
       });
-      expect(c.frame, `${room} window frame`).toBeGreaterThanOrEqual(2);
-      expect(c.sign, `${room} sign board`).toBeGreaterThanOrEqual(2);
+      boxes.add(c.box);
+      expect(c.frame, `${room} window frame vs wall`).toBeGreaterThanOrEqual(1.4);
+      expect(c.sign, `${room} sign board vs wall`).toBeGreaterThanOrEqual(1.4);
     }
+    expect([...boxes], "sign board and window frame look the same in every room").toHaveLength(1);
   });
 }

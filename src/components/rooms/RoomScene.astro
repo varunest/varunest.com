@@ -101,11 +101,13 @@ const wire = Array.from({ length: SAGS }, (_, i) => {
     background:
       color-mix(in srgb, var(--c) 10%, #fff3df); /* daytime: lights off */
   }
-  /* At night the dark sign board and frame can sink into a dark wall (the Library's teal),
-     so they get a painted trim in a pale tint of the room colour. */
-  :global([data-theme="dark"]) .scene { --trim: color-mix(in srgb, var(--c) 35%, #e8dcc8); }
-  :global([data-theme="dark"]) .fascia { border: 2px solid var(--trim); }
-  :global([data-theme="dark"]) .window { border-color: var(--trim); }
+  /* At night the wall is a warm brick with a hint of the room colour, kept lighter than the
+     dark sign board and window frame so those look the same, and stand out, in every room. */
+  :global([data-theme="dark"]) .scene {
+    background:
+      repeating-linear-gradient(0deg, transparent 0 22px, color-mix(in srgb, var(--c) 18%, transparent) 22px 24px),
+      color-mix(in srgb, var(--c) 14%, #54443a);
+  }
   :global([data-theme="dark"]) .window {
     background:
       radial-gradient(ellipse 90% 70% at 50% 0%, rgba(var(--warm), 0.45), transparent 80%),
