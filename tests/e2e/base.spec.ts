@@ -6,6 +6,11 @@ test("home has the canonical URL", async ({ page }) => {
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://www.varunest.com/");
 });
 
+test("home keeps the Google site verification meta tag", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator('meta[name="google-site-verification"]')).toHaveAttribute("content", "FZuwNujwyxt3ri-debC9SRIUo1rTda-I9G384-govWY");
+});
+
 test.describe("theme without JavaScript", () => {
   test.use({ javaScriptEnabled: false, colorScheme: "dark" });
   test("dark OS theme gives the Slate background", async ({ page }) => {
