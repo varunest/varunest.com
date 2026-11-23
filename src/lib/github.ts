@@ -1,5 +1,6 @@
 export async function getStars(repo: string, fallback: number, fetchImpl: typeof fetch = fetch): Promise<number> {
-  const timeout = new Promise<null>((resolve) => setTimeout(() => resolve(null), 5000));
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<null>((resolve) => { timer = setTimeout(() => resolve(null), 5000); });
   const request = (async () => {
     const res = await fetchImpl(`https://api.github.com/repos/${repo}`, {
       headers: { Accept: "application/vnd.github+json" },
@@ -8,6 +9,10 @@ export async function getStars(repo: string, fallback: number, fetchImpl: typeof
     const data = (await res.json()) as { stargazers_count?: unknown };
     return typeof data.stargazers_count === "number" ? data.stargazers_count : null;
   })().catch(() => null);
-  const stars = await Promise.race([request, timeout]);
-  return stars ?? fallback;
+  try {
+    const stars = await Promise.race([request, timeout]);
+    return stars ?? fallback;
+  } finally {
+    clearTimeout(timer);
+  }
 }

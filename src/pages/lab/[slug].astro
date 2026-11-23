@@ -17,15 +17,17 @@ const { Content } = await render(entry);
   <article class="wrap">
     <h1>{entry.data.title}</h1>
     <p class="meta"><time datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)}</time></p>
-    <p>
-      {entry.data.repo && <a class="btn alt" href={entry.data.repo}>Source</a>}
-      {entry.data.demo && <a class="btn alt" href={entry.data.demo}>Demo</a>}
-    </p>
+    {(entry.data.repo || entry.data.demo) && (
+      <p>
+        {entry.data.repo && <a class="btn alt" href={entry.data.repo}>Source</a>}
+        {entry.data.demo && <a class="btn alt" href={entry.data.demo}>Demo</a>}
+      </p>
+    )}
     <Content />
   </article>
 </Base>
 
 <style>
   .wrap { max-width: 760px; margin: 0 auto; padding: 40px 20px 64px; }
-  .meta { opacity: 0.8; font-size: 0.9rem; }
+  .meta { color: var(--soft); font-size: 0.9rem; }
 </style>
