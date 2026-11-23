@@ -159,3 +159,35 @@ for (const scheme of ["light", "dark"] as const) {
     }
   });
 }
+
+for (const scheme of ["dark", "light"] as const) {
+  test(`the sign board and window frame stand out from the wall in every room (${scheme})`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: scheme });
+    for (const room of ["library", "workshop", "studio", "vault"]) {
+      await page.goto(`/${room}`);
+      const c = await page.evaluate(() => {
+        // Relative luminance of a computed CSS colour (rgb() or color(srgb ...)).
+        const lum = (css: string) => {
+          const n = css.match(/[\d.]+/g)!.map(Number);
+          const [r, g, b] = css.startsWith("color(") ? n.slice(0, 3) : n.slice(0, 3).map((v) => v / 255);
+          const lin = (v: number) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+          return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+        };
+        const ratio = (a: string, b: string) => {
+          const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p);
+          return (x + 0.05) / (y + 0.05);
+        };
+        const cs = (s: string) => getComputedStyle(document.querySelector(s)!);
+        const wall = cs("section.scene").backgroundColor;
+        const fascia = cs(".scene .fascia");
+        const edge = fascia.borderTopWidth !== "0px" ? fascia.borderTopColor : fascia.backgroundColor;
+        return {
+          frame: ratio(cs(".scene .window").borderTopColor, wall),
+          sign: Math.max(ratio(fascia.backgroundColor, wall), ratio(edge, wall)),
+        };
+      });
+      expect(c.frame, `${room} window frame`).toBeGreaterThanOrEqual(2);
+      expect(c.sign, `${room} sign board`).toBeGreaterThanOrEqual(2);
+    }
+  });
+}
