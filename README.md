@@ -2,8 +2,6 @@
 
 Source for [www.varunest.com](https://www.varunest.com), Varun Verma's site: home page, blog, and a lab for small projects. It is a static [Astro](https://astro.build) site served by Cloudflare Workers (static assets), with Giscus comments and Cloudflare Web Analytics.
 
-Design spec: `docs/superpowers/specs/2026-11-22-site-revamp-design.md`. Implementation plan: `docs/superpowers/plans/2026-11-22-site-revamp.md`.
-
 ## Requirements
 
 - Node 24 (the `engines` field allows `>=22.23.4`)
