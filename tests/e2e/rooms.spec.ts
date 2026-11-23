@@ -34,10 +34,20 @@ test.describe("floor plan", () => {
     await expect(page.locator("#rooms .step").first()).toBeAttached();
   });
 
-  test("keyboard reaches each lit room's link in order", async ({ page }) => {
+  test("Tab from Look around reaches each lit room's link in order and skips dim rooms", async ({ page }) => {
     await page.goto("/");
-    const links = await page.locator("#rooms a").evaluateAll((as) => as.map((a) => a.getAttribute("href")));
-    expect(links.filter((h) => h?.startsWith("/") && !h.includes("#"))).toEqual(lit.map((id) => `/${id}`));
+    await page.getByRole("link", { name: "Look around" }).focus();
+    const reached: string[] = [];
+    for (let i = 0; i < 40 && reached.length < 4; i++) {
+      await page.keyboard.press("Tab");
+      const info = await page.evaluate(() => {
+        const el = document.activeElement as HTMLElement;
+        return { href: el.getAttribute("href"), room: el.closest<HTMLElement>("#rooms .room")?.dataset.room ?? null };
+      });
+      if (info.room && ["server-closet", "living-room"].includes(info.room)) throw new Error(`focus entered dim room ${info.room}`);
+      if (info.href?.startsWith("/") && info.room) reached.push(info.href);
+    }
+    expect(reached).toEqual(lit.map((id) => `/${id}`));
   });
 });
 
