@@ -1,0 +1,31 @@
+---
+import type { GetStaticPaths } from "astro";
+import { render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { formatDate } from "../../lib/posts";
+import { getPublishedLab } from "../../lib/lab";
+
+export const getStaticPaths = (async () => {
+  const entries = await getPublishedLab();
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<Base title={`${entry.data.title} | Lab | Varun Verma`} description={entry.data.summary} path={`/lab/${entry.id}/`} showLab={true}>
+  <article class="wrap">
+    <h1>{entry.data.title}</h1>
+    <p class="meta"><time datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)}</time></p>
+    <p>
+      {entry.data.repo && <a class="btn alt" href={entry.data.repo}>Source</a>}
+      {entry.data.demo && <a class="btn alt" href={entry.data.demo}>Demo</a>}
+    </p>
+    <Content />
+  </article>
+</Base>
+
+<style>
+  .wrap { max-width: 760px; margin: 0 auto; padding: 40px 20px 64px; }
+  .meta { opacity: 0.8; font-size: 0.9rem; }
+</style>

@@ -1,13 +1,123 @@
 ---
+import { Picture } from "astro:assets";
 import Base from "../layouts/Base.astro";
+import portrait from "../assets/portrait.webp";
+import { SITE } from "../lib/site";
+import { hasLab } from "../lib/lab";
+import { getStars } from "../lib/github";
+
+const lab = await hasLab();
+const [sparkStars, loaderStars, filterStars] = await Promise.all([
+  getStars("varunest/sparkbutton", 1000),
+  getStars("varunest/theglowingloader", 300),
+  getStars("Zomato/AndroidPhotoFilters", 2100),
+]);
+const fmt = (n: number) => `${n.toLocaleString("en-US")}+`;
 ---
 <Base
   title="Varun Verma"
   description="Staff Engineer at Uber. Ten years of Android apps used by millions, now building with AI agents, a home lab, and small machines that move."
   path="/"
-  showLab={false}
+  showLab={lab}
 >
   <div class="wrap">
-    <h1>Varun Verma</h1>
+    <section class="hero">
+      <div class="hero-text">
+        <h1>I build software people enjoy touching.</h1>
+        <p>
+          I'm Varun, a Staff Engineer at Uber. Ten years of Android apps used by millions. Now I'm
+          building with AI agents, a home lab, and small machines that move.
+        </p>
+        <div class="btns">
+          <a class="btn btn-primary" href={`mailto:${SITE.email}`}>Say hello</a>
+          {lab
+            ? <a class="btn alt" href="/lab/">See the lab</a>
+            : <a class="btn alt" href="/blog/">Read my writing</a>}
+        </div>
+      </div>
+      <!-- Task 8: the interactive portrait wraps this picture. -->
+      <div class="hero-portrait">
+        <Picture
+          src={portrait}
+          formats={["avif", "webp"]}
+          fallbackFormat="webp"
+          width={220}
+          height={220}
+          widths={[220, 440]}
+          sizes="220px"
+          alt="Illustrated portrait of Varun"
+          loading="eager"
+        />
+      </div>
+      <!-- Task 9: the skyline goes here. -->
+      <div class="hero-skyline"></div>
+    </section>
+
+    {lab && (
+      <section class="block" aria-labelledby="lab-h">
+        <h2 id="lab-h">In the lab</h2>
+        <p>Experiments, prototypes and small machines. <a href="/lab/">See all of it</a>.</p>
+      </section>
+    )}
+
+    <section class="block" aria-labelledby="shipped-h">
+      <h2 id="shipped-h">Things I've shipped</h2>
+      <ul class="shipped">
+        <li class="card">
+          <h3>Uber</h3>
+          <p>Staff Engineer, 2019 to now. Android at very large scale.</p>
+        </li>
+        <li class="card">
+          <h3>Videoder</h3>
+          <p>Co-founded it. 50M+ downloads.</p>
+        </li>
+        <li class="card">
+          <h3>Zomato</h3>
+          <p>Android engineer. Built <a href="https://github.com/Zomato/AndroidPhotoFilters">PhotoFilters</a>, an open-source photo filter library. <span class="stars">{fmt(filterStars)} stars</span></p>
+        </li>
+        <li class="card">
+          <h3><a href="https://github.com/varunest/sparkbutton">Spark Button</a></h3>
+          <p>An open-source Android button with a little firework. <span class="stars">{fmt(sparkStars)} stars</span></p>
+        </li>
+        <li class="card">
+          <h3><a href="https://github.com/varunest/theglowingloader">Glowing Loader</a></h3>
+          <p>An open-source Android loading animation. <span class="stars">{fmt(loaderStars)} stars</span></p>
+        </li>
+      </ul>
+      <p class="earlier">Earlier experiments: Crazy Driver, Movie Memo, Lazy Music and 9Facts.</p>
+    </section>
   </div>
 </Base>
+
+<style>
+  .hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 30px;
+    align-items: center;
+    padding: 44px 0 56px;
+  }
+  .hero-text p { margin-top: 18px; max-width: 33em; color: var(--soft); }
+  .btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
+  .hero-portrait :global(img) {
+    display: block;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: var(--stroke) solid var(--ink);
+    box-shadow: 0 6px 0 var(--ink);
+    background: var(--pop2);
+  }
+  .hero-skyline { grid-column: 1 / -1; }
+  .block { padding: 40px 0; border-top: 2px dashed var(--line); }
+  .shipped { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 14px; }
+  .shipped h3 { margin: 0 0 4px; font-size: 1.2rem; }
+  .shipped p { margin: 0; color: var(--soft); font-size: 16px; }
+  .stars { font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .earlier { margin-top: 20px; color: var(--soft); }
+  @media (max-width: 680px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-portrait { justify-self: start; }
+  }
+</style>
