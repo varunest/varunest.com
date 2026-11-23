@@ -25,3 +25,15 @@ test.describe("without JavaScript", () => {
     expect(href).toMatch(/\.(jpe?g|webp|png)/);
   });
 });
+
+test("the page behind the lightbox doesn't scroll", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 600 });
+  await page.goto("/studio");
+  await page.locator(".gallery .frame").click();
+  await expect(page.locator("dialog.lightbox[open]")).toBeVisible();
+  const before = await page.evaluate(() => window.scrollY);
+  await page.mouse.move(20, 300);
+  await page.mouse.wheel(0, 1200);
+  await page.waitForTimeout(300);
+  expect(await page.evaluate(() => window.scrollY)).toBe(before);
+});

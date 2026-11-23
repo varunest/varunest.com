@@ -106,3 +106,20 @@ for (const width of [1280, 900, 375]) {
     expect(await row.evaluate((el) => el.scrollWidth <= el.clientWidth + 1)).toBe(true);
   });
 }
+
+test("the page behind a book's popup doesn't scroll, and scrolls again once it closes", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/library");
+  const bk = page.locator(`.shelves .bk[data-book="${reviewed.id}"]`);
+  await bk.scrollIntoViewIfNeeded();
+  await bk.click();
+  await expect(page.locator("dialog[open]")).toBeVisible();
+  const before = await page.evaluate(() => window.scrollY);
+  await page.mouse.move(40, 400); // over the backdrop, outside the popup
+  await page.mouse.wheel(0, 1200);
+  await page.waitForTimeout(300);
+  expect(await page.evaluate(() => window.scrollY)).toBe(before);
+  await page.keyboard.press("Escape");
+  await page.mouse.wheel(0, 600);
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(before);
+});
