@@ -71,3 +71,11 @@ test.describe("floor plan on a phone", () => {
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(360);
   });
 });
+
+test("room scenes have no glow behind the toy", async ({ page }) => {
+  for (const room of ["library", "workshop", "studio"]) {
+    await page.goto(`/${room}`);
+    await expect(page.locator("section.scene")).toBeVisible();
+    await expect(page.locator(".glow")).toHaveCount(0);
+  }
+});
