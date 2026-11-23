@@ -1,0 +1,25 @@
+---
+import { formatDate } from "../lib/posts";
+import { labUrl, type LabEntry } from "../lib/lab";
+interface Props { entries: LabEntry[]; headingLevel?: 2 | 3 }
+const { entries, headingLevel = 3 } = Astro.props;
+const H = `h${headingLevel}` as "h2" | "h3";
+---
+<ul class="lab-cards">
+  {entries.map((e) => (
+    <li class="card">
+      <H><a class="card-link" href={labUrl(e.id)}>{e.data.title}</a></H>
+      <p class="meta"><time datetime={e.data.date.toISOString()}>{formatDate(e.data.date)}</time></p>
+      <p>{e.data.summary}</p>
+      <p>{e.data.tags.map((t) => <span class="tag">{t}</span>)}</p>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .lab-cards { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 14px; }
+  .lab-cards :global(h2), .lab-cards :global(h3) { margin: 0 0 4px; font-size: 1.2rem; }
+  .meta { margin: 0 0 8px; color: var(--soft); font-size: 0.9rem; }
+  p { margin: 0 0 8px; }
+  .tag { margin-right: 6px; }
+</style>

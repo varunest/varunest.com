@@ -3,10 +3,12 @@ import Base from "../layouts/Base.astro";
 import Portrait from "../components/Portrait.astro";
 import Skyline from "../components/Skyline.astro";
 import { SITE } from "../lib/site";
-import { hasLab } from "../lib/lab";
+import LabCards from "../components/LabCards.astro";
+import { getPublishedLab, labUrl } from "../lib/lab";
 import { getStars } from "../lib/github";
 
-const lab = await hasLab();
+const labEntries = await getPublishedLab();
+const lab = labEntries.length > 0;
 const [sparkStars, loaderStars, filterStars] = await Promise.all([
   getStars("varunest/sparkbutton", 1000),
   getStars("varunest/theglowingloader", 300),
@@ -31,7 +33,7 @@ const fmt = (n: number) => `${n.toLocaleString("en-US")}+`;
         <div class="btns">
           <a class="btn btn-primary" href={`mailto:${SITE.email}`}>Say hello</a>
           {lab
-            ? <a class="btn alt" href="/lab/">See the lab</a>
+            ? <a class="btn alt" href={labUrl()}>See the lab</a>
             : <a class="btn alt" href="/blog/">Read my writing</a>}
         </div>
       </div>
@@ -42,7 +44,8 @@ const fmt = (n: number) => `${n.toLocaleString("en-US")}+`;
     {lab && (
       <section class="block" aria-labelledby="lab-h">
         <h2 id="lab-h">In the lab</h2>
-        <p>Experiments, prototypes and small machines. <a href="/lab/">See all of it</a>.</p>
+        <p>Experiments, prototypes and small machines. <a href={labUrl()}>See all of it</a>.</p>
+        <LabCards entries={labEntries.slice(0, 3)} />
       </section>
     )}
 
@@ -51,7 +54,7 @@ const fmt = (n: number) => `${n.toLocaleString("en-US")}+`;
       <ul class="shipped">
         <li class="card">
           <h3>Uber</h3>
-          <p>Staff Engineer, 2019 to now. Android at very large scale.</p>
+          <p>At Uber since 2019; now Staff Engineer. Android at very large scale.</p>
         </li>
         <li class="card">
           <h3>Videoder</h3>

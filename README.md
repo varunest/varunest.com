@@ -55,7 +55,7 @@ Body in Markdown.
 
 ## Add a lab entry
 
-Create `src/content/lab/<slug>.md`. It is listed at `/lab/` and lives at `/lab/<slug>/`. The Lab link only shows in the nav once at least one published entry exists.
+Create `src/content/lab/<slug>.md`. It is listed at `/lab` and lives at `/lab/<slug>` (no trailing slash, matching the built `lab.html` and `lab/<slug>.html`). The home page shows the latest three. The Lab link only shows in the nav once at least one published entry exists.
 
 ```md
 ---
@@ -64,10 +64,10 @@ date: 2026-11-22
 summary: One sentence.
 tags:
 - tools
-repo: https://github.com/varunest/project   # optional; star count is fetched at build time
+repo: https://github.com/varunest/project   # optional; shown as a Source button
 demo: https://example.com/demo              # optional
-cover: ../../assets/lab/cover.png           # optional image
-toy: none                                   # optional, same values as posts
+cover: ../../assets/lab/cover.png           # optional image, shown on the entry page
+toy: none                                   # optional, same values as posts; default is the pendulum
 draft: false                                # optional
 ---
 
