@@ -1,0 +1,60 @@
+<script>
+  const COUNT = 14;
+  const LIFETIME_MS = 600;
+  const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function burst(x: number, y: number) {
+    const css = getComputedStyle(document.documentElement);
+    const colors = ["--pop", "--pop2", "--primary"].map((v) => css.getPropertyValue(v).trim());
+    const box = document.createElement("div");
+    box.className = "sparks";
+    box.setAttribute("aria-hidden", "true");
+    for (let i = 0; i < COUNT; i++) {
+      const dot = document.createElement("span");
+      dot.className = "spark";
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 30 + Math.random() * 50;
+      dot.style.cssText = `left:${x}px;top:${y}px;background:${colors[i % colors.length]};--dx:${Math.cos(angle) * dist}px;--dy:${Math.sin(angle) * dist}px`;
+      box.appendChild(dot);
+    }
+    document.body.appendChild(box);
+    window.setTimeout(() => box.remove(), LIFETIME_MS);
+  }
+
+  if (!calm) {
+    document.addEventListener("click", (e) => {
+      const target = (e.target as Element | null)?.closest<HTMLElement>(".btn-primary, .card-link");
+      if (!target) return;
+      let x = e.clientX;
+      let y = e.clientY;
+      if (e.detail === 0) {
+        const r = target.getBoundingClientRect();
+        x = r.left + r.width / 2;
+        y = r.top + r.height / 2;
+      }
+      burst(x, y);
+    });
+  }
+</script>
+
+<style is:global>
+  .sparks {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    pointer-events: none;
+  }
+  .spark {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    margin: -4.5px;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: spark-fly 0.6s ease-out forwards;
+  }
+  @keyframes spark-fly {
+    from { opacity: 1; transform: translate(0, 0) scale(1); }
+    to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.3); }
+  }
+</style>
