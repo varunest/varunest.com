@@ -1,0 +1,57 @@
+---
+interface Book { title: string; rating?: string }
+interface Props { current: Book; others: Book[] }
+const { current, others } = Astro.props;
+
+const colours = ["var(--primary)", "var(--pop)", "var(--pop2)", "var(--card)"];
+const heights = [104, 84, 116, 92];
+const real = [current, ...others].slice(0, 4);
+const fillers = 4 - real.length;
+const label = (b: Book) => (b.rating ? `${b.title}: ${b.rating}` : b.title);
+---
+<div class="shelf-toy">
+  <div class="stage">
+    <div class="shelf">
+      {real.map((b, i) => (
+        <button class="book" type="button" aria-pressed="false" data-label={label(b)} aria-label={b.title}
+          style={`height:${heights[i]}px;background:${colours[i]}`}></button>
+      ))}
+      {Array.from({ length: fillers }, (_, j) => (
+        <span class="book deco" aria-hidden="true" style={`height:${heights[real.length + j]}px;background:${colours[real.length + j]}`}></span>
+      ))}
+    </div>
+  </div>
+  <p class="blurb" aria-live="polite"></p>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>(".shelf-toy");
+  const blurb = root?.querySelector<HTMLElement>(".blurb");
+  const books = [...(root?.querySelectorAll<HTMLButtonElement>("button.book") ?? [])];
+  books.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const on = btn.getAttribute("aria-pressed") !== "true";
+      books.forEach((b) => b.setAttribute("aria-pressed", "false"));
+      btn.setAttribute("aria-pressed", String(on));
+      if (blurb) blurb.textContent = on ? (btn.dataset.label ?? "") : "";
+    });
+  });
+</script>
+
+<style>
+  .stage { height: 150px; border-radius: 10px; background: var(--bg); display: flex; align-items: flex-end; justify-content: center; padding: 0 0 0; }
+  .shelf { display: flex; align-items: flex-end; gap: 6px; height: 130px; border-bottom: 4px solid var(--ink); padding: 0 12px; margin-bottom: 10px; }
+  .book {
+    width: 28px;
+    padding: 0;
+    border: var(--stroke) solid var(--ink);
+    border-radius: 3px 3px 0 0;
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.3, 1.8, 0.5, 1);
+  }
+  .book.deco { cursor: default; }
+  .book[aria-pressed="true"] { transform: translateY(-16px) rotate(-5deg); }
+  :global(.no-js) .book { cursor: default; }
+  .blurb { min-height: 2.8em; margin: 8px 0 0; font-size: 14px; font-weight: 600; color: var(--ink); }
+  @media (prefers-reduced-motion: reduce) { .book { transition: none; } }
+</style>
