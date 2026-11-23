@@ -1,18 +1,26 @@
 ---
 import type { ToyName } from "../../lib/rooms";
+import Bookshelf from "./Bookshelf.astro";
+import Gears from "./Gears.astro";
+import PaintByNumbers from "./PaintByNumbers.astro";
+import PiggyBank from "./PiggyBank.astro";
+import Packets from "./Packets.astro";
+import RecordPlayer from "./RecordPlayer.astro";
 
 interface Props {
   toy: ToyName;
   inert?: boolean;
 }
 const { toy, inert = false } = Astro.props;
+const Toys = { bookshelf: Bookshelf, gears: Gears, paint: PaintByNumbers, piggy: PiggyBank, packets: Packets, record: RecordPlayer };
+const Toy = Toys[toy];
 ---
 <div class:list={["room-toy", { inert }]} data-toy={toy} aria-hidden={inert ? "true" : undefined}>
-  <span class="placeholder">{toy}</span>
+  <Toy inert={inert} />
 </div>
 
 <style>
-  .room-toy { display: grid; place-items: center; min-height: 120px; }
+  .room-toy { display: grid; place-items: center; min-height: 130px; min-width: 0; }
+  .room-toy :global(svg) { max-width: 100%; height: auto; }
   .room-toy.inert { opacity: 0.3; filter: grayscale(1); pointer-events: none; }
-  .placeholder { font-size: 12px; color: var(--soft); }
 </style>
