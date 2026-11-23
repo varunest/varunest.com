@@ -2,17 +2,20 @@
 import type { Room } from "../../lib/rooms";
 
 interface Props {
-  room: Room;
+  room: Room & { count?: string };
   blurb: string;
 }
 const { room, blurb } = Astro.props;
 ---
 <section class="scene" style={`--c:${room.colour}`} aria-labelledby="room-h">
   <div class="lamp" aria-hidden="true"><div class="glow"></div></div>
-  <div class="sign">
+  <div class="title">
     <p class="crumb"><a href="/#rooms">Home</a> / {room.name}</p>
     <h1 id="room-h">{room.name}</h1>
-    <p class="blurb">{blurb}</p>
+    <div class="placard">
+      <p class="blurb">{blurb}</p>
+      {room.count && <p class="count">{room.count}</p>}
+    </div>
   </div>
   <div class="stand">
     <div class="on"><slot name="toy" /></div>
@@ -37,17 +40,18 @@ const { room, blurb } = Astro.props;
     background: repeating-linear-gradient(90deg, color-mix(in srgb, #c7975c 70%, var(--bg)) 0 90px, color-mix(in srgb, #b5854b 70%, var(--bg)) 90px 92px);
   }
   :global([data-theme="dark"]) .boards { background: repeating-linear-gradient(90deg, #3a2f25 0 90px, #2b231b 90px 92px); }
-  .sign {
-    position: absolute; left: 44px; top: 48px; max-width: 420px; z-index: 1;
-    background: var(--card); border: 3px solid var(--ink); border-radius: 10px; padding: 14px 20px 16px;
-    box-shadow: 0 5px 0 var(--ink);
+  /* Gallery placard: the title is painted on the wall, the details sit on a small museum label. */
+  .title { position: absolute; left: 44px; top: 44px; max-width: 440px; z-index: 1; }
+  .crumb { margin: 0; font-size: 14px; font-weight: 600; color: var(--ink); }
+  .crumb a { color: inherit; }
+  h1 { margin: 4px 0 0; font-size: clamp(40px, 6vw, 60px); line-height: 1; letter-spacing: -0.02em; color: var(--ink); }
+  .placard {
+    margin-top: 18px; max-width: 300px; padding: 10px 14px 11px;
+    background: var(--card); border: 2px solid var(--ink); border-radius: 4px; box-shadow: 0 3px 0 var(--ink);
   }
-  .sign::before, .sign::after { content: ""; position: absolute; top: -50px; width: 2px; height: 50px; background: var(--ink); }
-  .sign::before { left: 30%; }
-  .sign::after { right: 30%; }
-  .crumb { margin: 0; font-size: 14px; color: var(--soft); }
-  h1 { margin: 2px 0 0; font-size: clamp(34px, 5vw, 46px); line-height: 1.05; }
-  .blurb { margin: 6px 0 0; color: var(--soft); font-size: 16px; }
+  .placard p { margin: 0; }
+  .blurb { font-size: 15px; line-height: 1.4; color: var(--ink); }
+  .count { margin-top: 4px !important; font-size: 13px; font-weight: 600; color: var(--soft); }
   .stand { position: absolute; right: 80px; bottom: 62px; display: grid; justify-items: center; z-index: 1; }
   .stand .on { padding-bottom: 6px; }
   .stand .top { width: 260px; height: 14px; border-radius: 4px; background: color-mix(in srgb, var(--ink) 85%, #8b6d47); }
@@ -70,7 +74,7 @@ const { room, blurb } = Astro.props;
   :global([data-theme="dark"]) .glow { background: radial-gradient(ellipse at top, rgba(255, 210, 122, 0.45), transparent 70%); }
   @media (max-width: 900px) {
     .scene { height: auto; padding: 56px 20px 72px; display: grid; gap: 26px; justify-items: center; }
-    .sign { position: relative; left: 0; top: 0; justify-self: stretch; max-width: none; }
+    .title { position: relative; left: 0; top: 0; justify-self: stretch; max-width: none; }
     .stand { position: relative; right: auto; bottom: auto; }
     .stand .legs { display: none; }
     .lamp { display: none; }

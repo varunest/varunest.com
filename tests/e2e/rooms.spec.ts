@@ -94,3 +94,21 @@ test("the lamp's glow hangs centred under its shade", async ({ page }) => {
     expect(shade.bottom).toBeLessThanOrEqual(toy.y - vp + 2);
   }
 });
+
+test("room header is a gallery placard: big title on the wall, label with blurb and count", async ({ page }) => {
+  const cases = [
+    ["library", "The Library", "books"],
+    ["workshop", "The Workshop", "4 projects"],
+  ] as const;
+  for (const [room, name, count] of cases) {
+    await page.goto(`/${room}`);
+    const scene = page.locator("section.scene");
+    await expect(scene.locator(".sign")).toHaveCount(0);
+    await expect(scene.getByRole("heading", { level: 1 })).toHaveText(name);
+    const placard = scene.locator(".placard");
+    await expect(placard).toHaveCount(1);
+    await expect(placard).toContainText(count);
+    await expect(placard.locator(".blurb")).not.toBeEmpty();
+    await expect(scene.getByRole("link", { name: "Home" })).toHaveAttribute("href", "/#rooms");
+  }
+});
