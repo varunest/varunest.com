@@ -6,6 +6,8 @@
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
   },
+  // Branch builds get a public *.workers.dev preview URL.
+  "preview_urls": true,
   // Branch builds run `wrangler preview`, which needs this block (it can stay empty).
   "previews": {}
 }
