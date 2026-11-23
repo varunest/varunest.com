@@ -2,14 +2,13 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
-const slugs = [
-  "reworking-website-and-setting-up-blog-using-jekyll",
-  "organizing-budget-and-systematic-investment-planning",
-  "when-universe-stands-still",
-  "jrd-tata-biography-beyond-the-last-blue-mountain",
-  "the-last-lecture-review",
+const posts: [string, string][] = [
+  ["workshop", "reworking-website-and-setting-up-blog-using-jekyll"],
+  ["vault", "organizing-budget-and-systematic-investment-planning"],
+  ["studio", "when-universe-stands-still"],
+  ["library", "jrd-tata-biography-beyond-the-last-blue-mountain"],
+  ["library", "the-last-lecture-review"],
 ];
-const tags = ["website", "design", "jekyll", "investment", "art", "procreate", "book-review"];
 
 function htmlFiles(dir: string): string[] {
   return readdirSync(dir).flatMap((n) => {
@@ -18,18 +17,18 @@ function htmlFiles(dir: string): string[] {
   });
 }
 
-describe("posts, blog and tag pages", () => {
-  it.each(slugs)("builds blog/%s.html", (s) => {
-    expect(existsSync(`dist/blog/${s}.html`)).toBe(true);
+describe("posts under their rooms", () => {
+  it.each(posts)("builds %s/%s.html", (room, slug) => {
+    expect(existsSync(`dist/${room}/${slug}.html`)).toBe(true);
   });
-  it.each(tags)("builds tag page for %s", (t) => {
-    expect(existsSync(`dist/tag/${t}/index.html`)).toBe(true);
+  it("builds no blog, tag or lab pages", () => {
+    for (const d of ["dist/blog", "dist/tag", "dist/lab"]) expect(existsSync(d), d).toBe(false);
   });
-  it("lists 5 posts newest first on the blog index", () => {
-    const html = readFileSync("dist/blog/index.html", "utf8");
-    const found = [...html.matchAll(/href="\/blog\/([^"\/]+)"/g)].map((m) => m[1]);
-    const unique = found.filter((s, i) => found.indexOf(s) === i && slugs.includes(s));
-    expect(unique).toEqual([...slugs].reverse());
+  it("has no internal links to old blog or tag urls", () => {
+    for (const f of htmlFiles("dist")) {
+      const html = readFileSync(f, "utf8");
+      expect(html, f).not.toMatch(/href="\/(blog|tag)\//);
+    }
   });
   it("leaves no Jekyll leftovers in built HTML", () => {
     for (const f of htmlFiles("dist")) {
@@ -42,8 +41,8 @@ describe("posts, blog and tag pages", () => {
 
 describe("comments", () => {
   it("renders no comments section until Giscus ids are filled in", () => {
-    for (const s of slugs) {
-      expect(readFileSync(`dist/blog/${s}.html`, "utf8")).not.toContain('id="comments"');
+    for (const [room, s] of posts) {
+      expect(readFileSync(`dist/${room}/${s}.html`, "utf8")).not.toContain('id="comments"');
     }
   });
 });

@@ -1,5 +1,6 @@
 ---
 slug: organizing-budget-and-systematic-investment-planning
+room: vault
 date: 2021-03-04
 title: Organizing budget and systematic investment planning
 summary: How do I manage my budget and plan investments.

@@ -1,5 +1,6 @@
 ---
 slug: the-last-lecture-review
+room: library
 date: 2022-09-25
 legacySlug: "a-professor's-reminisce-and-crux-of-his-teachings"
 title: A professor's reminisce and crux of his teachings

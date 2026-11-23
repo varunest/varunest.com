@@ -16,7 +16,7 @@ export async function GET() {
         async (p) => `  <entry>
     <title>${esc(p.data.title)}</title>
     ${author}
-    <link rel="alternate" type="text/html" href="${esc(SITE.url + postUrl(p.id))}"/>
+    <link rel="alternate" type="text/html" href="${esc(SITE.url + postUrl(p))}"/>
     <id>${esc(legacyId(p))}</id>
     <updated>${p.data.date.toISOString()}</updated>
     <summary type="text">${esc(p.data.summary)}</summary>

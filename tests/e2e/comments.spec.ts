@@ -3,10 +3,8 @@ import { test, expect, type Page } from "@playwright/test";
 test.use({ colorScheme: "light" });
 
 
-async function firstPostPath(page: Page): Promise<string> {
-  await page.goto("/blog/");
-  const href = await page.locator('a[href^="/blog/"]:not([href="/blog/"])').first().getAttribute("href");
-  return href!;
+async function firstPostPath(_page: Page): Promise<string> {
+  return "/library/the-last-lecture-review";
 }
 
 async function stubGiscus(page: Page): Promise<string[]> {

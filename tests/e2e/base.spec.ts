@@ -39,12 +39,12 @@ test("footer links", async ({ page }) => {
   expect(hrefs.join(" ")).not.toMatch(/facebook|stackoverflow/i);
 });
 
-test("header has brand and nav, and no Lab link when showLab is false", async ({ page }) => {
+test("header has the brand and no Writing or Lab links", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("header a", { hasText: "Varun," })).toHaveAttribute("href", "/");
-  await expect(page.locator("header nav a[href='/blog/']")).toHaveText("Writing");
+  await expect(page.locator("header a[href^='/blog']")).toHaveCount(0);
   await expect(page.locator("header nav a[href='/resume.pdf']")).toHaveText("Résumé");
-  await expect(page.locator("header nav a[href='/lab/']")).toHaveCount(0);
+  await expect(page.locator("header a[href^='/lab']")).toHaveCount(0);
 });
 
 for (const scheme of ["light", "dark"] as const) {

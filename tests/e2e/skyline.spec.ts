@@ -32,7 +32,7 @@ test.describe("device is dark, no stored choice", () => {
 test.describe("phone", () => {
   test.use({ viewport: { width: 360, height: 740 } });
 
-  for (const path of ["/", "/blog/"]) {
+  for (const path of ["/"]) {
     test(`no horizontal overflow on ${path}`, async ({ page }) => {
       await page.goto(path);
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(360);
@@ -40,9 +40,7 @@ test.describe("phone", () => {
   }
 
   test("no horizontal overflow on a post", async ({ page }) => {
-    await page.goto("/blog/");
-    const href = await page.locator("a[href^='/blog/']:not([href='/blog/'])").first().getAttribute("href");
-    await page.goto(href!);
+    await page.goto("/library/the-last-lecture-review");
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(360);
   });
 });

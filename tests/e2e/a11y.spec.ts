@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
-const pages = ["/", "/blog/", "/blog/the-last-lecture-review", "/tag/book-review/", "/404"];
+const pages = ["/", "/library/the-last-lecture-review", "/studio/when-universe-stands-still", "/404"];
 
 for (const theme of ["light", "dark"] as const) {
   test.describe(`${theme} theme`, () => {

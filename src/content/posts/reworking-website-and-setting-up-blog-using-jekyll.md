@@ -1,5 +1,6 @@
 ---
 slug: reworking-website-and-setting-up-blog-using-jekyll
+room: workshop
 date: 2018-12-11
 title: Reworking website and setting up blog using Jekyll
 summary: Benefits of Jekyll, Ruby based static site generator and how to setup a blog using it.

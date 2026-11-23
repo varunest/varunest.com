@@ -1,5 +1,6 @@
 ---
 slug: jrd-tata-biography-beyond-the-last-blue-mountain
+room: library
 date: 2022-08-29
 legacySlug: "a-biography-that-beautifully-captures-different-facets-of-jrd-tata's-life"
 title: A Biography that beautifully captures different facets of J. R. D. Tata's life

@@ -10,7 +10,7 @@ export async function GET(context: APIContext) {
       title: p.data.title,
       pubDate: p.data.date,
       description: p.data.summary,
-      link: postUrl(p.id),
+      link: postUrl(p),
       content: await feedHtml(p),
       categories: p.data.tags,
     })),
