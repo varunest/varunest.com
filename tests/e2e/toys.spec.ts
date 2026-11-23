@@ -77,9 +77,9 @@ test.describe("without JavaScript", () => {
 
 test.describe("dark theme", () => {
   test.use({ colorScheme: "dark" });
-  test("the splatter painting keeps dark outlines", async ({ page }) => {
+  test("the flipbook keeps dark outlines on its paper", async ({ page }) => {
     await page.goto("/studio");
-    const stroke = await page.locator(".scene .toy-splatter .art > *").first().evaluate((e) => getComputedStyle(e).stroke);
+    const stroke = await page.locator(".scene .toy-flipbook .ball").evaluate((e) => getComputedStyle(e).stroke);
     expect(stroke).toBe("rgb(15, 42, 46)");
   });
 });
@@ -133,57 +133,78 @@ test.describe("a tap on a touch screen counts once", () => {
   });
 });
 
-test.describe("paint splatter (Studio)", () => {
+test.describe("flipbook (Studio)", () => {
   test.use({ viewport: { width: 1280, height: 900 }, reducedMotion: "no-preference" });
-  const splats = (page: import("@playwright/test").Page) => page.locator(".scene .toy-splatter .splat");
+  const ballAt = (page: import("@playwright/test").Page, scope = ".scene") =>
+    page.locator(`${scope} .toy-flipbook .ball`).evaluate((b) => `${b.getAttribute("cx")},${b.getAttribute("cy")}`);
 
-  test("starts as an abstract painting, not a blank board", async ({ page }) => {
+  test("a hovering mouse flips the pages so the doodle moves, and it rests when the mouse leaves", async ({ page }) => {
     await page.goto("/studio");
-    expect(await page.locator(".scene .toy-splatter .art > *").count()).toBeGreaterThanOrEqual(6);
-    await expect(splats(page)).toHaveCount(0);
+    const book = page.locator(".scene .toy-flipbook .book");
+    const rest = await ballAt(page);
+    await book.hover();
+    await expect(book).toHaveAttribute("aria-pressed", "true");
+    const seen = new Set<string>();
+    for (let i = 0; i < 6; i++) { seen.add(await ballAt(page)); await page.waitForTimeout(120); }
+    expect(seen.size).toBeGreaterThanOrEqual(3);
+    await page.mouse.move(5, 5);
+    await expect(book).toHaveAttribute("aria-pressed", "false");
+    expect(await ballAt(page)).toBe(rest);
   });
 
-  test("hovering flicks paint onto the canvas, inside its frame", async ({ page }) => {
+  test("the keyboard starts and stops it", async ({ page }) => {
     await page.goto("/studio");
-    const board = (await page.locator(".scene .toy-splatter .board").boundingBox())!;
-    for (let i = 0; i <= 8; i++) {
-      await page.mouse.move(board.x + 20 + i * ((board.width - 40) / 8), board.y + board.height / 2, { steps: 2 });
-      await page.waitForTimeout(90);
-    }
-    expect(await splats(page).count()).toBeGreaterThanOrEqual(5);
-    const outside = await splats(page).evaluateAll(
-      (els, b) => els.filter((e) => {
-        const r = e.getBoundingClientRect();
-        const cx = r.x + r.width / 2, cy = r.y + r.height / 2;
-        return cx < b.x - 1 || cx > b.x + b.width + 1 || cy < b.y - 1 || cy > b.y + b.height + 1;
-      }).length,
-      board,
-    );
-    expect(outside).toBe(0);
+    const book = page.locator(".scene .toy-flipbook .book");
+    await book.press("Enter");
+    await expect(book).toHaveAttribute("aria-pressed", "true");
+    await book.press("Enter");
+    await expect(book).toHaveAttribute("aria-pressed", "false");
   });
 
-  test("the canvas never fills up: old splats make way for new ones", async ({ page }) => {
-    await page.goto("/studio");
-    const board = (await page.locator(".scene .toy-splatter .board").boundingBox())!;
-    for (let i = 0; i < 400; i++) {
-      await page.mouse.move(board.x + 10 + ((i * 37) % (board.width - 20)), board.y + 10 + ((i * 23) % (board.height - 20)));
-      if (i % 4 === 0) await page.waitForTimeout(80);
-    }
-    expect(await splats(page).count()).toBeLessThanOrEqual(60);
-  });
-
-  test("the keyboard splatters too", async ({ page }) => {
-    await page.goto("/studio");
-    await page.locator(".scene .toy-splatter button").press("Enter");
-    await expect.poll(() => splats(page).count()).toBeGreaterThan(0);
+  test("on home it plays on hover too, and clicking goes into the Studio", async ({ page }) => {
+    await page.goto("/");
+    const toy = page.locator('#rooms .room[data-room="studio"] .room-toy');
+    const rest = await ballAt(page, '#rooms .room[data-room="studio"]');
+    await toy.hover();
+    await expect.poll(() => ballAt(page, '#rooms .room[data-room="studio"]')).not.toBe(rest);
+    await toy.click();
+    await expect(page).toHaveURL(/\/studio$/);
   });
 });
 
-test.describe("paint splatter on a touch screen", () => {
-  test.use({ hasTouch: true, isMobile: true, viewport: { width: 375, height: 812 } });
-  test("a tap flicks one splat where you tap", async ({ page }) => {
+test.describe("flipbook with reduced motion", () => {
+  test.use({ viewport: { width: 1280, height: 900 }, reducedMotion: "reduce" });
+  test("stays on its still drawing", async ({ page }) => {
     await page.goto("/studio");
-    await page.locator(".scene .toy-splatter .board").tap();
-    await expect(page.locator(".scene .toy-splatter .splat")).toHaveCount(1);
+    const ball = page.locator(".scene .toy-flipbook .ball");
+    const rest = await ball.getAttribute("cy");
+    await page.locator(".scene .toy-flipbook .book").hover();
+    await page.waitForTimeout(400);
+    expect(await ball.getAttribute("cy")).toBe(rest);
   });
+});
+
+test.describe("flipbook on a touch screen", () => {
+  test.use({ hasTouch: true, isMobile: true, viewport: { width: 375, height: 812 } });
+  test("a tap starts it, another stops it", async ({ page }) => {
+    await page.goto("/studio");
+    const book = page.locator(".scene .toy-flipbook .book");
+    await book.tap();
+    await expect(book).toHaveAttribute("aria-pressed", "true");
+    await book.tap();
+    await expect(book).toHaveAttribute("aria-pressed", "false");
+  });
+});
+
+test("hovering the piggy bank on home drops a coin and counts it", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  const pig = page.locator('#rooms .room[data-room="vault"] .room-toy');
+  await pig.hover();
+  await expect(pig.locator(".coin")).toHaveCount(1);
+  await expect(pig.locator(".balance")).toHaveText("$11");
+  await page.mouse.move(5, 5);
+  await pig.hover();
+  await expect(pig.locator(".balance")).toHaveText("$22");
 });

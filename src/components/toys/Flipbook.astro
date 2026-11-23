@@ -1,0 +1,77 @@
+---
+// The Studio's toy: a sketchbook with a doodled ball in it. While a mouse hovers the pages
+// flip and the ball bounces across the page; it rests on its first drawing otherwise.
+// A tap or the keyboard toggles it. Reduced motion keeps the still drawing.
+interface Props { inert?: boolean }
+const { inert = false } = Astro.props;
+const Tag = inert ? "span" : "button";
+const INK = "#0F2A2E";
+---
+<div class="toy-flipbook">
+  <Tag class="book" type={inert ? undefined : "button"} disabled={inert ? undefined : true} aria-pressed={inert ? undefined : "false"} aria-label={inert ? undefined : "Flip the sketchbook"}>
+    <svg viewBox="0 0 200 150" aria-hidden="true">
+      <rect x="20" y="15" width="160" height="120" rx="4" fill={INK} />
+      <rect x="26" y="18" width="150" height="112" rx="3" fill="#fffdf7" stroke={INK} stroke-width="2" />
+      <path class="curl" d="M176 20 q-10 30 0 108" fill="#f1e9da" stroke={INK} stroke-width="1.5" />
+      <path d="M40 104 H160" stroke={INK} stroke-width="2" stroke-dasharray="4 4" fill="none" />
+      <ellipse class="shadow" cx="60" cy="104" rx="12" ry="3" fill={INK} opacity="0.15" />
+      <ellipse class="ball" cx="60" cy="86" rx="14" ry="14" fill="#FF6B4A" stroke={INK} stroke-width="2" />
+      <circle class="eye" cx="64" cy="82" r="2.5" fill={INK} />
+    </svg>
+  </Tag>
+</div>
+
+<script>
+  // Eight drawings: the ball's height on each page, landing (and squashing) on the last.
+  const HEIGHTS = [70, 52, 40, 34, 40, 52, 70, 74];
+  const calm = matchMedia("(prefers-reduced-motion: reduce)");
+
+  document.querySelectorAll<HTMLElement>(".toy-flipbook").forEach((root) => {
+    if (root.closest(".room-toy.inert")) return; // dim rooms stay still
+    const book = root.querySelector<HTMLElement>(".book")!;
+    const q = <T extends SVGElement>(s: string) => root.querySelector<T>(s)!;
+    const ball = q<SVGEllipseElement>(".ball"), eye = q<SVGCircleElement>(".eye");
+    const shadow = q<SVGEllipseElement>(".shadow"), curl = q<SVGPathElement>(".curl");
+    const isButton = book instanceof HTMLButtonElement;
+    if (isButton) book.disabled = false;
+
+    let frame = 0;
+    let timer = 0;
+    const draw = () => {
+      const i = frame % HEIGHTS.length, y = HEIGHTS[i], squash = i === HEIGHTS.length - 1 ? 1.25 : 1;
+      const x = 60 + i * 10;
+      ball.setAttribute("cx", String(x)); ball.setAttribute("cy", String(y + 16));
+      ball.setAttribute("rx", String(14 * squash)); ball.setAttribute("ry", String(14 / squash));
+      eye.setAttribute("cx", String(x + 4)); eye.setAttribute("cy", String(y + 12));
+      shadow.setAttribute("cx", String(x)); shadow.setAttribute("rx", String(12 - (74 - y) / 6));
+      const turn = frame % 2; // the page edge flickers as the pages flip
+      curl.setAttribute("d", `M176 ${20 + turn * 2} q-${10 + turn * 6} 30 0 ${108 - turn * 4}`);
+    };
+    const play = (on: boolean) => {
+      if (isButton) book.setAttribute("aria-pressed", String(on));
+      clearInterval(timer);
+      if (on && !calm.matches) {
+        timer = window.setInterval(() => { frame++; draw(); }, 110);
+      } else {
+        frame = 0;
+        draw();
+      }
+    };
+
+    book.addEventListener("pointerenter", (e) => { if (e.pointerType !== "touch") play(true); });
+    book.addEventListener("pointerleave", (e) => { if (e.pointerType !== "touch") play(false); });
+    // Taps and the keyboard toggle it; a mouse is already playing it by hovering.
+    book.addEventListener("click", (e) => {
+      if (!isButton || (e as PointerEvent).pointerType === "mouse") return;
+      play(book.getAttribute("aria-pressed") !== "true");
+    });
+  });
+</script>
+
+<style>
+  .toy-flipbook { display: grid; justify-items: center; }
+  .book { display: block; padding: 0; border: 0; background: none; cursor: pointer; }
+  .book svg { display: block; width: 190px; height: auto; }
+  .book:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; border-radius: 6px; }
+  button.book:disabled { cursor: default; }
+</style>

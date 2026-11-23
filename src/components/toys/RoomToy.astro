@@ -2,7 +2,7 @@
 import type { ToyName } from "../../lib/rooms";
 import Bookshelf from "./Bookshelf.astro";
 import Gears from "./Gears.astro";
-import Splatter from "./Splatter.astro";
+import Flipbook from "./Flipbook.astro";
 import PiggyBank from "./PiggyBank.astro";
 import Packets from "./Packets.astro";
 import RecordPlayer from "./RecordPlayer.astro";
@@ -14,7 +14,7 @@ interface Props {
   href?: string;
 }
 const { toy, inert = false, href } = Astro.props;
-const Toys = { bookshelf: Bookshelf, gears: Gears, splatter: Splatter, piggy: PiggyBank, packets: Packets, record: RecordPlayer };
+const Toys = { bookshelf: Bookshelf, gears: Gears, flipbook: Flipbook, piggy: PiggyBank, packets: Packets, record: RecordPlayer };
 const Toy = Toys[toy];
 ---
 {href ? (
