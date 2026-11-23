@@ -25,13 +25,19 @@ export function cleanReview(html: string): string[] {
     .replace(/<br\s*\/?>/gi, "\n")
     .replace(/<[^>]*>/g, "")
     .replace(/&(#\d+|#x[0-9a-f]+|[a-z]+);/gi, (m, e: string) => {
-      if (e.startsWith("#x")) return String.fromCodePoint(parseInt(e.slice(2), 16));
-      if (e.startsWith("#")) return ENTITIES[e] ?? String.fromCodePoint(parseInt(e.slice(1), 10));
+      const code = (n: number) => (Number.isInteger(n) && n >= 0 && n <= 0x10ffff ? String.fromCodePoint(n) : "");
+      if (e.startsWith("#x")) return code(parseInt(e.slice(2), 16));
+      if (e.startsWith("#")) return ENTITIES[e] ?? code(parseInt(e.slice(1), 10));
       return ENTITIES[e.toLowerCase()] ?? m;
     })
     .split(/\n\s*\n|\n/)
     .map((p) => p.replace(/\s+/g, " ").trim())
     .filter(Boolean);
+}
+
+/** Drop paragraphs that only point at the old blog review; the Library links to it properly. */
+export function dropBlogLinks(paragraphs: string[]): string[] {
+  return paragraphs.filter((p) => !/^read (my |the )?full review( here)?\s*:?\s*https?:\/\/\S+$/i.test(p.trim()));
 }
 
 /** Read books newest first; books without a date keep their order at the end. */

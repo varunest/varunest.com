@@ -23,7 +23,7 @@ const stars = (n: number) => (n ? "★".repeat(n) + "☆".repeat(5 - n) : "");
 const readOn = (d: string | null) =>
   d ? new Date(`${d.replaceAll("/", "-")}T00:00:00Z`).toLocaleDateString("en-GB", { month: "long", year: "numeric", timeZone: "UTC" }) : null;
 const hasNotes = (b: Book) => b.review.length > 0 || !!b.reviewPost;
-const shortTitle = (t: string) => t.split(":")[0].split(" (")[0];
+const shortTitle = (t: string) => t.split(/[:;]/)[0].split(" (")[0].trim();
 ---
 {desk.length > 0 && (
   <section class="desk" aria-labelledby="desk-h">
@@ -113,10 +113,9 @@ const shortTitle = (t: string) => t.split(":")[0].split(" (")[0];
   h2 { font-size: 22px; margin: 0 0 12px; }
   .desk { margin: 0 0 34px; padding: 16px 20px; border: 2px solid var(--ink); border-radius: 14px; background: color-mix(in srgb, #c7975c 22%, var(--card)); }
   .row { display: flex; flex-wrap: wrap; gap: 18px 16px; align-items: flex-end; }
-  .shelves .row {
-    padding: 0 14px;
-    background: repeating-linear-gradient(to bottom, transparent 0 196px, #8b6d47 196px 208px);
-  }
+  /* Each book carries its own piece of shelf, so boards always sit under the books. */
+  .shelves .row { column-gap: 0; row-gap: 22px; }
+  .shelves .bk { box-sizing: content-box; padding: 0 8px; border-bottom: 12px solid #8b6d47; }
   .bk { width: 96px; display: grid; gap: 4px; color: var(--ink); text-decoration: none; }
   .shelves .bk { height: 196px; align-content: end; padding-bottom: 6px; }
   .cv {
@@ -126,7 +125,7 @@ const shortTitle = (t: string) => t.split(":")[0].split(" (")[0];
   }
   .cv :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; }
   .cv:has(.drawn) { background: color-mix(in srgb, var(--cc) 40%, #fff); }
-  .drawn { padding: 8px; text-align: center; font: 700 12px/1.25 var(--head); color: #0F2A2E; }
+  .drawn { padding: 8px; max-width: 100%; overflow-wrap: anywhere; hyphens: auto; text-align: center; font: 700 12px/1.25 var(--head); color: #0F2A2E; }
   .bk:hover .cv, .bk:focus-visible .cv { transform: translateY(-10px) rotate(-2deg); }
   .bk:focus-visible { outline: none; }
   .bk:focus-visible .cv { outline: 3px solid var(--ink); outline-offset: 3px; }

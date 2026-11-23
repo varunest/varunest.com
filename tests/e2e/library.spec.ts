@@ -19,6 +19,7 @@ test("the shelves show every read book", async ({ page }) => {
 });
 
 test("a book without a cover gets a drawn cover with its title", async ({ page }) => {
+  test.skip(!noCover, "every book in books.json has a cover; nothing to draw");
   await page.goto("/library");
   const bk = page.locator(`.bk[data-book="${noCover.id}"]`);
   await expect(bk.locator(".drawn")).toContainText(noCover.title.split(":")[0].slice(0, 20));
@@ -50,4 +51,27 @@ test.describe("without JavaScript", () => {
     await expect(bk).toHaveAttribute("href", `#book-${reviewed.id}`);
     await expect(page.locator(`#book-${reviewed.id}`)).toContainText(reviewed.title);
   });
+});
+
+for (const width of [360, 1280]) {
+  test.describe(`shelves at ${width}px`, () => {
+    test.use({ viewport: { width, height: 900 } });
+    test("every book sits on a board and boards join up across a row", async ({ page }) => {
+      await page.goto("/library");
+      const row = page.locator(".shelves .row");
+      expect(await row.evaluate((r) => getComputedStyle(r).columnGap)).toBe("0px");
+      const boards = await page.locator(".shelves .bk").evaluateAll((els) => els.map((e) => getComputedStyle(e).borderBottomWidth));
+      expect(new Set(boards)).toEqual(new Set(["12px"]));
+    });
+    test("drawn covers keep their titles inside the cover", async ({ page }) => {
+      await page.goto("/library");
+      const overflow = await page.locator(".drawn").evaluateAll((els) => els.filter((e) => e.scrollWidth > e.clientWidth + 1).map((e) => e.textContent));
+      expect(overflow).toEqual([]);
+    });
+  });
+}
+
+test("no review shows a raw link to the old blog", async ({ page }) => {
+  await page.goto("/library");
+  expect(await page.content()).not.toContain("varunest.com/blog");
 });

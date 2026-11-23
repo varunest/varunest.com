@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cleanReview, parseCsv, sortBooks, type Book } from "../../src/lib/books";
+import { cleanReview, dropBlogLinks, parseCsv, sortBooks, type Book } from "../../src/lib/books";
 
 const book = (over: Partial<Book>): Book => ({
   id: "1", title: "T", author: "A", rating: 0, dateRead: null, shelf: "read", cover: null, review: [], reviewPost: null, ...over,
@@ -33,5 +33,25 @@ describe("parseCsv", () => {
       { Title: "A, B", Review: 'He said "hi"\nthen left' },
       { Title: "Plain", Review: "x" },
     ]);
+  });
+});
+
+describe("dropBlogLinks", () => {
+  it("removes paragraphs that only point at the old blog review", () => {
+    expect(
+      dropBlogLinks([
+        "Loved it.",
+        "Read the full review here: https://varunest.com/blog/a-professor's-reminisce-and-crux-of-his-teachings",
+      ]),
+    ).toEqual(["Loved it."]);
+  });
+  it("keeps ordinary paragraphs that mention links", () => {
+    expect(dropBlogLinks(["See https://example.com for more."])).toEqual(["See https://example.com for more."]);
+  });
+});
+
+describe("cleanReview with a broken entity", () => {
+  it("does not throw on an out-of-range character reference", () => {
+    expect(() => cleanReview("bad &#99999999; entity")).not.toThrow();
   });
 });

@@ -11,7 +11,7 @@
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { cleanReview, parseCsv, sortBooks, type Book } from "../src/lib/books.ts";
+import { cleanReview, dropBlogLinks, parseCsv, sortBooks, type Book } from "../src/lib/books.ts";
 
 const COVERS = "src/assets/books";
 const OUT = "src/data/books.json";
@@ -86,7 +86,7 @@ for (const row of rows) {
     dateRead: row["Date Read"] || null,
     shelf: row["Exclusive Shelf"] as Book["shelf"],
     cover,
-    review: cleanReview(row["My Review"] ?? ""),
+    review: dropBlogLinks(cleanReview(row["My Review"] ?? "")),
     reviewPost: BLOG_REVIEWS.find(([prefix]) => lower.startsWith(prefix))?.[1] ?? null,
   });
 }

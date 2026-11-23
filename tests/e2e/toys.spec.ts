@@ -67,3 +67,12 @@ test.describe("without JavaScript", () => {
     await expect(page.locator("#rooms .room-toy button:not([disabled])")).toHaveCount(0);
   });
 });
+
+test.describe("dark theme", () => {
+  test.use({ colorScheme: "dark" });
+  test("paint by numbers keeps dark outlines on its white canvas", async ({ page }) => {
+    await page.goto("/studio");
+    const stroke = await page.locator(".scene .toy-paint .area").first().evaluate((e) => getComputedStyle(e).stroke);
+    expect(stroke).toBe("rgb(15, 42, 46)");
+  });
+});
