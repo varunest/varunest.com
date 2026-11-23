@@ -1,0 +1,110 @@
+---
+import RoomToy from "../toys/RoomToy.astro";
+import { roomUrl } from "../../lib/rooms";
+import type { RoomState } from "../../lib/house";
+
+interface Props {
+  rooms: RoomState[];
+}
+const { rooms } = Astro.props;
+---
+<div class="plan" data-plan>
+  {rooms.map((r) => (
+    <div class:list={["room", { off: !r.lit }]} data-room={r.id} style={`grid-area:${r.id};--c:${r.colour}`}>
+      <span class="floor" aria-hidden="true"></span>
+      <div class="label">
+        <span class="blurb">{r.blurb}</span>
+        <h3>{r.name}</h3>
+      </div>
+      <RoomToy toy={r.toy} inert={!r.lit} />
+      <p class="foot">
+        {r.lit ? (
+          <>{r.count} · <a href={roomUrl(r.id)}>Go in <span aria-hidden="true">→</span></a></>
+        ) : (
+          "Lights off"
+        )}
+      </p>
+    </div>
+  ))}
+  <div class="hall" aria-hidden="true"><span>HALLWAY</span></div>
+  <p class="door" aria-hidden="true">▲ You are here</p>
+</div>
+
+<script>
+  const plan = document.querySelector<HTMLElement>("[data-plan]");
+  const hall = plan?.querySelector<HTMLElement>(".hall");
+  const calm = matchMedia("(prefers-reduced-motion: reduce)");
+  if (plan && hall) {
+    plan.querySelectorAll<HTMLElement>(".room:not(.off)").forEach((room) => {
+      const walk = () => {
+        if (calm.matches || !hall.offsetParent) return;
+        plan.querySelectorAll(".room.lit").forEach((r) => r.classList.remove("lit"));
+        room.classList.add("lit");
+        const P = plan.getBoundingClientRect();
+        const H = hall.getBoundingClientRect();
+        const R = room.getBoundingClientRect();
+        const hx = H.left + H.width / 2 - P.left;
+        const ty = R.top + R.height / 2 - P.top;
+        const tx = R.left + R.width / 2 - P.left;
+        const pts: [number, number][] = [];
+        for (let y = P.height - 40; y > ty; y -= 22) pts.push([hx, y]);
+        const dir = Math.sign(tx - hx);
+        for (let x = hx; Math.abs(x - tx) > 30; x += dir * 22) pts.push([x, ty]);
+        pts.forEach(([x, y], i) => {
+          const s = document.createElement("span");
+          s.className = "step";
+          s.style.left = `${x + (i % 2 ? 4 : -12)}px`;
+          s.style.top = `${y}px`;
+          s.style.animationDelay = `${i * 70}ms`;
+          plan.appendChild(s);
+          setTimeout(() => s.remove(), 1900 + i * 70);
+        });
+      };
+      room.addEventListener("pointerenter", walk);
+      room.addEventListener("focusin", walk);
+    });
+  }
+</script>
+
+<style>
+  .plan {
+    position: relative; display: grid; padding-bottom: 32px;
+    grid-template-columns: 1.1fr 1fr 48px 1fr 1fr;
+    grid-template-rows: minmax(240px, auto) minmax(250px, auto) minmax(180px, auto);
+    grid-template-areas:
+      "library library hall workshop workshop"
+      "studio vault hall server-closet server-closet"
+      "living-room living-room living-room living-room living-room";
+  }
+  .room {
+    position: relative; min-width: 0; margin: -1px; padding: 14px 16px;
+    border: 2px solid var(--ink); display: grid; grid-template-rows: auto 1fr auto; gap: 6px;
+  }
+  .floor { position: absolute; inset: 8px; border-radius: 6px; pointer-events: none; transition: background 0.25s; background: color-mix(in srgb, var(--c) 14%, transparent); }
+  .room:not(.off):hover .floor, .room.lit .floor, .room:focus-within .floor { background: color-mix(in srgb, var(--c) 30%, transparent); }
+  :global([data-theme="dark"]) .room:not(.off) .floor {
+    background: radial-gradient(circle at 50% 45%, rgba(255, 210, 122, 0.16), transparent 70%), color-mix(in srgb, var(--c) 12%, transparent);
+  }
+  .room.off .floor { background: repeating-linear-gradient(45deg, transparent 0 8px, color-mix(in srgb, var(--ink) 7%, transparent) 8px 9px); }
+  .room > :not(.floor) { position: relative; }
+  .blurb { font-size: 13px; color: var(--soft); }
+  h3 { margin: 0; font-size: 20px; }
+  .foot { margin: 0; font-size: 14px; color: var(--soft); }
+  .foot a { font-weight: 700; }
+  .hall { grid-row: 1 / 3; grid-column: 3; margin: -1px; border-left: 2px solid var(--ink); border-right: 2px solid var(--ink); display: grid; place-items: center; }
+  .hall span { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; color: var(--soft); }
+  .door { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin: 0; font-size: 13px; font-weight: 700; color: var(--pop); }
+  .plan :global(.step) {
+    position: absolute; z-index: 3; width: 9px; height: 14px; border-radius: 50% 50% 45% 45%;
+    background: var(--pop); opacity: 0; pointer-events: none; animation: step 1.8s ease-out forwards;
+  }
+  @keyframes step { 10% { opacity: 0.9; } 70% { opacity: 0.6; } 100% { opacity: 0; } }
+  @media (max-width: 760px) {
+    .plan {
+      grid-template-columns: 1fr; grid-template-rows: none; padding-bottom: 0;
+      grid-template-areas: "library" "workshop" "studio" "vault" "server-closet" "living-room";
+    }
+    .room { min-height: 200px; }
+    .hall, .door { display: none; }
+  }
+</style>
