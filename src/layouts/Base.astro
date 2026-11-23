@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE } from "../lib/site";
+import { hasLab } from "../lib/lab";
 
 interface Props {
   title: string;
@@ -12,7 +13,8 @@ interface Props {
   type?: "website" | "article";
   showLab?: boolean;
 }
-const { title, description, path, ogImage, type = "website", showLab = false } = Astro.props;
+const { title, description, path, ogImage, type = "website", showLab } = Astro.props;
+const labVisible = showLab ?? (await hasLab());
 const canonical = SITE.url + path;
 const image = new URL(ogImage ?? "/og.png", SITE.url).toString();
 ---
@@ -49,7 +51,7 @@ const image = new URL(ogImage ?? "/og.png", SITE.url).toString();
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
-    <Header showLab={showLab}><slot name="cord" slot="cord" /></Header>
+    <Header showLab={labVisible}><slot name="cord" slot="cord" /></Header>
     <main id="main"><slot /></main>
     <Footer />
   </body>
