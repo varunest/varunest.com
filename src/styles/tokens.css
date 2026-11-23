@@ -1,0 +1,62 @@
+:root {
+  --head: "Fraunces Variable", Georgia, serif;
+  --body: "Figtree Variable", system-ui, sans-serif;
+  --content: 760px;
+  --radius: 18px;
+  --stroke: 2px;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f1f7f5;
+  --card: #ffffff;
+  --ink: #0f2a2e;
+  --soft: #48646a;
+  --primary: #0b7a75;
+  --on: #ffffff;
+  --pop: #ff6b4a;
+  --pop2: #ffc857;
+  --line: #c9dcd8;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #15171c;
+  --card: #1f2229;
+  --ink: #f2efe9;
+  --soft: #a9adb8;
+  --primary: #5cd6c8;
+  --on: #0d1a19;
+  --pop: #ff8566;
+  --pop2: #ffd27a;
+  --line: #30343f;
+}
+
+/* No JavaScript (or before it runs): follow the device setting. */
+:root:not([data-theme]) {
+  color-scheme: light;
+  --bg: #f1f7f5;
+  --card: #ffffff;
+  --ink: #0f2a2e;
+  --soft: #48646a;
+  --primary: #0b7a75;
+  --on: #ffffff;
+  --pop: #ff6b4a;
+  --pop2: #ffc857;
+  --line: #c9dcd8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --bg: #15171c;
+    --card: #1f2229;
+    --ink: #f2efe9;
+    --soft: #a9adb8;
+    --primary: #5cd6c8;
+    --on: #0d1a19;
+    --pop: #ff8566;
+    --pop2: #ffd27a;
+    --line: #30343f;
+  }
+}
