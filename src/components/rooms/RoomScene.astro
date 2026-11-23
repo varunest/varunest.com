@@ -8,7 +8,7 @@ interface Props {
 const { room, blurb } = Astro.props;
 ---
 <section class="scene" style={`--c:${room.colour}`} aria-labelledby="room-h">
-  <div class="lamp" aria-hidden="true"></div>
+  <div class="lamp" aria-hidden="true"><div class="glow"></div></div>
   <div class="sign">
     <p class="crumb"><a href="/#rooms">Home</a> / {room.name}</p>
     <h1 id="room-h">{room.name}</h1>
@@ -25,7 +25,7 @@ const { room, blurb } = Astro.props;
 
 <style>
   .scene {
-    position: relative; height: 320px; margin: 8px 0 40px; border-radius: 18px; overflow: hidden;
+    position: relative; height: 370px; margin: 8px 0 40px; border-radius: 18px; overflow: hidden;
     border: 2px solid var(--ink);
     background:
       radial-gradient(circle, color-mix(in srgb, var(--c) 30%, transparent) 1.5px, transparent 2px) 0 0 / 22px 22px,
@@ -56,11 +56,18 @@ const { room, blurb } = Astro.props;
     border-left: 10px solid color-mix(in srgb, var(--ink) 85%, #8b6d47);
     border-right: 10px solid color-mix(in srgb, var(--ink) 85%, #8b6d47);
   }
-  .lamp { position: absolute; right: 30px; top: 0; width: 2px; height: 70px; background: var(--ink); }
+  /* Hangs on a short cord over the middle of the stand (right: 80px + half of 260px). */
+  .lamp { position: absolute; right: 209px; top: 0; width: 2px; height: 14px; background: var(--ink); }
   .lamp::after {
-    content: ""; position: absolute; left: -26px; top: 70px; width: 54px; height: 28px;
+    content: ""; position: absolute; left: -26px; top: 14px; width: 54px; height: 28px;
     background: var(--pop2); border: 3px solid var(--ink); border-radius: 30px 30px 4px 4px;
   }
+  /* The glow hangs from the lamp itself, so it always sits centred under the shade. */
+  .glow {
+    position: absolute; left: 1px; top: 48px; width: 300px; height: 260px; transform: translateX(-50%);
+    pointer-events: none; background: radial-gradient(ellipse at top, rgba(255, 210, 122, 0.32), transparent 70%);
+  }
+  :global([data-theme="dark"]) .glow { background: radial-gradient(ellipse at top, rgba(255, 210, 122, 0.45), transparent 70%); }
   @media (max-width: 900px) {
     .scene { height: auto; padding: 56px 20px 72px; display: grid; gap: 26px; justify-items: center; }
     .sign { position: relative; left: 0; top: 0; justify-self: stretch; max-width: none; }

@@ -82,9 +82,6 @@ const { rooms } = Astro.props;
   }
   .floor { position: absolute; inset: 8px; border-radius: 6px; pointer-events: none; transition: background 0.25s; background: color-mix(in srgb, var(--c) 14%, transparent); }
   .room:not(.off):hover .floor, .room.lit .floor, .room:focus-within .floor { background: color-mix(in srgb, var(--c) 30%, transparent); }
-  :global([data-theme="dark"]) .room:not(.off) .floor {
-    background: radial-gradient(circle at 50% 45%, rgba(255, 210, 122, 0.16), transparent 70%), color-mix(in srgb, var(--c) 12%, transparent);
-  }
   .room.off .floor { background: repeating-linear-gradient(45deg, transparent 0 8px, color-mix(in srgb, var(--ink) 7%, transparent) 8px 9px); }
   .room > :not(.floor) { position: relative; }
   .blurb { font-size: 13px; color: var(--soft); }

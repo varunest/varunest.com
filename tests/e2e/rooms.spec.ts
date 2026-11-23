@@ -72,10 +72,25 @@ test.describe("floor plan on a phone", () => {
   });
 });
 
-test("room scenes have no glow behind the toy", async ({ page }) => {
+test("the lamp's glow hangs centred under its shade", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
   for (const room of ["library", "workshop", "studio"]) {
     await page.goto(`/${room}`);
-    await expect(page.locator("section.scene")).toBeVisible();
-    await expect(page.locator(".glow")).toHaveCount(0);
+    const glow = (await page.locator("section.scene .glow").boundingBox())!;
+    const shade = await page.locator("section.scene .lamp").evaluate((el) => {
+      const r = el.getBoundingClientRect();
+      const s = getComputedStyle(el, "::after");
+      const left = r.left + parseFloat(s.left);
+      const top = r.top + parseFloat(s.top);
+      return { cx: left + parseFloat(s.width) / 2, bottom: top + parseFloat(s.height) };
+    });
+    const vp = await page.evaluate(() => window.scrollY);
+    expect(Math.abs(glow.x + glow.width / 2 - shade.cx)).toBeLessThanOrEqual(3);
+    expect(glow.y - vp).toBeGreaterThanOrEqual(shade.bottom - 4);
+    // ...and the lamp hangs over the stand, above the toy, so the light falls on it.
+    const stand = (await page.locator("section.scene .stand").boundingBox())!;
+    const toy = (await page.locator("section.scene .stand .on").boundingBox())!;
+    expect(Math.abs(stand.x + stand.width / 2 - shade.cx)).toBeLessThanOrEqual(3);
+    expect(shade.bottom).toBeLessThanOrEqual(toy.y - vp + 2);
   }
 });

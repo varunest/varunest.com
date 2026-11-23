@@ -79,3 +79,12 @@ test("no horizontal scroll at 360px", async ({ page }) => {
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(0);
 });
+
+test("lit rooms on the floor plan have no warm light behind the toy, even in dark mode", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  const images = await page.locator(".plan .room:not(.off) .floor").evaluateAll((els) => els.map((e) => getComputedStyle(e).backgroundImage));
+  expect(images.length).toBeGreaterThan(0);
+  for (const img of images) expect(img).not.toContain("radial-gradient");
+});
