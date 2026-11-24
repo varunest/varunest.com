@@ -34,6 +34,29 @@ test.describe("floor plan", () => {
     await expect(page.locator("#rooms .step").first()).toBeAttached();
   });
 
+  for (const [room, turn] of [["library", -90], ["workshop", 90]] as const) {
+    test(`footprints are shoe prints that alternate feet and turn toward the ${room}`, async ({ page }) => {
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await page.goto("/");
+      await page.locator(`#rooms .room[data-room="${room}"]`).hover();
+      await expect(page.locator("#rooms .step").first()).toBeAttached();
+      const steps = await page.locator("#rooms .step").evaluateAll((els) =>
+        els.map((e) => {
+          const before = getComputedStyle(e, "::before"), after = getComputedStyle(e, "::after");
+          return { foot: (e as HTMLElement).dataset.foot, turn: Number((e as HTMLElement).dataset.turn), sole: before.content, heel: after.content };
+        }),
+      );
+      expect(steps.length).toBeGreaterThan(6);
+      // left, right, left, right...
+      steps.forEach((s, i) => expect(s.foot).toBe(i % 2 ? "r" : "l"));
+      // a sole and a separate heel
+      steps.forEach((s) => { expect(s.sole).not.toBe("none"); expect(s.heel).not.toBe("none"); });
+      // up the hallway first (toes up), then turned toward the room
+      expect(steps[0].turn).toBe(0);
+      expect(steps.at(-1)!.turn).toBe(turn);
+    });
+  }
+
   test("Tab from Look around reaches each lit room's link in order and skips dim rooms", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("link", { name: "Look around" }).focus();

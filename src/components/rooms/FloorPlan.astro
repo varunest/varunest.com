@@ -46,15 +46,23 @@ const { rooms } = Astro.props;
         const hx = H.left + H.width / 2 - P.left;
         const ty = R.top + R.height / 2 - P.top;
         const tx = R.left + R.width / 2 - P.left;
-        const pts: [number, number][] = [];
-        for (let y = P.height - 40; y > ty; y -= 22) pts.push([hx, y]);
+        // Walk up the hallway (toes up), then turn toward the room. turn is degrees clockwise from up.
+        const pts: [number, number, number][] = [];
+        for (let y = P.height - 40; y > ty; y -= 22) pts.push([hx, y, 0]);
         const dir = Math.sign(tx - hx);
-        for (let x = hx; Math.abs(x - tx) > 30; x += dir * 22) pts.push([x, ty]);
-        pts.forEach(([x, y], i) => {
+        for (let x = hx + dir * 22; Math.abs(x - tx) > 30; x += dir * 22) pts.push([x, ty, dir * 90]);
+        pts.forEach(([x, y, turn], i) => {
+          // Alternate feet, each a little to its own side of the path.
+          const foot = i % 2 ? "r" : "l";
+          const rad = (turn * Math.PI) / 180;
+          const side = foot === "l" ? 6 : -6; // the left of travel is (-cos, -sin) of the heading angle
           const s = document.createElement("span");
           s.className = "step";
-          s.style.left = `${x + (i % 2 ? 4 : -12)}px`;
-          s.style.top = `${y}px`;
+          s.dataset.foot = foot;
+          s.dataset.turn = String(turn);
+          s.style.left = `${x - Math.cos(rad) * side - 5}px`;
+          s.style.top = `${y - Math.sin(rad) * side - 10}px`;
+          s.style.setProperty("--turn", `${turn}deg`);
           s.style.animationDelay = `${i * 70}ms`;
           plan.appendChild(s);
           setTimeout(() => s.remove(), 1900 + i * 70);
@@ -92,11 +100,17 @@ const { rooms } = Astro.props;
   .hall span { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; color: var(--soft); }
   .door { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin: 0; font-size: 13px; font-weight: 700; color: var(--ink); }
   .pin { color: var(--pop); }
+  /* Shoe prints: a sole and a separate heel, turned to face the way you're walking.
+     Right feet are mirrored, so the straighter inner edge always faces the path. */
   .plan :global(.step) {
-    position: absolute; z-index: 3; width: 9px; height: 14px; border-radius: 50% 50% 45% 45%;
-    background: var(--pop); opacity: 0; pointer-events: none; animation: step 1.8s ease-out forwards;
+    position: absolute; z-index: 3; width: 10px; height: 20px; pointer-events: none;
+    opacity: 0; transform: rotate(var(--turn, 0deg)); animation: step 1.8s ease-out forwards;
   }
-  @keyframes step { 10% { opacity: 0.9; } 70% { opacity: 0.6; } 100% { opacity: 0; } }
+  .plan :global(.step[data-foot="r"]) { transform: rotate(var(--turn, 0deg)) scaleX(-1); }
+  .plan :global(.step)::before, .plan :global(.step)::after { content: ""; position: absolute; background: var(--ink); }
+  .plan :global(.step)::before { left: 0; top: 0; width: 10px; height: 13px; border-radius: 55% 60% 45% 50% / 60% 65% 40% 40%; }
+  .plan :global(.step)::after { left: 1.5px; bottom: 0; width: 7px; height: 5.5px; border-radius: 45% 45% 50% 50%; }
+  @keyframes step { 10% { opacity: 0.55; } 70% { opacity: 0.35; } 100% { opacity: 0; } }
   @media (max-width: 760px) {
     .plan {
       grid-template-columns: 1fr; grid-template-rows: none; padding-bottom: 0;
