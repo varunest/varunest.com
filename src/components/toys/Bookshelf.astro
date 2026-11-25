@@ -13,10 +13,11 @@ const books = [
   <div class="shelf">
     {books.map((b, i) =>
       inert ? (
-        <span class="book" style={`height:${b.h}px;background:${b.colour}`}></span>
+        <span class="book"><span class="spine" style={`height:${b.h}px;background:${b.colour}`}></span></span>
       ) : (
-        <button class="book" type="button" disabled aria-pressed="false" aria-label={`Pull out book ${i + 1}`}
-          style={`height:${b.h}px;background:${b.colour}`}></button>
+        <button class="book" type="button" disabled aria-pressed="false" aria-label={`Pull out book ${i + 1}`}>
+          <span class="spine" style={`height:${b.h}px;background:${b.colour}`}></span>
+        </button>
       ),
     )}
   </div>
@@ -43,10 +44,13 @@ const books = [
 
 <style>
   .shelf { display: flex; align-items: flex-end; gap: 5px; height: 96px; padding: 0 10px; border-bottom: 4px solid var(--ink); }
-  .book { width: 22px; padding: 0; border: 2px solid var(--ink); border-radius: 3px 3px 0 0; transition: transform 0.25s cubic-bezier(0.3, 1.8, 0.5, 1); }
+  /* The .book is a still hit area; only the drawn .spine inside it lifts, so hovering a
+     book's edge can't move the book out from under the pointer and make it flicker. */
+  .book { display: flex; align-items: flex-end; width: 22px; height: 96px; padding: 0; border: 0; background: none; }
+  .spine { display: block; width: 100%; box-sizing: border-box; border: 2px solid var(--ink); border-radius: 3px 3px 0 0; transition: transform 0.25s cubic-bezier(0.3, 1.8, 0.5, 1); }
   button.book { cursor: pointer; }
   button.book:disabled { cursor: default; }
-  .book[aria-pressed="true"] { transform: translateY(-14px) rotate(-6deg); }
-  :global(.room-toy.linked) .book:hover { transform: translateY(-14px) rotate(-6deg); }
-  @media (prefers-reduced-motion: reduce) { .book { transition: none; } }
+  .book[aria-pressed="true"] .spine { transform: translateY(-14px) rotate(-6deg); }
+  :global(.room-toy.linked) .book:hover .spine { transform: translateY(-14px) rotate(-6deg); }
+  @media (prefers-reduced-motion: reduce) { .spine { transition: none; } }
 </style>

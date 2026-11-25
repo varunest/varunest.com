@@ -208,3 +208,32 @@ test("hovering the piggy bank on home drops a coin and counts it", async ({ page
   await pig.hover();
   await expect(pig.locator(".balance")).toHaveText("$22");
 });
+
+for (const [where, url, scope] of [
+  ["Library page", "/library", ".scene"],
+  ["home floor plan", "/", '#rooms .room[data-room="library"]'],
+] as const) {
+  test(`hovering a book's bottom edge keeps it up instead of flickering (${where})`, async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.goto(url);
+    const book = page.locator(`${scope} .toy-bookshelf .book`).nth(2);
+    await book.scrollIntoViewIfNeeded();
+    const box = (await book.boundingBox())!;
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height - 2);
+    // Sample the book's lift for a second: once up it must stay up, with no drops in between.
+    const lifts: number[] = [];
+    for (let i = 0; i < 12; i++) {
+      await page.waitForTimeout(80);
+      // A real hand is never perfectly still: jiggle by a pixel.
+      await page.mouse.move(box.x + box.width / 2 + (i % 2), box.y + box.height - 2);
+      lifts.push(await book.evaluate((b) => {
+        const art = (b.querySelector(".spine") ?? b) as HTMLElement;
+        return Math.round(new DOMMatrix(getComputedStyle(art).transform).m42);
+      }));
+    }
+    const settled = lifts.slice(4);
+    expect(settled.every((y) => y === settled[0])).toBe(true);
+    expect(settled[0]).toBeLessThan(-5);
+  });
+}
